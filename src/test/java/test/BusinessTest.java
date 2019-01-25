@@ -1,9 +1,9 @@
 package test;
 
-import com.jeramtough.jtcomponent.business.bean.BusinessResult;
-import com.jeramtough.jtcomponent.business.core.BusinessResponse;
-import com.jeramtough.jtcomponent.business.core.DefaultBusinessResponse;
-import org.junit.jupiter.api.Test;
+import com.jeramtough.jtcomponent.task.bean.TaskResult;
+import com.jeramtough.jtcomponent.task.callback.TaskCallback;
+import com.jeramtough.jtcomponent.task.taskresponse.TaskResponse;
+import com.jeramtough.jtlog.facade.L;
 
 /**
  * Created on 2019-01-09 11:14
@@ -11,17 +11,39 @@ import org.junit.jupiter.api.Test;
  */
 public class BusinessTest {
 
-    @Test
-    public void test() {
-        BusinessResponse businessResponse = new ServiceImpl().getBusinessResponse();
+    private static MyServiceImpl myService = new MyServiceImpl();
+
+    public static void main(String[] args) {
+//        test1();
+        test2();
     }
 
-    public class ServiceImpl {
-
-
-        BusinessResponse getBusinessResponse() {
-            BusinessResult businessResult = new BusinessResult(true);
-            return new DefaultBusinessResponse(businessResult);
-        }
+    public static void test1() {
+        TaskResponse taskResponse = myService.doSimplestTask();
+        L.debug(taskResponse.getTaskResult().getDetail());
     }
+
+    public static void test2() {
+
+        TaskResponse taskResponse = myService.doSimplestTask(new TaskCallback() {
+            @Override
+            public void onTaskStart() {
+                L.arrive();
+            }
+
+            @Override
+            public void onTaskRunning(TaskResult taskResult, int percent) {
+                L.debug(percent);
+            }
+
+            @Override
+            public void onTaskCompleted(TaskResult taskResult) {
+                L.debug(taskResult.getDetail());
+            }
+        });
+//        L.debug(taskResponse.getTaskResult().getDetail());
+
+    }
+
+
 }

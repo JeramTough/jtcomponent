@@ -21,6 +21,19 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.jeramtough</groupId>
+            <artifactId>jtutil</artifactId>
+            <version>1.0.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.jeramtough/jtlog -->
+        <dependency>
+            <groupId>com.jeramtough</groupId>
+            <artifactId>jtlog</artifactId>
+            <version>1.4.0</version>
+        </dependency>
 
     </dependencies>
 
