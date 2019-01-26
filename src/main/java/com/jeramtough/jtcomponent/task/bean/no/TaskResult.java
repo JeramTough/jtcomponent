@@ -216,7 +216,8 @@ public class TaskResult {
     public String getDetail() {
         StringBuilder str = new StringBuilder(
                 "The business status is " + isSuccessful.toString().toUpperCase()
-                        + " . The message is " + message + ".");
+                        + ".\nThe message is\n " +
+                        "(\n" + message + "\n)");
         str.append(getPayloadsDetail(serializablePayloads));
         str.append(getPayloadsDetail(stringPayloads));
         str.append(getPayloadsDetail(characterPayloads));
@@ -257,7 +258,8 @@ public class TaskResult {
             Class valueTypeClass = map.values().iterator().next().getClass();
             String valueTypeName = "";
             if (Number.class.isAssignableFrom(
-                    valueTypeClass) || String.class.isAssignableFrom(valueTypeClass)) {
+                    valueTypeClass) || String.class.isAssignableFrom(
+                    valueTypeClass) || Character.class.isAssignableFrom(valueTypeClass)) {
                 valueTypeName = valueTypeClass.getSimpleName();
             }
             else {

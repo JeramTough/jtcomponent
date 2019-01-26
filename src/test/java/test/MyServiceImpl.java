@@ -3,11 +3,9 @@ package test;
 import com.jeramtough.jtcomponent.task.bean.no.TaskResult;
 import com.jeramtough.jtcomponent.task.callback.RunningTaskCallback;
 import com.jeramtough.jtcomponent.task.callback.TaskCallback;
-import com.jeramtough.jtcomponent.task.taskresponse.AsyncTaskResponse;
-import com.jeramtough.jtcomponent.task.taskresponse.CallbackTaskResponse;
-import com.jeramtough.jtcomponent.task.taskresponse.FutureAsyncTaskResponse;
-import com.jeramtough.jtcomponent.task.taskresponse.SimpleTaskResponse;
-import com.jeramtough.jtcomponent.task.taskresponse.TaskResponse;
+import com.jeramtough.jtcomponent.task.response.SimpleTaskResponse;
+import com.jeramtough.jtcomponent.task.response.TaskResponse;
+import com.jeramtough.jtcomponent.task.response.TaskResponseWithCallback;
 import com.jeramtough.jtlog.facade.L;
 
 /**
@@ -16,7 +14,7 @@ import com.jeramtough.jtlog.facade.L;
  */
 public class MyServiceImpl {
 
-    public TaskResponse doSimplestTask() {
+    public TaskResponse doSynchTask() {
         return new SimpleTaskResponse() {
             @Override
             protected boolean doSomething(TaskResult taskResult) {
@@ -33,18 +31,16 @@ public class MyServiceImpl {
         };
     }
 
-    public TaskResponse doSimplestTask(TaskCallback taskCallback) {
+    public TaskResponse doSynchTask(TaskCallback taskCallback) {
 
-        return new CallbackTaskResponse(taskCallback) {
+        return new TaskResponseWithCallback(taskCallback) {
 
             @Override
             public boolean doSomething(TaskResult taskResult,
                                        RunningTaskCallback taskCallback) {
-                L.debug("start task");
                 try {
                     Thread.sleep(1000);
                     taskCallback.onTaskRunning(taskResult, 50);
-                    L.debug("doing something");
                     Thread.sleep(1000);
                 }
                 catch (InterruptedException e) {
@@ -56,18 +52,6 @@ public class MyServiceImpl {
 
     }
 
-    public FutureAsyncTaskResponse futurnTaskResponse() {
-        return null;
-    }
-
-
-    public AsyncTaskResponse doSynchronousTask() {
-
-        AsyncTaskResponse asyncTaskResponse = null;
-
-        return asyncTaskResponse;
-
-    }
 
     //*********************
 

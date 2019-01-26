@@ -30,7 +30,7 @@ public abstract class TaskCallback implements RunningTaskCallback {
 
 
     /**
-     * Calling while the task completed.
+     * Calling while the task is completed.
      *
      * @param taskResult TaskResult bean
      */
