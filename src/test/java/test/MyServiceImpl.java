@@ -3,9 +3,10 @@ package test;
 import com.jeramtough.jtcomponent.task.bean.no.TaskResult;
 import com.jeramtough.jtcomponent.task.callback.RunningTaskCallback;
 import com.jeramtough.jtcomponent.task.callback.TaskCallback;
-import com.jeramtough.jtcomponent.task.response.SimpleTaskResponse;
+import com.jeramtough.jtcomponent.task.response.DefaultTaskResponse;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
-import com.jeramtough.jtcomponent.task.response.TaskResponseWithCallback;
+import com.jeramtough.jtcomponent.task.runnable.SimpleTaskable;
+import com.jeramtough.jtcomponent.task.runnable.TaskableWithCallback;
 import com.jeramtough.jtlog.facade.L;
 
 /**
@@ -15,9 +16,9 @@ import com.jeramtough.jtlog.facade.L;
 public class MyServiceImpl {
 
     public TaskResponse doSynchTask() {
-        return new SimpleTaskResponse() {
+        return new DefaultTaskResponse(new SimpleTaskable() {
             @Override
-            protected boolean doSomething(TaskResult taskResult) {
+            public boolean doTask(TaskResult taskResult) {
                 L.debug("start task");
                 try {
                     Thread.sleep(3000);
@@ -28,16 +29,14 @@ public class MyServiceImpl {
                 }
                 return true;
             }
-        };
+        }).start();
     }
 
     public TaskResponse doSynchTask(TaskCallback taskCallback) {
 
-        return new TaskResponseWithCallback(taskCallback) {
-
+        return new DefaultTaskResponse(new TaskableWithCallback(taskCallback) {
             @Override
-            public boolean doSomething(TaskResult taskResult,
-                                       RunningTaskCallback taskCallback) {
+            public boolean doTask(TaskResult taskResult, RunningTaskCallback taskCallback) {
                 try {
                     Thread.sleep(1000);
                     taskCallback.onTaskRunning(taskResult, 50);
@@ -48,7 +47,7 @@ public class MyServiceImpl {
                 }
                 return true;
             }
-        };
+        }).start();
 
     }
 

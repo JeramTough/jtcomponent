@@ -25,4 +25,14 @@ public class TaskResult extends com.jeramtough.jtcomponent.task.bean.no.TaskResu
     public Boolean getSuccessful() {
         return super.getSuccessful();
     }
+
+    @Override
+    public long getTimeConsuming() {
+        return super.getTimeConsuming();
+    }
+
+    @Override
+    public void setTimeConsuming(long timeConsuming) {
+        super.setTimeConsuming(timeConsuming);
+    }
 }

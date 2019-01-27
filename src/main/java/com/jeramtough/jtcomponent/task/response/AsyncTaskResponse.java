@@ -10,7 +10,6 @@ import java.util.concurrent.RunnableFuture;
  */
 public interface AsyncTaskResponse extends RunnableFuture<TaskResult> {
 
-
     /**
      * Current thread will be blocked until the task would be completed
      *

@@ -14,6 +14,8 @@ public class TaskResult {
 
     private Boolean isSuccessful;
     private String message;
+    private long timeConsuming;
+
     private Map<String, Serializable> serializablePayloads;
     private Map<String, String> stringPayloads;
     private Map<String, Character> characterPayloads;
@@ -24,6 +26,7 @@ public class TaskResult {
     private Map<String, Float> floatPayloads;
     private Map<String, Double> doublePayloads;
     private Map<String, Boolean> booleanPayloads;
+
 
     public TaskResult() {
     }
@@ -56,6 +59,15 @@ public class TaskResult {
 
     protected void setSuccessful(Boolean successful) {
         isSuccessful = successful;
+    }
+
+
+    protected long getTimeConsuming() {
+        return timeConsuming;
+    }
+
+    protected void setTimeConsuming(long timeConsuming) {
+        this.timeConsuming = timeConsuming;
     }
 
     public Serializable getSerializablePayload(String key) {
@@ -214,10 +226,18 @@ public class TaskResult {
 
 
     public String getDetail() {
-        StringBuilder str = new StringBuilder(
-                "The business status is " + isSuccessful.toString().toUpperCase()
-                        + ".\nThe message is\n " +
-                        "(\n" + message + "\n)");
+        StringBuilder str = new StringBuilder();
+
+        if (isSuccessful != null) {
+            str.append("The task result is " + isSuccessful.toString().toUpperCase());
+            str.append("\nThe task took " + timeConsuming + " millisecond");
+        }
+
+
+        if (message != null) {
+            str.append(".\nThe message is  ( " + message + " )");
+        }
+
         str.append(getPayloadsDetail(serializablePayloads));
         str.append(getPayloadsDetail(stringPayloads));
         str.append(getPayloadsDetail(characterPayloads));
