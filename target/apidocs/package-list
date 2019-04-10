@@ -1,4 +1,6 @@
 com.jeramtough.jtcomponent.task.bean
 com.jeramtough.jtcomponent.task.bean.no
 com.jeramtough.jtcomponent.task.callback
-com.jeramtough.jtcomponent.task.taskresponse
+com.jeramtough.jtcomponent.task.exception
+com.jeramtough.jtcomponent.task.response
+com.jeramtough.jtcomponent.task.runnable

@@ -2,7 +2,7 @@ package com.jeramtough.jtcomponent.task.response;
 
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.jtcomponent.task.exception.HaventStartedException;
+import com.jeramtough.jtcomponent.task.exception.DidntStartException;
 import com.jeramtough.jtcomponent.task.runnable.Taskable;
 
 /**
@@ -15,7 +15,7 @@ public class DefaultTaskResponse implements TaskResponse {
     private TaskResult taskResult;
 
 
-    public DefaultTaskResponse(Taskable taskable) {
+    protected DefaultTaskResponse(Taskable taskable) {
         this.taskable = taskable;
     }
 
@@ -35,7 +35,7 @@ public class DefaultTaskResponse implements TaskResponse {
     @Override
     public TaskResult getTaskResult() {
         if (taskResult == null) {
-            throw new HaventStartedException();
+            throw new DidntStartException();
         }
         return taskResult;
     }

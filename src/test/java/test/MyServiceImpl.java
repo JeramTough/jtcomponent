@@ -3,8 +3,8 @@ package test;
 import com.jeramtough.jtcomponent.task.bean.no.TaskResult;
 import com.jeramtough.jtcomponent.task.callback.RunningTaskCallback;
 import com.jeramtough.jtcomponent.task.callback.TaskCallback;
-import com.jeramtough.jtcomponent.task.response.DefaultTaskResponse;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
+import com.jeramtough.jtcomponent.task.response.TaskResponseBuilder;
 import com.jeramtough.jtcomponent.task.runnable.SimpleTaskable;
 import com.jeramtough.jtcomponent.task.runnable.TaskableWithCallback;
 import com.jeramtough.jtlog.facade.L;
@@ -16,7 +16,8 @@ import com.jeramtough.jtlog.facade.L;
 public class MyServiceImpl {
 
     public TaskResponse doSynchTask() {
-        return new DefaultTaskResponse(new SimpleTaskable() {
+
+        return TaskResponseBuilder.doing(new SimpleTaskable() {
             @Override
             public boolean doTask(TaskResult taskResult) {
                 L.debug("start task");
@@ -29,12 +30,14 @@ public class MyServiceImpl {
                 }
                 return true;
             }
-        }).start();
+        });
+
     }
 
     public TaskResponse doSynchTask(TaskCallback taskCallback) {
 
-        return new DefaultTaskResponse(new TaskableWithCallback(taskCallback) {
+        return TaskResponseBuilder.doing(new TaskableWithCallback(taskCallback) {
+
             @Override
             public boolean doTask(TaskResult taskResult, RunningTaskCallback taskCallback) {
                 try {
@@ -47,7 +50,7 @@ public class MyServiceImpl {
                 }
                 return true;
             }
-        }).start();
+        });
 
     }
 

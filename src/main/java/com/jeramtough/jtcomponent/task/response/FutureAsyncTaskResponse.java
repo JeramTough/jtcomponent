@@ -1,7 +1,7 @@
 package com.jeramtough.jtcomponent.task.response;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.jtcomponent.task.exception.HaventStartedException;
+import com.jeramtough.jtcomponent.task.exception.DidntStartException;
 import com.jeramtough.jtcomponent.task.runnable.Taskable;
 
 import java.util.concurrent.ExecutionException;
@@ -18,14 +18,14 @@ public class FutureAsyncTaskResponse extends FutureTask<TaskResult>
 
     private boolean isStarted = false;
 
-    public FutureAsyncTaskResponse(Taskable taskable) {
+    protected FutureAsyncTaskResponse(Taskable taskable) {
         super(taskable);
     }
 
     @Override
     public TaskResult waitingTaskResult() {
         if (!isStarted) {
-            throw new HaventStartedException();
+            throw new DidntStartException();
         }
         else {
             try {

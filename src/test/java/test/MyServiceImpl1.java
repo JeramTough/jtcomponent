@@ -17,7 +17,7 @@ public class MyServiceImpl1 {
 
     public AsyncTaskResponse doAsyncTask() {
 
-        return new FutureAsyncTaskResponse(new SimpleTaskable() {
+        return TaskResponseBuilder.asyncDoing(new SimpleTaskable() {
             @Override
             public boolean doTask(TaskResult taskResult) {
                 L.debug("start async task");
@@ -31,11 +31,11 @@ public class MyServiceImpl1 {
                 }
                 return true;
             }
-        }).start();
+        });
     }
 
     public AsyncTaskResponse doAsyncTask(TaskCallback taskCallback) {
-        return new FutureAsyncTaskResponse(new TaskableWithCallback(taskCallback) {
+        return TaskResponseBuilder.asyncDoing(new TaskableWithCallback(taskCallback) {
             @Override
             public boolean doTask(TaskResult taskResult, RunningTaskCallback taskCallback) {
                 try {
@@ -52,7 +52,7 @@ public class MyServiceImpl1 {
                     return false;
                 }
             }
-        }).start();
+        });
     }
 
 
