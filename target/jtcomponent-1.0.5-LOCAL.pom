@@ -6,7 +6,7 @@
 
     <groupId>com.jeramtough</groupId>
     <artifactId>jtcomponent</artifactId>
-    <version>1.0.4-LOCAL</version>
+    <version>1.0.5-LOCAL</version>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>

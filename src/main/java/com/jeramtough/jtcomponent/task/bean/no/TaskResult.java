@@ -123,39 +123,39 @@ public class TaskResult {
 
     //
     public int[] getIntArrayPayload(String key) {
-        return (int[]) getPayloadFromMap(key, integerPayloads);
+        return (int[]) getPayloadFromMap(key, integerArrayPayloads);
     }
 
     public byte[] getByteArrayPayload(String key) {
-        return (byte[]) getPayloadFromMap(key, bytePayloads);
+        return (byte[]) getPayloadFromMap(key, byteArrayPayloads);
     }
 
     public short[] getShortArrayPayload(String key) {
-        return (short[]) getPayloadFromMap(key, shortPayloads);
+        return (short[]) getPayloadFromMap(key, shortArrayPayloads);
     }
 
     public String[] getStringArrayPayload(String key) {
-        return (String[]) getPayloadFromMap(key, stringPayloads);
+        return (String[]) getPayloadFromMap(key, stringArrayPayloads);
     }
 
     public double[] getDoubleArrayPayload(String key) {
-        return (double[]) getPayloadFromMap(key, doublePayloads);
+        return (double[]) getPayloadFromMap(key, doubleArrayPayloads);
     }
 
     public float[] getFloatArrayPayload(String key) {
-        return (float[]) getPayloadFromMap(key, floatPayloads);
+        return (float[]) getPayloadFromMap(key, floatArrayPayloads);
     }
 
     public boolean[] getBooleanArrayPayload(String key) {
-        return (boolean[]) getPayloadFromMap(key, booleanPayloads);
+        return (boolean[]) getPayloadFromMap(key, booleanArrayPayloads);
     }
 
     public long[] getLongArrayPayload(String key) {
-        return (long[]) getPayloadFromMap(key, longPayloads);
+        return (long[]) getPayloadFromMap(key, longArrayPayloads);
     }
 
     public char[] getCharArrayPayload(String key) {
-        return (char[]) getPayloadFromMap(key, characterPayloads);
+        return (char[]) getPayloadFromMap(key, characterArrayPayloads);
     }
 
 
@@ -202,39 +202,39 @@ public class TaskResult {
 
     //
     public int[] getIntArrayPayload(String key, int[] defaultValue) {
-        return (int[]) getPayloadFromMap(key, defaultValue, integerPayloads);
+        return (int[]) getPayloadFromMap(key, defaultValue, integerArrayPayloads);
     }
 
     public byte[] getByteArrayPayload(String key, byte[] defaultValue) {
-        return (byte[]) getPayloadFromMap(key, defaultValue, bytePayloads);
+        return (byte[]) getPayloadFromMap(key, defaultValue, byteArrayPayloads);
     }
 
     public short[] getShortArrayPayload(String key, short[] defaultValue) {
-        return (short[]) getPayloadFromMap(key, defaultValue, shortPayloads);
+        return (short[]) getPayloadFromMap(key, defaultValue, shortArrayPayloads);
     }
 
     public long[] getLongArrayPayload(String key, long[] defaultValue) {
-        return (long[]) getPayloadFromMap(key, defaultValue, longPayloads);
+        return (long[]) getPayloadFromMap(key, defaultValue, longArrayPayloads);
     }
 
     public String[] getStringArrayPayload(String key, String[] defaultValue) {
-        return (String[]) getPayloadFromMap(key, defaultValue, stringPayloads);
+        return (String[]) getPayloadFromMap(key, defaultValue, stringArrayPayloads);
     }
 
     public double[] getDoubleArrayPayload(String key, double[] defaultValue) {
-        return (double[]) getPayloadFromMap(key, defaultValue, doublePayloads);
+        return (double[]) getPayloadFromMap(key, defaultValue, doubleArrayPayloads);
     }
 
     public float[] getFloatArrayPayload(String key, float[] defaultValue) {
-        return (float[]) getPayloadFromMap(key, defaultValue, floatPayloads);
+        return (float[]) getPayloadFromMap(key, defaultValue, floatArrayPayloads);
     }
 
     public boolean[] getBooleanArrayPayload(String key, boolean[] defaultValue) {
-        return (boolean[]) getPayloadFromMap(key, defaultValue, booleanPayloads);
+        return (boolean[]) getPayloadFromMap(key, defaultValue, booleanArrayPayloads);
     }
 
     public char[] getCharArrayPayload(String key, char[] defaultValue) {
-        return (char[]) getPayloadFromMap(key, defaultValue, characterPayloads);
+        return (char[]) getPayloadFromMap(key, defaultValue, characterArrayPayloads);
     }
 
 
