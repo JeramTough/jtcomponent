@@ -1,12 +1,14 @@
 package test;
 
-import com.jeramtough.jtcomponent.task.bean.no.TaskResult;
+import com.jeramtough.jtcomponent.task.bean.TaskResult;
 import com.jeramtough.jtcomponent.task.callback.RunningTaskCallback;
 import com.jeramtough.jtcomponent.task.callback.TaskCallback;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtcomponent.task.response.TaskResponseBuilder;
 import com.jeramtough.jtcomponent.task.runnable.SimpleTaskable;
-import com.jeramtough.jtcomponent.task.runnable.TaskableWithCallback;
+import com.jeramtough.jtcomponent.task.runnable.CallbackTaskable;
+import com.jeramtough.jtcomponent.task.runner.CallbackRunner;
+import com.jeramtough.jtcomponent.task.runner.SimpleRunner;
 import com.jeramtough.jtlog.facade.L;
 
 /**
@@ -15,42 +17,47 @@ import com.jeramtough.jtlog.facade.L;
  */
 public class MyServiceImpl {
 
-    public TaskResponse doSynchTask() {
+    public static void main(String[] args) {
+        MyServiceImpl myService1 = new MyServiceImpl();
+        TaskResponse taskResponse = myService1.doTask();
 
-        return TaskResponseBuilder.doing(new SimpleTaskable() {
+        L.debug(taskResponse.getTaskResult().getDetail());
+
+        myService1.doTaskWithCallback(new TaskCallback() {
             @Override
-            public boolean doTask(TaskResult taskResult) {
-                L.debug("start task");
-                try {
-                    Thread.sleep(3000);
-                    L.debug("doing something");
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return true;
+            public void onTaskStart() {
+                L.arrive();
             }
+
+            @Override
+            public void onTaskRunning(TaskResult taskResult, int percent) {
+                L.debug(percent);
+            }
+
+            @Override
+            public void onTaskCompleted(TaskResult taskResult) {
+                L.debug(taskResult.getDetail());
+            }
+        });
+    }
+
+    public TaskResponse doTask() {
+
+        return TaskResponseBuilder.doing(taskResult -> {
+            L.arrive();
+            return true;
         });
 
     }
 
-    public TaskResponse doSynchTask(TaskCallback taskCallback) {
+    public TaskResponse doTaskWithCallback(TaskCallback taskCallback) {
 
-        return TaskResponseBuilder.doing(new TaskableWithCallback(taskCallback) {
-
-            @Override
-            public boolean doTask(TaskResult taskResult, RunningTaskCallback taskCallback) {
-                try {
-                    Thread.sleep(1000);
-                    taskCallback.onTaskRunning(taskResult, 50);
-                    Thread.sleep(1000);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return true;
-            }
-        });
+        return TaskResponseBuilder.doing(taskCallback,
+                (taskResult, runningTaskCallback) -> {
+                    L.debug("任务进行中。。。");
+                    runningTaskCallback.onTaskRunning(taskResult, 50);
+                    return false;
+                });
 
     }
 

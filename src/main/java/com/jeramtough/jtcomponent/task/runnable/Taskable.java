@@ -9,6 +9,4 @@ import java.util.concurrent.Callable;
  * by @author JeramTough
  */
 public interface Taskable extends Callable<TaskResult> {
-
-    TaskResult doTask() throws Exception;
 }

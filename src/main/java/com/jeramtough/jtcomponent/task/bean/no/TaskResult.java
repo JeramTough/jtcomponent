@@ -373,7 +373,14 @@ public class TaskResult {
         booleanArrayPayloads.put(key, value);
     }
 
-    //
+    @Override
+    public String toString() {
+        return getDetail();
+    }
+
+    /**
+     * get task detail and what same as toString();
+     */
     public String getDetail() {
         StringBuilder str = new StringBuilder();
 

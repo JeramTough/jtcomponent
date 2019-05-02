@@ -35,4 +35,5 @@ public class TaskResult extends com.jeramtough.jtcomponent.task.bean.no.TaskResu
     public void setTimeConsuming(long timeConsuming) {
         super.setTimeConsuming(timeConsuming);
     }
+
 }

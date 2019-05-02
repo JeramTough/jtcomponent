@@ -15,13 +15,13 @@ public class DefaultTaskResponse implements TaskResponse {
     private TaskResult taskResult;
 
 
-    protected DefaultTaskResponse(Taskable taskable) {
+     DefaultTaskResponse(Taskable taskable) {
         this.taskable = taskable;
     }
 
     public DefaultTaskResponse start() {
         try {
-            taskResult = taskable.doTask();
+            taskResult = taskable.call();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -38,5 +38,10 @@ public class DefaultTaskResponse implements TaskResponse {
             throw new DidntStartException();
         }
         return taskResult;
+    }
+
+    @Override
+    public boolean isSuccessful() {
+        return getTaskResult().isSuccessful();
     }
 }

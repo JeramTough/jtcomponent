@@ -10,4 +10,6 @@ public interface TaskResponse {
 
     TaskResult getTaskResult();
 
+    boolean isSuccessful();
+
 }

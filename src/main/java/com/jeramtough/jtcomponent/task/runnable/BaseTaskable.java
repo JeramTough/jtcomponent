@@ -15,16 +15,13 @@ public abstract class BaseTaskable implements Taskable {
         taskResult = new TaskResult();
     }
 
-    @Override
-    public TaskResult doTask() {
-        startTaskTime = System.currentTimeMillis();
-        return null;
-    }
 
     @Override
     public TaskResult call() {
+        startTaskTime = System.currentTimeMillis();
         try {
-            return doTask();
+            TaskResult taskResult = doTask();
+            return taskResult;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -34,6 +31,8 @@ public abstract class BaseTaskable implements Taskable {
             return taskResult;
         }
     }
+
+    public abstract TaskResult doTask() throws Exception;
 
     public TaskResult getTaskResult() {
         return taskResult;
