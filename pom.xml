@@ -24,15 +24,16 @@
         <!-- https://mvnrepository.com/artifact/com.jeramtough/jtutil -->
         <dependency>
             <groupId>com.jeramtough</groupId>
-            <artifactId>jtutil</artifactId>
-            <version>1.1.0-RELEASE</version>
+            <artifactId>jtlog</artifactId>
+            <version>1.5.2-RELEASE</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.jeramtough</groupId>
-            <artifactId>jtlog</artifactId>
-            <version>1.4.0</version>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.4.0</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

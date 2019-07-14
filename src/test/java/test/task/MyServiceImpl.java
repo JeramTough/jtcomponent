@@ -1,14 +1,9 @@
-package test;
+package test.task;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.jtcomponent.task.callback.RunningTaskCallback;
 import com.jeramtough.jtcomponent.task.callback.TaskCallback;
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
 import com.jeramtough.jtcomponent.task.response.TaskResponseBuilder;
-import com.jeramtough.jtcomponent.task.runnable.SimpleTaskable;
-import com.jeramtough.jtcomponent.task.runnable.CallbackTaskable;
-import com.jeramtough.jtcomponent.task.runner.CallbackRunner;
-import com.jeramtough.jtcomponent.task.runner.SimpleRunner;
 import com.jeramtough.jtlog.facade.L;
 
 /**
