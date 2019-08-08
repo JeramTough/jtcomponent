@@ -5,7 +5,10 @@ import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created on 2019/7/11 15:44
@@ -17,6 +20,7 @@ public class DefaultTreeNode implements TreeNode {
     private List<TreeNode> subTreeNodes;
     private TreeNode parentTreeNode;
     private int level = 0;
+    private Predicate<TreeNode> subFilters;
 
     public DefaultTreeNode() {
         subTreeNodes = new ArrayList<>();
@@ -54,10 +58,56 @@ public class DefaultTreeNode implements TreeNode {
     }
 
     @Override
-    public void addSub(TreeNode treeNode) {
+    public TreeNode addSub(TreeNode treeNode) {
         getSubs().add(treeNode);
         treeNode.setParent(this);
         treeNode.setLevel(this.level + 1);
+        return this;
+    }
+
+    @Override
+    public void addSubs(TreeNode... treeNodes) {
+        for (TreeNode treeNode : treeNodes) {
+            addSub(treeNode);
+        }
+    }
+
+    @Override
+    public void andPredicate(Predicate<TreeNode> filter) {
+        if (subFilters == null) {
+            subFilters = filter;
+        }
+        else {
+            subFilters.and(filter);
+        }
+    }
+
+    @Override
+    public Predicate<TreeNode> getSubFilters() {
+        return this.subFilters;
+    }
+
+
+    @Override
+    public List<TreeNode> getSubsWithFilters() {
+        if (subFilters == null) {
+            return getSubs();
+        }
+        else {
+            List<TreeNode> treeNodeList =
+                    subTreeNodes.stream().filter(subFilters).collect(Collectors.toList());
+            return treeNodeList;
+        }
+    }
+
+    @Override
+    public void beMoved() {
+        if (!isRoot()) {
+            parentTreeNode.getSubs().remove(this);
+        }
+        else {
+            throw new IllegalStateException("The root node can't be removed");
+        }
     }
 
     @Override
@@ -88,6 +138,11 @@ public class DefaultTreeNode implements TreeNode {
     @Override
     public List<TreeNode> getAll(SortMethod sortMethod) {
         return TreeNodeUtils.getAll(this, sortMethod);
+    }
+
+    @Override
+    public List<List<TreeNode>> getAllForLevel() {
+        return getAllForLevel(SortMethod.DESCENDING);
     }
 
     @Override

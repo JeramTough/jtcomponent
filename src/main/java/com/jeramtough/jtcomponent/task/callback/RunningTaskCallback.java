@@ -8,6 +8,9 @@ public interface RunningTaskCallback {
 
     /**
      * Calling when the task is running.
+     *
+     * @param taskResult {@link com.jeramtough.jtcomponent.task.bean.no.TaskResult}
+     * @param percent percent of task
      */
     void onTaskRunning(
             com.jeramtough.jtcomponent.task.bean.no.TaskResult taskResult,

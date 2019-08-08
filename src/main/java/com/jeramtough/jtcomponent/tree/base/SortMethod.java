@@ -8,11 +8,18 @@ public enum SortMethod {
 
     /**
      * 降序
+     *   o
+     *  ooo
+     * ooooo
      */
     DESCENDING,
 
     /**
      * 升序
+     * ooooo
+     *  ooo
+     *   o
+     *
      */
     ASCENDING;
 }

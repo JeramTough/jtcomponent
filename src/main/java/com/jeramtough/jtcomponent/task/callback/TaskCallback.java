@@ -23,6 +23,8 @@ public abstract class TaskCallback implements RunningTaskCallback {
 
     /**
      * Calling when the task is running.
+     * @param taskResult {@link com.jeramtough.jtcomponent.task.bean.TaskResult}
+     * @param percent percent of task
      */
     public abstract void onTaskRunning(
             com.jeramtough.jtcomponent.task.bean.TaskResult taskResult,

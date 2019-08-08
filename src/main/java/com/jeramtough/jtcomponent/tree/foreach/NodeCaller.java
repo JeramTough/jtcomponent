@@ -11,6 +11,7 @@ public interface NodeCaller {
 
 
     /**
+     * @param treeNode {@link TreeNode}
      * @return return true is continual
      */
     boolean called(TreeNode treeNode);

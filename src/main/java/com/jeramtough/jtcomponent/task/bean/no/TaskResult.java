@@ -380,6 +380,7 @@ public class TaskResult {
 
     /**
      * get task detail and what same as toString();
+     * @return task detail
      */
     public String getDetail() {
         StringBuilder str = new StringBuilder();

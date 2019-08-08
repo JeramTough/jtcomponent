@@ -5,3 +5,12 @@ com.jeramtough.jtcomponent.task.exception
 com.jeramtough.jtcomponent.task.response
 com.jeramtough.jtcomponent.task.runnable
 com.jeramtough.jtcomponent.task.runner
+com.jeramtough.jtcomponent.tree.adapter
+com.jeramtough.jtcomponent.tree.base
+com.jeramtough.jtcomponent.tree.foreach
+com.jeramtough.jtcomponent.tree.processor
+com.jeramtough.jtcomponent.tree.structure
+com.jeramtough.jtcomponent.tree.util
+com.jeramtough.jtcomponent.util.bean
+com.jeramtough.jtcomponent.util.core
+com.jeramtough.jtcomponent.util.io

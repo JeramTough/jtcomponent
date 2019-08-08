@@ -16,9 +16,6 @@ public class IdUtil
 		return uuid;
 	}
 
-	/**
-	 *
-	 */
 	public static String randomNumber(int min,int max,int count){
 		int len = max-min+1;
 		
