@@ -12,13 +12,13 @@ public class MathTest {
 
     @org.junit.jupiter.api.Test
     public void test1() {
-        int[][] matrix = SamplingUtil.getMatrix(3, 2,true);
+        int[][] matrix = SamplingUtil.getMatrix(4, 4,true);
         MatrixUtil.printMatrix(matrix);
     }
 
     @Test
     public void test2() {
-        int[][] matrix = SamplingUtil.getMatrix(3, 3,false);
+        int[][] matrix = SamplingUtil.getMatrix(4, 5,false);
         MatrixUtil.printMatrix(matrix);
     }
 

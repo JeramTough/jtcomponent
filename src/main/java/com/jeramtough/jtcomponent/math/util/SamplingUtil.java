@@ -19,6 +19,10 @@ public class SamplingUtil {
     public static TreeNode getStructure(int baseNumber, int times, boolean isPutback) {
         TreeNode baseTreeNode = new DefaultTreeNode();
 
+        if (baseNumber<times){
+            System.err.println("warn: times > baseNumber");
+        }
+
         if (isPutback) {
             addBaseNumbers(baseNumber, baseTreeNode);
 
@@ -43,18 +47,22 @@ public class SamplingUtil {
             for (int i = 0; i < times - 1; i++) {
                 List<TreeNode> lastTreeNodeList = new ArrayList<>(currentTreeNodeList);
                 currentTreeNodeList.clear();
-                for (TreeNode treeNode : lastTreeNodeList) {
-                    addBaseNumbers(baseNumber, treeNode);
-                    currentTreeNodeList.addAll(treeNode.getSubs());
+                for (TreeNode indexTreeNode : lastTreeNodeList) {
+                    addBaseNumbers(baseNumber, indexTreeNode);
 
-                    while (!treeNode.isRoot()) {
-                        final int ownValue = ((int) treeNode.getValue());
-                        treeNode.andPredicate((TreeNode treeNode1) -> {
+                    TreeNode tempTreeNode= indexTreeNode;
+                    while (!tempTreeNode.isRoot()) {
+                        final int ownValue = ((int) tempTreeNode.getValue());
+                        indexTreeNode.andPredicate((TreeNode treeNode1) -> {
                             int value = (int) treeNode1.getValue();
                             return ownValue != value;
                         });
-                        treeNode = treeNode.getParent();
+                        tempTreeNode = tempTreeNode.getParent();
                     }
+
+                    currentTreeNodeList.addAll(indexTreeNode.getSubsByFilters());
+
+
                 }
             }
         }

@@ -25,7 +25,7 @@ public class TreeNodeUtils {
         sortedTreeNodes.add(rootTreeNode);
 
         if (rootTreeNode.hasSubs()) {
-            List<TreeNode> treeNodes = rootTreeNode.getSubs();
+            List<TreeNode> treeNodes = rootTreeNode.getSubsByFilters();
             for (TreeNode TreeNode : treeNodes) {
                 if (TreeNode.hasSubs()) {
                     tempTreeNodes.add(TreeNode);
@@ -40,7 +40,7 @@ public class TreeNodeUtils {
             TreeNode tempTreeNode;
             while (!tempTreeNodes.isEmpty()) {
                 tempTreeNode = tempTreeNodes.removeFirst();
-                treeNodes = tempTreeNode.getSubs();
+                treeNodes = tempTreeNode.getSubsByFilters();
                 for (TreeNode treeNode2 : treeNodes) {
                     if (treeNode2.hasSubs()) {
                         tempTreeNodes.add(treeNode2);
@@ -66,13 +66,13 @@ public class TreeNodeUtils {
         List<TreeNode> sortTreeNodes = getAll(rootTreeNode, sortMethod);
         Map<Integer, List<TreeNode>> integerListMap = new HashMap<>();
 
-        for (TreeNode TreeNode : sortTreeNodes) {
-            List<TreeNode> treeStructures1 = integerListMap.get(TreeNode.getLevel());
+        for (TreeNode treeNode : sortTreeNodes) {
+            List<TreeNode> treeStructures1 = integerListMap.get(treeNode.getLevel());
             if (treeStructures1 == null) {
                 treeStructures1 = new ArrayList<>();
             }
-            treeStructures1.add(TreeNode);
-            integerListMap.put(TreeNode.getLevel(), treeStructures1);
+            treeStructures1.add(treeNode);
+            integerListMap.put(treeNode.getLevel(), treeStructures1);
         }
 
         List<List<TreeNode>> allTreeStructures = new ArrayList<>();
@@ -92,7 +92,7 @@ public class TreeNodeUtils {
         nodeCaller.called(rootTreeNode);
 
         if (rootTreeNode.hasSubs()) {
-            List<TreeNode> treeNodes = rootTreeNode.getSubs();
+            List<TreeNode> treeNodes = rootTreeNode.getSubsByFilters();
             for (TreeNode treeNode : treeNodes) {
                 if (treeNode.hasSubs()) {
                     tempTreeNodes.add(treeNode);
@@ -107,7 +107,7 @@ public class TreeNodeUtils {
             TreeNode tempTreeNode;
             while (!tempTreeNodes.isEmpty()) {
                 tempTreeNode = tempTreeNodes.removeFirst();
-                treeNodes = tempTreeNode.getSubs();
+                treeNodes = tempTreeNode.getSubsByFilters();
                 for (TreeNode treeNode2 : treeNodes) {
                     if (treeNode2.hasSubs()) {
                         tempTreeNodes.add(treeNode2);

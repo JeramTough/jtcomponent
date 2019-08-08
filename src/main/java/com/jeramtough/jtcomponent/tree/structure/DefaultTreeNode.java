@@ -73,13 +73,14 @@ public class DefaultTreeNode implements TreeNode {
     }
 
     @Override
-    public void andPredicate(Predicate<TreeNode> filter) {
+    public TreeNode andPredicate(Predicate<TreeNode> filter) {
         if (subFilters == null) {
             subFilters = filter;
         }
         else {
-            subFilters.and(filter);
+            subFilters=subFilters.and(filter);
         }
+        return this;
     }
 
     @Override
@@ -89,13 +90,14 @@ public class DefaultTreeNode implements TreeNode {
 
 
     @Override
-    public List<TreeNode> getSubsWithFilters() {
+    public List<TreeNode> getSubsByFilters() {
         if (subFilters == null) {
             return getSubs();
         }
         else {
             List<TreeNode> treeNodeList =
-                    subTreeNodes.stream().filter(subFilters).collect(Collectors.toList());
+                    getSubs().stream().filter(subFilters).collect(Collectors.toList());
+
             return treeNodeList;
         }
     }

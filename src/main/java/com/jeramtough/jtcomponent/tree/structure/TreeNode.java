@@ -29,9 +29,9 @@ public interface TreeNode {
     /**
      * 添加子节点过滤器
      *
-     * @see #getSubsWithFilters()
+     * @see #getSubsByFilters()
      */
-    void andPredicate(Predicate<TreeNode> filter);
+    TreeNode andPredicate(Predicate<TreeNode> filter);
 
     /**
      * 返回完整版的子节点过滤器
@@ -45,7 +45,7 @@ public interface TreeNode {
      *
      * @see #andPredicate(Predicate) 关于如何添加子节点过滤器
      */
-    List<TreeNode> getSubsWithFilters();
+    List<TreeNode> getSubsByFilters();
 
     /**
      * 该节点被移除，如果你不想真正移除该节点，可以试试用子节点过滤器
