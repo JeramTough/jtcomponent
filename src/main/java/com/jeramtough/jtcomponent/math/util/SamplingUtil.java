@@ -1,12 +1,11 @@
 package com.jeramtough.jtcomponent.math.util;
 
+import com.jeramtough.jtcomponent.key.component.GroupKey;
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 抽样之样本模拟工具类
@@ -16,14 +15,14 @@ import java.util.List;
  */
 public class SamplingUtil {
 
-    public static TreeNode getStructure(int baseNumber, int times, boolean isPutback) {
+    public static TreeNode getStructure(int baseNumber, int times, boolean isPutBack) {
         TreeNode baseTreeNode = new DefaultTreeNode();
 
-        if (baseNumber<times){
-            System.err.println("warn: times > baseNumber");
+        if (!isPutBack && baseNumber < times) {
+            System.err.println("warn: baseNumber < times");
         }
 
-        if (isPutback) {
+        if (isPutBack) {
             addBaseNumbers(baseNumber, baseTreeNode);
 
             List<TreeNode> currentTreeNodeList = new ArrayList<>();
@@ -50,7 +49,7 @@ public class SamplingUtil {
                 for (TreeNode indexTreeNode : lastTreeNodeList) {
                     addBaseNumbers(baseNumber, indexTreeNode);
 
-                    TreeNode tempTreeNode= indexTreeNode;
+                    TreeNode tempTreeNode = indexTreeNode;
                     while (!tempTreeNode.isRoot()) {
                         final int ownValue = ((int) tempTreeNode.getValue());
                         indexTreeNode.andPredicate((TreeNode treeNode1) -> {
@@ -70,23 +69,48 @@ public class SamplingUtil {
         return baseTreeNode;
     }
 
-    public static int[][] getMatrix(int baseNumber, int times, boolean isPutback) {
-        TreeNode baseTreeNode = getStructure(baseNumber, times, isPutback);
+    public static int[][] getMatrix(int baseNumber, int times, boolean isPutBack,
+                                    boolean isIgnoredOrder) {
+        TreeNode baseTreeNode = getStructure(baseNumber, times, isPutBack);
         List<List<TreeNode>> allLevelNodeLists =
                 baseTreeNode.getAllForLevel(SortMethod.ASCENDING);
         List<TreeNode> lastTreeNodeList = allLevelNodeLists.get(0);
 
-        List<List<TreeNode>> allNodeLists = new ArrayList<>();
-        for (TreeNode treeNode : lastTreeNodeList) {
-            List<TreeNode> treeNodeList = new ArrayList<>();
-            while (!treeNode.isRoot()) {
-                treeNodeList.add(treeNode);
-                treeNode = treeNode.getParent();
+        List<List<TreeNode>> allNodeLists;
+        if (isIgnoredOrder) {
+            Map<GroupKey, List<TreeNode>> allNodeListMap = new HashMap<>(16);
+            for (TreeNode treeNode : lastTreeNodeList) {
+                List<TreeNode> treeNodeList = new ArrayList<>();
+                GroupKey groupKey = new GroupKey();
+                while (!treeNode.isRoot()) {
+                    int key = ((int) treeNode.getValue());
+                    groupKey.append(key);
+
+                    treeNodeList.add(treeNode);
+                    treeNode = treeNode.getParent();
+                }
+                allNodeListMap.put(groupKey, treeNodeList);
             }
-            allNodeLists.add(treeNodeList);
+
+            allNodeLists = new ArrayList<>(allNodeListMap.size());
+            allNodeListMap.forEach(
+                    (integer, treeNodes) -> allNodeLists.add(treeNodes));
+
+        }
+        else {
+            allNodeLists = new ArrayList<>();
+            for (TreeNode treeNode : lastTreeNodeList) {
+                List<TreeNode> treeNodeList = new ArrayList<>();
+                while (!treeNode.isRoot()) {
+                    treeNodeList.add(treeNode);
+                    treeNode = treeNode.getParent();
+                }
+                allNodeLists.add(treeNodeList);
+            }
+
+            Collections.reverse(allNodeLists);
         }
 
-        Collections.reverse(allNodeLists);
 
         int[][] matrix = new int[allNodeLists.size()][allNodeLists.get(0).size()];
         for (int i = 0; i < allNodeLists.size(); i++) {
@@ -98,8 +122,35 @@ public class SamplingUtil {
         }
 
         return matrix;
-
     }
+
+    public static int countSampleSize(int baseNumber, int times,
+                                      boolean isPutBack) {
+
+        int size;
+
+        //case 1:放回抽样
+        if (isPutBack) {
+            //size=baseNumber^times
+            size = (int) Math.pow(baseNumber, times);
+        }
+        //case 2:不放回抽样
+        else {
+            //不放回抽样次数不能大于基数
+            if (times > baseNumber) {
+                times = baseNumber;
+            }
+            size = 1;
+            for (int i = baseNumber; i > (baseNumber - times); i--) {
+                size = size * i;
+            }
+        }
+
+
+        return size;
+    }
+
+    //******************************
 
     private static void addBaseNumbers(int baseNumber, TreeNode treeNode) {
         for (int i = 1; i <= baseNumber; i++) {

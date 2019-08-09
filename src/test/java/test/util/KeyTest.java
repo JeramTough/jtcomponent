@@ -6,8 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.jeramtough.jtcomponent.util.bean.RsaKeysProvider;
-import com.jeramtough.jtcomponent.util.core.KeyUtil;
+import com.jeramtough.jtcomponent.key.bean.RsaKeysProvider;
+import com.jeramtough.jtcomponent.key.util.KeyUtil;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 

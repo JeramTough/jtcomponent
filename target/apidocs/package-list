@@ -1,3 +1,7 @@
+com.jeramtough.jtcomponent.key.bean
+com.jeramtough.jtcomponent.key.component
+com.jeramtough.jtcomponent.key.util
+com.jeramtough.jtcomponent.math.util
 com.jeramtough.jtcomponent.task.bean
 com.jeramtough.jtcomponent.task.bean.no
 com.jeramtough.jtcomponent.task.callback
@@ -11,6 +15,5 @@ com.jeramtough.jtcomponent.tree.foreach
 com.jeramtough.jtcomponent.tree.processor
 com.jeramtough.jtcomponent.tree.structure
 com.jeramtough.jtcomponent.tree.util
-com.jeramtough.jtcomponent.util.bean
-com.jeramtough.jtcomponent.util.core
-com.jeramtough.jtcomponent.util.io
+com.jeramtough.jtcomponent.utils.core
+com.jeramtough.jtcomponent.utils.io

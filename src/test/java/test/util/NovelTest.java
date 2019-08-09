@@ -1,6 +1,6 @@
 package test.util;
 
-import com.jeramtough.jtcomponent.util.core.NovelUtil;
+import com.jeramtough.jtcomponent.utils.core.NovelUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
