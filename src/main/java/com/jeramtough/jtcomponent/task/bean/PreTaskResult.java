@@ -1,4 +1,4 @@
-package com.jeramtough.jtcomponent.task.bean.no;
+package com.jeramtough.jtcomponent.task.bean;
 
 import java.io.Serializable;
 import java.util.HashMap;

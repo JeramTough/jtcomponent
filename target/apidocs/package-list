@@ -4,7 +4,6 @@ com.jeramtough.jtcomponent.key.component
 com.jeramtough.jtcomponent.key.util
 com.jeramtough.jtcomponent.math.util
 com.jeramtough.jtcomponent.task.bean
-com.jeramtough.jtcomponent.task.bean.no
 com.jeramtough.jtcomponent.task.callback
 com.jeramtough.jtcomponent.task.exception
 com.jeramtough.jtcomponent.task.response

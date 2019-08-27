@@ -1,7 +1,7 @@
 package test.task;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.jtcomponent.task.bean.no.PreTaskResult;
+import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
 import com.jeramtough.jtcomponent.task.callback.TaskCallback;
 import com.jeramtough.jtcomponent.task.response.FutureTaskResponse;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;

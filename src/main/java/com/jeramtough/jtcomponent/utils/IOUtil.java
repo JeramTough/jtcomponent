@@ -7,10 +7,6 @@ import java.io.InputStreamReader;
 
 public class IOUtil
 {
-	/**
-	 * get content of text from file
-	 *
-	 */
 	public static String readTxtFile(String fileUri, String encoding)
 	{
 		try

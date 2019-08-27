@@ -1,9 +1,7 @@
 package com.jeramtough.jtcomponent.utils;
 
 public class StringUtil {
-    /**
-     *
-     */
+
     public static String addOrDeleteWords(String originalText, boolean isAdded, int start,
                                           String words) {
         originalText = (originalText == null ? "" : originalText);
@@ -23,6 +21,8 @@ public class StringUtil {
 
     /**
      * return true if the str is empty or the str just is comprised of spaces.
+     * @param str `
+     * @return `
      */
     public static boolean isEmpty(String str) {
 

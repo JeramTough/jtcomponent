@@ -68,14 +68,17 @@ public class KeyUtil {
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
     /**
+     * <pre>
      * 将base64String转成bytes
-     * <p>
      * String message="源数据：mypassword";
      * //编码后
      * String base64String=KeyUtil.toBase64Str(message);
      * L.debug(base64String);
      * //解码恢复源数据
      * L.debug(new String(KeyUtil.toBytesFromBase64Str(base64String)));
+     *</pre>
+     * @param base64String base64格式的字符串
+     * @return base64字符串的字节码数组
      */
     public static byte[] toBytesFromBase64Str(String base64String) {
         try {
@@ -88,16 +91,22 @@ public class KeyUtil {
     }
 
     /**
-     * 将data转成base64编码格式的字符串
+     * 将字符串转成base64编码格式的字符串
      * 严格地说，属于编码格式，而非加密算法
+     *
+     * @param str 字符串
+     * @return base64格式的字符串
      */
-    public static String toBase64Str(String data) {
-        return toBase64Str(data.getBytes(StandardCharsets.UTF_8));
+    public static String toBase64Str(String str) {
+        return toBase64Str(str.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
      * 将data转成String，而且用上BASE64算法
      * 严格地说，属于编码格式，而非加密算法
+     *
+     * @param data 字节码数组
+     * @return 字节码数据的base64格式
      */
     public static String toBase64Str(byte[] data) {
         return (new BASE64Encoder()).encodeBuffer(data);
@@ -105,6 +114,9 @@ public class KeyUtil {
 
     /**
      * MD5加密
+     *
+     * @param data 字节码数组
+     * @return 加密后的字节码数组
      */
     public static byte[] encryptByMD5(byte[] data) {
         try {
@@ -121,6 +133,9 @@ public class KeyUtil {
 
     /**
      * MD5加密
+     *
+     * @param dataStr·
+     * @return ·
      */
     public static byte[] encryptByMD5(String dataStr) {
         return encryptByMD5(dataStr.getBytes(Charset.forName("UTF-8")));
@@ -128,6 +143,9 @@ public class KeyUtil {
 
     /**
      * SHA加密
+     *
+     * @param data ·
+     * @return ·
      */
     public static byte[] encryptForSHA(byte[] data) {
         try {
@@ -143,6 +161,9 @@ public class KeyUtil {
 
     /**
      * SHA加密
+     *
+     * @param dataStr ·
+     * @return ·
      */
     public static byte[] encryptForSHA(String dataStr) {
         return encryptForSHA(dataStr.getBytes(Charset.forName("UTF-8")));
@@ -150,6 +171,8 @@ public class KeyUtil {
 
     /**
      * 生成HMAC密钥
+     *
+     * @return ·
      */
     public static String processHMACKey() {
         try {
@@ -165,6 +188,10 @@ public class KeyUtil {
 
     /**
      * 使用HMAC加密算法对data进行加密
+     *
+     * @param data ·
+     * @param key  ·
+     * @return ·
      */
     public static byte[] encryptByHMAC(byte[] data, String key) {
 
@@ -184,6 +211,10 @@ public class KeyUtil {
 
     /**
      * 将bytes转成16进制，32长度的字符串
+     *
+     * @param bytes         ·
+     * @param isToUpperCase ·
+     * @return ·
      */
     public static String to16Hex32LengthString(byte[] bytes, boolean isToUpperCase) {
         char[] toDigits = isToUpperCase ? DIGITS_UPPER : DIGITS_LOWER;

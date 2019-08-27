@@ -14,8 +14,8 @@ public class WordUtil
 	/**
 	 * create random char or number
 	 *
-	 * @param length
-	 * @return
+	 * @param length `
+	 * @return `
 	 */
 	public static String getCharAndNumr(int length)
 	{
@@ -128,9 +128,6 @@ public class WordUtil
 	
 	/**
 	 * 判断是否含有中文
-	 *
-	 * @param str
-	 * @return
 	 */
 	public static boolean isContainsChinese(String str)
 	{

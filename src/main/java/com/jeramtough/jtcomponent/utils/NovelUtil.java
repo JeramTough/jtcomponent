@@ -19,10 +19,6 @@ public class NovelUtil
 		patterns.add(Pattern.compile("\\[((.|\\n)*)\\]"));
 	}
 
-	/**
-	 * @param novelFile
-	 * @param outFile
-	 */
 	public static void formal(File novelFile, File outFile)
 	{
 		// 要验证的字符串

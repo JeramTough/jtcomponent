@@ -1,7 +1,7 @@
 package com.jeramtough.jtcomponent.task.runner;
 
 
-import com.jeramtough.jtcomponent.task.bean.no.PreTaskResult;
+import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
 
 /**
  *

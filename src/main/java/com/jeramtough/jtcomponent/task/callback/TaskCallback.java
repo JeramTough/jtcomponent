@@ -1,7 +1,7 @@
 package com.jeramtough.jtcomponent.task.callback;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
-import com.jeramtough.jtcomponent.task.bean.no.PreTaskResult;
+import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
 
 /**
  * Created on 2019-01-24 22:18

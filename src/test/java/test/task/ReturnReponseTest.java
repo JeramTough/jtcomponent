@@ -1,6 +1,6 @@
 package test.task;
 
-import com.jeramtough.jtcomponent.task.bean.no.PreTaskResult;
+import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
 import com.jeramtough.jtcomponent.task.response.ResponseFactory;
 import com.jeramtough.jtcomponent.task.response.ReturnResponse;
 import com.jeramtough.jtcomponent.task.runner.ReturnRunner;
