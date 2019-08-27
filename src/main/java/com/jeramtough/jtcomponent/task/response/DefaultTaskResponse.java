@@ -15,7 +15,7 @@ public class DefaultTaskResponse implements TaskResponse {
     private TaskResult taskResult;
 
 
-     DefaultTaskResponse(Taskable taskable) {
+    protected DefaultTaskResponse(Taskable taskable) {
         this.taskable = taskable;
     }
 

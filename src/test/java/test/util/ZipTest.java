@@ -1,7 +1,7 @@
 package test.util;
 
-import com.jeramtough.jtcomponent.utils.core.CompressorUtil;
-import com.jeramtough.jtcomponent.utils.io.Directory;
+import com.jeramtough.jtcomponent.utils.CompressorUtil;
+import com.jeramtough.jtcomponent.io.Directory;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

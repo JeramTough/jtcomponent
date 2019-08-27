@@ -1,4 +1,4 @@
-package com.jeramtough.jtcomponent.utils.core;
+package com.jeramtough.jtcomponent.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;

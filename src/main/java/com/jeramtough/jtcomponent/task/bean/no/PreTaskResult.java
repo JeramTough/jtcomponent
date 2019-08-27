@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ *
+ * 任务进行中，还没有出现结果的TaskResult对象
+ *
  * Created on 2018-12-28 12:46
  * by @author JeramTough
  */
-public class TaskResult {
+public class PreTaskResult {
 
     private static final int INITIAL_PAYLOADS_MAP_CAPACITY = 3;
 
@@ -38,15 +41,15 @@ public class TaskResult {
     private Map<String, boolean[]> booleanArrayPayloads;
 
 
-    public TaskResult() {
+    public PreTaskResult() {
     }
 
 
-    public TaskResult(boolean isSuccessful) {
+    public PreTaskResult(boolean isSuccessful) {
         this(isSuccessful, null);
     }
 
-    public TaskResult(boolean isSuccessful, String message) {
+    public PreTaskResult(boolean isSuccessful, String message) {
         this.isSuccessful = isSuccessful;
         this.message = message;
     }

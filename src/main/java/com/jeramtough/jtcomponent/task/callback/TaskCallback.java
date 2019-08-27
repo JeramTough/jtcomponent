@@ -1,40 +1,35 @@
 package com.jeramtough.jtcomponent.task.callback;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
+import com.jeramtough.jtcomponent.task.bean.no.PreTaskResult;
 
 /**
  * Created on 2019-01-24 22:18
  * by @author JeramTough
  */
-public abstract class TaskCallback implements RunningTaskCallback {
+public interface TaskCallback extends RunningTaskCallback {
 
 
     /**
      * Calling when the task is preparing to start .
      */
-    public abstract void onTaskStart();
-
-    @Override
-    public void onTaskRunning(com.jeramtough.jtcomponent.task.bean.no.TaskResult taskResult,
-                              int percent) {
-        com.jeramtough.jtcomponent.task.bean.TaskResult taskResult1 = (TaskResult) taskResult;
-        onTaskRunning(taskResult1, percent);
-    }
+    void onTaskStart();
 
     /**
      * Calling when the task is running.
-     * @param taskResult {@link com.jeramtough.jtcomponent.task.bean.TaskResult}
-     * @param percent percent of task
+     *
+     * @param preTaskResult {@link PreTaskResult}
+     * @param percent       percent of task
      */
-    public abstract void onTaskRunning(
-            com.jeramtough.jtcomponent.task.bean.TaskResult taskResult,
+    @Override
+    void onTaskRunning(
+            PreTaskResult preTaskResult,
             int percent);
-
 
     /**
      * Calling while the task is completed.
      *
      * @param taskResult TaskResult bean
      */
-    public abstract void onTaskCompleted(TaskResult taskResult);
+    void onTaskCompleted(TaskResult taskResult);
 }

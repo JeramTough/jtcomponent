@@ -1,4 +1,4 @@
-package com.jeramtough.jtcomponent.utils.core;
+package com.jeramtough.jtcomponent.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,7 +1,7 @@
-package com.jeramtough.jtcomponent.utils.core;
+package com.jeramtough.jtcomponent.utils;
 
 
-import com.jeramtough.jtcomponent.utils.io.Directory;
+import com.jeramtough.jtcomponent.io.Directory;
 
 import java.io.*;
 import java.util.zip.ZipEntry;

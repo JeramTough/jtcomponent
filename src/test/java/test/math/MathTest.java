@@ -49,14 +49,14 @@ public class MathTest {
 
     @Test
     public void test4() {
-        int baseNumber = 4;
+        int baseNumber = 5;
         int times = 3;
-        boolean isPutBack = false;
-        boolean isIgnoredOrder = true;
+        boolean isPutBack = true;
+        boolean isIgnoredOrder = false;
         System.out.println("size: " +
                 SamplingUtil.countSampleSize(baseNumber, times, isPutBack));
         int[][] matrix = SamplingUtil.getMatrix(baseNumber, times, isPutBack, isIgnoredOrder);
-        MatrixUtil.printMatrix(matrix);
+        MatrixUtil.printMatrix(matrix,1,2);
     }
 
 

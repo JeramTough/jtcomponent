@@ -1,7 +1,7 @@
 package test.task;
 
 import com.jeramtough.jtcomponent.task.response.TaskResponse;
-import com.jeramtough.jtcomponent.task.response.TaskResponseBuilder;
+import com.jeramtough.jtcomponent.task.response.ResponseFactory;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ public class NullTest {
 
     @Test
     public void test(){
-        TaskResponse taskResponse= TaskResponseBuilder.doing((taskResult)->{
+        TaskResponse taskResponse= ResponseFactory.doing((taskResult)->{
             A[] a=new A[1];
             taskResult.putPayload("a",a);
             return true;

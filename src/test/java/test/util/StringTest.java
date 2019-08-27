@@ -1,6 +1,6 @@
 package test.util;
 
-import com.jeramtough.jtcomponent.utils.core.StringUtil;
+import com.jeramtough.jtcomponent.utils.StringUtil;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 
@@ -12,13 +12,13 @@ public class StringTest {
 
     @Test
     public void testEmpty() {
-        L.debug(StringUtil.isEmptyOrSpaces(null));
+        L.debug(StringUtil.isEmpty(null));
 
-        L.debug(StringUtil.isEmptyOrSpaces(""));
+        L.debug(StringUtil.isEmpty(""));
 
-        L.debug(StringUtil.isEmptyOrSpaces("  s s"));
+        L.debug(StringUtil.isEmpty("  s s"));
 
-        L.debug(StringUtil.isEmptyOrSpaces("  "));
+        L.debug(StringUtil.isEmpty("  "));
 
     }
 }

@@ -1,4 +1,4 @@
-package com.jeramtough.jtcomponent.utils.io;
+package com.jeramtough.jtcomponent.io;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,7 +22,8 @@ public class ExtractedZip implements ExtractedFile {
 
 
     @Override
-    public void extract(String whereAraExtractedPath) {
+    public void extract(Directory whereDirectory) {
+        String whereAraExtractedPath = whereDirectory.getAbsolutePath();
         try {
             ZipFile zipFile = new ZipFile(file);
             Enumeration e = zipFile.entries();

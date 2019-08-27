@@ -1,9 +1,10 @@
 package test.task;
 
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
+import com.jeramtough.jtcomponent.task.bean.no.PreTaskResult;
 import com.jeramtough.jtcomponent.task.callback.TaskCallback;
 import com.jeramtough.jtcomponent.task.response.FutureTaskResponse;
-import com.jeramtough.jtcomponent.task.response.TaskResponseBuilder;
+import com.jeramtough.jtcomponent.task.response.ResponseFactory;
 import com.jeramtough.jtlog.facade.L;
 
 /**
@@ -26,9 +27,10 @@ public class MyServiceImpl2 {
             }
 
             @Override
-            public void onTaskRunning(TaskResult taskResult, int percent) {
+            public void onTaskRunning(PreTaskResult preTaskResult, int percent) {
                 L.debug(percent);
             }
+
 
             @Override
             public void onTaskCompleted(TaskResult taskResult) {
@@ -39,7 +41,7 @@ public class MyServiceImpl2 {
 
     public FutureTaskResponse doAsyncTask() {
 
-        return TaskResponseBuilder.asyncDoing(taskResult -> {
+        return ResponseFactory.asyncDoing(taskResult -> {
             L.debug("异步任务进行中。。。");
             return true;
         });
@@ -48,7 +50,7 @@ public class MyServiceImpl2 {
 
     public FutureTaskResponse doAsyncTaskWithCallback(TaskCallback taskCallback) {
 
-        return TaskResponseBuilder.asyncDoing(taskCallback,
+        return ResponseFactory.asyncDoing(taskCallback,
                 (taskResult, runningTaskCallback) -> {
                     L.debug("任务进行中。。。");
                     runningTaskCallback.onTaskRunning(taskResult, 50);

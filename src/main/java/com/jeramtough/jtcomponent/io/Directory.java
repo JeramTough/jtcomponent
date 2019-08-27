@@ -1,4 +1,4 @@
-package com.jeramtough.jtcomponent.utils.io;
+package com.jeramtough.jtcomponent.io;
 
 
 import java.io.File;

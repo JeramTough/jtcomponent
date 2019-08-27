@@ -1,4 +1,4 @@
-package com.jeramtough.jtcomponent.utils.core;
+package com.jeramtough.jtcomponent.utils;
 
 public class StringUtil {
     /**
@@ -24,10 +24,10 @@ public class StringUtil {
     /**
      * return true if the str is empty or the str just is comprised of spaces.
      */
-    public static boolean isEmptyOrSpaces(String str) {
+    public static boolean isEmpty(String str) {
 
         //first pass
-        if (str == null || "".equals(str) || str.length() == 0) {
+        if (str == null || str.length() == 0) {
             return true;
         }
 

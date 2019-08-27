@@ -1,14 +1,14 @@
 package com.jeramtough.jtcomponent.task.bean;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import com.jeramtough.jtcomponent.task.bean.no.PreTaskResult;
 
 /**
+ * 任务进行完毕，已经出现结果的TaskResult对象
+ * <p></>
  * Created on 2018-12-28 12:46
  * by @author JeramTough
  */
-public class TaskResult extends com.jeramtough.jtcomponent.task.bean.no.TaskResult {
+public class TaskResult extends PreTaskResult {
 
 
     @Override
