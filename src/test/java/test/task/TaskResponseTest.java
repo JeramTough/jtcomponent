@@ -30,8 +30,9 @@ public class TaskResponseTest {
             }
 
             @Override
-            public void onTaskRunning(PreTaskResult preTaskResult, int percent) {
-                L.debug(percent);
+            public void onTaskRunning(PreTaskResult preTaskResult, int numerator,
+                                      int denominator) {
+                L.debug(denominator);
             }
 
 
@@ -68,7 +69,7 @@ public class TaskResponseTest {
             return ResponseFactory.doing(taskCallback,
                     (taskResult, runningTaskCallback) -> {
                         L.debug("任务进行中。。。");
-                        runningTaskCallback.onTaskRunning(taskResult, 50);
+                        runningTaskCallback.onTaskRunning(taskResult, 2,50);
                         return false;
                     });
 

@@ -5,6 +5,8 @@ import com.jeramtough.jtcomponent.math.util.MatrixUtil;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 /**
  * Created on 2019-08-08 00:41
  * by @author JeramTough
@@ -14,13 +16,23 @@ public class MathTest {
     @org.junit.jupiter.api.Test
     public void test1() {
         int baseNumber = 4;
-        int times = 2;
-        boolean isPutback = true;
+        int times = 3;
+        boolean isPutback = false;
         boolean isIgnoredOrder = false;
         System.out.println("size: " +
                 SamplingUtil.countSampleSize(baseNumber, times, isPutback));
         int[][] matrix = SamplingUtil.getMatrix(baseNumber, times, isPutback, isIgnoredOrder);
         MatrixUtil.printMatrix(matrix);
+       /* int index = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            int[] mar = matrix[i];
+            if (Arrays.toString(mar).contains("1") && Arrays.toString(mar).contains("2")
+                    && Arrays.toString(mar).contains("3")) {
+                index++;
+                //System.out.println(Arrays.toString(mar));
+            }
+        }
+        System.out.println(index);*/
     }
 
     @Test
@@ -56,7 +68,7 @@ public class MathTest {
         System.out.println("size: " +
                 SamplingUtil.countSampleSize(baseNumber, times, isPutBack));
         int[][] matrix = SamplingUtil.getMatrix(baseNumber, times, isPutBack, isIgnoredOrder);
-        MatrixUtil.printMatrix(matrix,1,2);
+        MatrixUtil.printMatrix(matrix, 1, 2);
     }
 
 

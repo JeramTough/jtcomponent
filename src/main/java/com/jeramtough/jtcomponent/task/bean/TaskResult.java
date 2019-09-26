@@ -1,12 +1,14 @@
 package com.jeramtough.jtcomponent.task.bean;
 
+import java.io.Serializable;
+
 /**
  * 任务进行完毕，已经出现结果的TaskResult对象
- *
+ * <p>
  * Created on 2018-12-28 12:46
  * by @author JeramTough
  */
-public class TaskResult extends PreTaskResult {
+public class TaskResult extends PreTaskResult implements Serializable {
 
 
     @Override

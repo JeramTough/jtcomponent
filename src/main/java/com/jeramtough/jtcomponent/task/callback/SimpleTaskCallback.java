@@ -15,7 +15,7 @@ public class SimpleTaskCallback implements TaskCallback {
     }
 
     @Override
-    public void onTaskRunning(PreTaskResult preTaskResult, int percent) {
+    public void onTaskRunning(PreTaskResult preTaskResult, int numerator, int denominator) {
 
     }
 
@@ -23,4 +23,6 @@ public class SimpleTaskCallback implements TaskCallback {
     public void onTaskCompleted(TaskResult taskResult) {
 
     }
+
+
 }

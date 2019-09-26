@@ -15,16 +15,8 @@ public interface TaskCallback extends RunningTaskCallback {
      */
     void onTaskStart();
 
-    /**
-     * Calling when the task is running.
-     *
-     * @param preTaskResult {@link PreTaskResult}
-     * @param percent       percent of task
-     */
     @Override
-    void onTaskRunning(
-            PreTaskResult preTaskResult,
-            int percent);
+    void onTaskRunning(PreTaskResult preTaskResult, int numerator, int denominator);
 
     /**
      * Calling while the task is completed.

@@ -1,5 +1,6 @@
 package com.jeramtough.jtcomponent.task.response;
 
+import com.jeramtough.jtcomponent.callback.CommonCallback;
 import com.jeramtough.jtcomponent.task.bean.TaskResult;
 
 import java.util.concurrent.RunnableFuture;
@@ -16,4 +17,5 @@ public interface FutureTaskResponse extends RunnableFuture<TaskResult> {
      * @return TaskResult Bean
      */
     TaskResult waitingTaskResult();
+
 }

@@ -12,10 +12,11 @@ public interface RunningTaskCallback {
      * Calling when the task is running.
      *
      * @param preTaskResult {@link PreTaskResult}
-     * @param percent percent of task
+     * @param numerator     percent of task
+     * @param denominator   totality of task
      */
     void onTaskRunning(
             PreTaskResult preTaskResult,
-            int percent);
+            int numerator, int denominator);
 
 }

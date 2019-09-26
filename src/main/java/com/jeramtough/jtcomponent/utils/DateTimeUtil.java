@@ -31,6 +31,13 @@ public class DateTimeUtil {
         return time;
     }
 
+    public static String getCurrentDate() {
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String time = format.format(date);
+        return time;
+    }
+
     /**
      * compute date(日期时间的相加减)
      *
@@ -73,7 +80,7 @@ public class DateTimeUtil {
         long b = date2.getTime();
         long c = a - b;
         int second = (int) Double.valueOf(Double.toString(c / 1000D))
-                .doubleValue();
+                                 .doubleValue();
         return second;
     }
 

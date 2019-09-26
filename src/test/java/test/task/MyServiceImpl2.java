@@ -27,8 +27,9 @@ public class MyServiceImpl2 {
             }
 
             @Override
-            public void onTaskRunning(PreTaskResult preTaskResult, int percent) {
-                L.debug(percent);
+            public void onTaskRunning(PreTaskResult preTaskResult, int numerator,
+                                      int denominator) {
+                L.debug(denominator);
             }
 
 
@@ -53,7 +54,7 @@ public class MyServiceImpl2 {
         return ResponseFactory.asyncDoing(taskCallback,
                 (taskResult, runningTaskCallback) -> {
                     L.debug("任务进行中。。。");
-                    runningTaskCallback.onTaskRunning(taskResult, 50);
+                    runningTaskCallback.onTaskRunning(taskResult, 1, 50);
                     try {
                         Thread.sleep(200);
                     }

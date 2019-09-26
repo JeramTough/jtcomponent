@@ -11,7 +11,7 @@ import java.util.Map;
  * Created on 2018-12-28 12:46
  * by @author JeramTough
  */
-public class PreTaskResult {
+public class PreTaskResult implements Serializable{
 
     private static final int INITIAL_PAYLOADS_MAP_CAPACITY = 3;
 

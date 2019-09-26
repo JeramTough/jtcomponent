@@ -6,7 +6,8 @@
 
     <groupId>com.jeramtough</groupId>
     <artifactId>jtcomponent</artifactId>
-    <version>1.2.0-LOCAL</version>
+    <version>1.2.7-LOCAL</version>
+    <!--<version>1.2.4-SNAPSHOT</version>-->
 
     <properties>
         <!-- 文件拷贝时的编码 -->
