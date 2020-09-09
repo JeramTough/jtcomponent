@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jeramtough.jtcomponent.key.bean.RsaKeysProvider;
 import com.jeramtough.jtcomponent.key.util.KeyUtil;
+import com.jeramtough.jtcomponent.utils.Base64Util;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 
@@ -32,8 +33,8 @@ public class KeyTest {
         RSAPublicKey publicKey = rsaKeysProvider.getRsaPublicKey();
         RSAPrivateKey privateKey = rsaKeysProvider.getRsaPrivateKey();
 
-        String publicKeyBase64String = KeyUtil.toBase64Str(publicKey.getEncoded());
-        String privateKeyBase64String = KeyUtil.toBase64Str(privateKey.getEncoded());
+        String publicKeyBase64String = Base64Util.toBase64Str(publicKey.getEncoded());
+        String privateKeyBase64String = Base64Util.toBase64Str(privateKey.getEncoded());
 
         Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
         String token = JWT.create()

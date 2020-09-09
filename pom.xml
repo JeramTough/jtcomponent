@@ -6,7 +6,7 @@
 
     <groupId>com.jeramtough</groupId>
     <artifactId>jtcomponent</artifactId>
-    <version>1.2.7-LOCAL</version>
+    <version>1.3.1-SNAPSHOT</version>
     <!--<version>1.2.4-SNAPSHOT</version>-->
 
     <properties>

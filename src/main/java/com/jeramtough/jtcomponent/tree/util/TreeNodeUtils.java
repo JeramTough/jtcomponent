@@ -42,6 +42,7 @@ public class TreeNodeUtils {
                 tempTreeNode = tempTreeNodes.removeFirst();
                 treeNodes = tempTreeNode.getSubsByFilters();
                 for (TreeNode treeNode2 : treeNodes) {
+                    sortedTreeNodes.add(treeNode2);
                     if (treeNode2.hasSubs()) {
                         tempTreeNodes.add(treeNode2);
 //                        System.out.println("添加有子结构:" + treeNode2.getValue());
@@ -49,7 +50,6 @@ public class TreeNodeUtils {
                     else {
 //                        System.out.println("添加没有子结构:" + treeNode2.getValue());
                     }
-                    sortedTreeNodes.add(treeNode2);
                 }
             }
 

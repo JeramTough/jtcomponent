@@ -12,6 +12,9 @@ public class Directory extends File {
 
     public Directory(String pathname) {
         super(pathname);
+        if (!this.isDirectory()) {
+            throw new IllegalArgumentException("This path isn't a directory");
+        }
     }
 
     @Override

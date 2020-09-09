@@ -256,6 +256,62 @@ public class PreTaskResult implements Serializable{
         stringPayloads.put(key, value);
     }
 
+    public void putPayload(String key, Character value) {
+        if (characterPayloads == null) {
+            characterPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        characterPayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Integer value) {
+        if (integerPayloads == null) {
+            integerPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        integerPayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Byte value) {
+        if (bytePayloads == null) {
+            bytePayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        bytePayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Short value) {
+        if (shortPayloads == null) {
+            shortPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        shortPayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Long value) {
+        if (longPayloads == null) {
+            longPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        longPayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Double value) {
+        if (doublePayloads == null) {
+            doublePayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        doublePayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Float value) {
+        if (floatPayloads == null) {
+            floatPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        floatPayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Boolean value) {
+        if (booleanPayloads == null) {
+            booleanPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        booleanPayloads.put(key, value);
+    }
+
     public void putPayload(String key, char value) {
         if (characterPayloads == null) {
             characterPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);

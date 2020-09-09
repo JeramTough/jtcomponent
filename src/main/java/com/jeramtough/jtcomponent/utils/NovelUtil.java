@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Created on 2018-12-17 09:21
+ * 小说工具类
+ */
 public class NovelUtil
 {
 	// 正则表达式
 	private static ArrayList<Pattern> patterns;
-	;
-	
+
 	static
 	{
 		patterns = new ArrayList<>();

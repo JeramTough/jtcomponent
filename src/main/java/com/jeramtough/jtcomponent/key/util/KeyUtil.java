@@ -1,6 +1,7 @@
 package com.jeramtough.jtcomponent.key.util;
 
 import com.jeramtough.jtcomponent.key.bean.RsaKeysProvider;
+import com.jeramtough.jtcomponent.utils.Base64Util;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -17,6 +18,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Objects;
 
 /**
  * Created on 2018-09-10 15:43
@@ -67,50 +69,9 @@ public class KeyUtil {
     private static final char[] DIGITS_UPPER =
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-    /**
-     * <pre>
-     * 将base64String转成bytes
-     * String message="源数据：mypassword";
-     * //编码后
-     * String base64String=KeyUtil.toBase64Str(message);
-     * L.debug(base64String);
-     * //解码恢复源数据
-     * L.debug(new String(KeyUtil.toBytesFromBase64Str(base64String)));
-     *</pre>
-     * @param base64String base64格式的字符串
-     * @return base64字符串的字节码数组
-     */
-    public static byte[] toBytesFromBase64Str(String base64String) {
-        try {
-            return (new BASE64Decoder()).decodeBuffer(base64String);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
-    /**
-     * 将字符串转成base64编码格式的字符串
-     * 严格地说，属于编码格式，而非加密算法
-     *
-     * @param str 字符串
-     * @return base64格式的字符串
-     */
-    public static String toBase64Str(String str) {
-        return toBase64Str(str.getBytes(StandardCharsets.UTF_8));
-    }
 
-    /**
-     * 将data转成String，而且用上BASE64算法
-     * 严格地说，属于编码格式，而非加密算法
-     *
-     * @param data 字节码数组
-     * @return 字节码数据的base64格式
-     */
-    public static String toBase64Str(byte[] data) {
-        return (new BASE64Encoder()).encodeBuffer(data);
-    }
+
 
     /**
      * MD5加密
@@ -178,7 +139,7 @@ public class KeyUtil {
         try {
             KeyGenerator keyGenerator = KeyGenerator.getInstance(ALGORITHM_NAME_HMAC);
             SecretKey secretKey = keyGenerator.generateKey();
-            return toBase64Str(secretKey.getEncoded());
+            return Base64Util.toBase64Str(secretKey.getEncoded());
         }
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -196,7 +157,7 @@ public class KeyUtil {
     public static byte[] encryptByHMAC(byte[] data, String key) {
 
         try {
-            SecretKey secretKey = new SecretKeySpec(toBytesFromBase64Str(key),
+            SecretKey secretKey = new SecretKeySpec(Base64Util.decodeBytesFromBase64(key),
                     ALGORITHM_NAME_HMAC);
             Mac mac = Mac.getInstance(secretKey.getAlgorithm());
             mac.init(secretKey);
@@ -264,11 +225,11 @@ public class KeyUtil {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM_NAME_RSA);
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(
-                    toBytesFromBase64Str(rsaPublicKeyBase64String));
+                    Base64Util.decodeBytesFromBase64(rsaPublicKeyBase64String));
             rsaPublicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
 
             PKCS8EncodedKeySpec keySpec1 = new PKCS8EncodedKeySpec(
-                    toBytesFromBase64Str(rsaPrivateKeyBase64String));
+                    Base64Util.decodeBytesFromBase64(rsaPrivateKeyBase64String));
             rsaPrivateKey = (RSAPrivateKey) keyFactory.generatePrivate(keySpec1);
         }
         catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

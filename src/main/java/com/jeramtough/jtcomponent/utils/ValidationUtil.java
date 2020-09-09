@@ -15,6 +15,8 @@ public class ValidationUtil {
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^((13[0-9])|(14[5,7,9])" +
             "|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9]))\\d{8}$");
 
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("^[-\\+]?[\\d]*$");
+
 
     public static boolean isEmail(String email) {
         //正则表达式的匹配器
@@ -33,5 +35,9 @@ public class ValidationUtil {
             return m.matches();
         }
 
+    }
+
+    public static boolean isNumber(String str) {
+        return NUMBER_PATTERN.matcher(str).matches();
     }
 }
