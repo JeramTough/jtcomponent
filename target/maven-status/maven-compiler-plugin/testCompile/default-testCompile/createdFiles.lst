@@ -10,6 +10,7 @@ test\tree\component\dingtalk\bean\DingtalkDepartment.class
 test\tree\component\dingtalk\net\DingTalkHttpClient.class
 test\tree\component\dingtalk\net\MyDingTalkHttpClient.class
 test\task\NullTest.class
+test\util\IdTest.class
 test\math\MathTest.class
 test\util\ZipTest.class
 test\util\KeyTest.class

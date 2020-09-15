@@ -4,9 +4,7 @@ import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -55,6 +53,17 @@ public class DefaultTreeNode implements TreeNode {
     @Override
     public void setParent(TreeNode parentTreeNode) {
         this.parentTreeNode = parentTreeNode;
+        //如果该父节点的子节点中没有包含现在这个子节点本身，就添加上
+        boolean isIncluded = false;
+        for (TreeNode treeNodeSub : parentTreeNode.getSubs()) {
+            isIncluded = equals(treeNodeSub);
+            if (isIncluded) {
+                break;
+            }
+        }
+        if (!isIncluded) {
+            parentTreeNode.addSub(this);
+        }
     }
 
     @Override
@@ -78,7 +87,7 @@ public class DefaultTreeNode implements TreeNode {
             subFilters = filter;
         }
         else {
-            subFilters=subFilters.and(filter);
+            subFilters = subFilters.and(filter);
         }
         return this;
     }
@@ -205,5 +214,42 @@ public class DefaultTreeNode implements TreeNode {
         });
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public TreeStructure toTreeStructure() {
+        Map<TreeNode, TreeStructure> treeStructureMap = new HashMap<>();
+        this.foreach(treeNode -> {
+            TreeStructure treeStructure = new TreeStructure();
+            treeStructure.setLevel(treeNode.getLevel());
+            treeStructure.setValue(treeNode.getValue());
+            treeStructureMap.put(treeNode, treeStructure);
+            return true;
+        });
+
+        TreeStructure returnTreeStructure = treeStructureMap.get(this);
+        this.foreach(treeNode -> {
+            TreeStructure thisTreeStructure = treeStructureMap.get(treeNode);
+
+            //设置父节点
+            TreeNode parentTreeNode = treeNode.getParent();
+            if (parentTreeNode != null) {
+                TreeStructure parentTreeStructure = treeStructureMap.get(parentTreeNode);
+                if (parentTreeStructure != null) {
+                    thisTreeStructure.setParentTreeStructure(parentTreeStructure);
+                }
+            }
+
+            //设置子节点
+            List<TreeNode> subTreeNodes = treeNode.getSubs();
+            List<TreeStructure> subTreeStructures = new ArrayList<>();
+            for (TreeNode subTreeNode : subTreeNodes) {
+                subTreeStructures.add(treeStructureMap.get(subTreeNode));
+            }
+            thisTreeStructure.setSubTreeStructures(subTreeStructures);
+            return true;
+        });
+
+        return returnTreeStructure;
     }
 }

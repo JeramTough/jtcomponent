@@ -2,6 +2,8 @@ package test.tree;
 
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
+import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
+import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -35,5 +37,22 @@ public class TreeNodeTest {
         });
 
         List<TreeNode> treeNodeList=treeNode.getSubsByFilters();
+    }
+
+    @Test
+    public void treeStructureTest(){
+        TreeNode treeNode = new DefaultTreeNode(1);
+        TreeNode treeNode2 = new DefaultTreeNode(2);
+        TreeNode treeNode3 = new DefaultTreeNode(3);
+        TreeNode treeNode4 = new DefaultTreeNode(4);
+        TreeNode treeNode5 = new DefaultTreeNode(5);
+        TreeNode treeNode6 = new DefaultTreeNode(6);
+
+        treeNode.addSubs(treeNode2, treeNode3,treeNode4);
+        treeNode6.setParent(treeNode5);
+        treeNode5.setParent(treeNode4);
+
+        TreeStructure treeStructure=treeNode.toTreeStructure();
+        L.debug(treeStructure.getLevel());
     }
 }

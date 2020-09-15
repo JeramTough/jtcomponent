@@ -23,6 +23,7 @@ E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\res
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\utils\IOUtil.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\response\DefaultReturnResponse.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\runnable\SimpleTaskable.java
+E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\key\component\AuthorizationGrantType.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\utils\ValidationUtil.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\adapter\FileTreeNodeAdapter.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\foreach\NodeCaller.java
@@ -30,6 +31,7 @@ E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\pro
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\utils\StringUtil.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\key\component\GroupKey.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\callback\CommonCallback.java
+E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\utils\Base64Util.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\bean\PreTaskResult.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\callback\TaskCallback.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\io\ExtractedFile.java

@@ -80,4 +80,10 @@ public interface TreeNode {
     void foreach(NodeCaller nodeCaller);
 
     String getDetail();
+
+
+    /**
+     * 变成单纯的树形结构数据
+     */
+    TreeStructure toTreeStructure();
 }

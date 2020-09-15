@@ -48,6 +48,7 @@ com\jeramtough\jtcomponent\tree\foreach\NodeCaller.class
 com\jeramtough\jtcomponent\task\response\FutureTaskResponse.class
 com\jeramtough\jtcomponent\tree\adapter\BaseTreeNodeAdapter.class
 com\jeramtough\jtcomponent\task\callback\SimpleTaskCallback.class
+com\jeramtough\jtcomponent\utils\Base64Util.class
 com\jeramtough\jtcomponent\task\runnable\Taskable.class
 com\jeramtough\jtcomponent\callback\CommonCallback.class
 com\jeramtough\jtcomponent\utils\NovelUtil.class
