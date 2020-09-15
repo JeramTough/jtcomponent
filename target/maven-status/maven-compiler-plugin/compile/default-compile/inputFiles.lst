@@ -8,6 +8,7 @@ E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\res
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\runner\SimpleRunner.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\io\Directory.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\base\SortMethod.java
+E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\structure\TreeNodeSetParentAble.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\runnable\CallbackTaskable.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\processor\DefaultTreeProcessor.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\structure\DefaultTreeNode.java
@@ -35,6 +36,7 @@ E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\utils\Ba
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\bean\PreTaskResult.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\callback\TaskCallback.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\io\ExtractedFile.java
+E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\comparator\TreeNodeComparator.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\key\util\KeyUtil.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\response\TaskResponse.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\exception\DidntStartException.java
@@ -48,5 +50,6 @@ E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\key\bean
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\utils\DateTimeUtil.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\runnable\ReturnTaskable.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\runner\CallbackRunner.java
+E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\structure\TreeStructure.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\tree\util\TreeNodeUtils.java
 E:\Codes\IdeaCodes\jtcomponent\src\main\java\com\jeramtough\jtcomponent\task\runnable\BaseTaskable.java

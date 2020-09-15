@@ -3,7 +3,6 @@ test\task\TaskResponseTest$Service.class
 test\tree\TreeNodeTest.class
 test\task\ReturnReponseTest$ServiceImpl.class
 test\task\ReturnReponseTest.class
-test\tree\TestMain.class
 test\task\MyServiceImpl2$1.class
 test\task\TaskResponseTest$1.class
 test\tree\component\dingtalk\bean\DingtalkDepartment.class

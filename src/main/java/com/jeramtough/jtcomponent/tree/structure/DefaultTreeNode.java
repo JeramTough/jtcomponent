@@ -1,6 +1,7 @@
 package com.jeramtough.jtcomponent.tree.structure;
 
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
+import com.jeramtough.jtcomponent.tree.comparator.TreeNodeComparator;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
@@ -12,13 +13,14 @@ import java.util.stream.Collectors;
  * Created on 2019/7/11 15:44
  * by @author WeiBoWen
  */
-public class DefaultTreeNode implements TreeNode {
+public class DefaultTreeNode implements TreeNodeSetParentAble {
 
     private Object value;
     private List<TreeNode> subTreeNodes;
     private TreeNode parentTreeNode;
     private int level = 0;
     private Predicate<TreeNode> subFilters;
+    private int order = 0;
 
     public DefaultTreeNode() {
         subTreeNodes = new ArrayList<>();
@@ -44,6 +46,15 @@ public class DefaultTreeNode implements TreeNode {
         return subTreeNodes;
     }
 
+    @Override
+    public int getOrder() {
+        return order;
+    }
+
+    @Override
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
     @Override
     public TreeNode getParent() {
@@ -53,32 +64,41 @@ public class DefaultTreeNode implements TreeNode {
     @Override
     public void setParent(TreeNode parentTreeNode) {
         this.parentTreeNode = parentTreeNode;
-        //如果该父节点的子节点中没有包含现在这个子节点本身，就添加上
-        boolean isIncluded = false;
-        for (TreeNode treeNodeSub : parentTreeNode.getSubs()) {
-            isIncluded = equals(treeNodeSub);
-            if (isIncluded) {
-                break;
-            }
-        }
-        if (!isIncluded) {
-            parentTreeNode.addSub(this);
-        }
     }
 
     @Override
     public TreeNode addSub(TreeNode treeNode) {
-        getSubs().add(treeNode);
-        treeNode.setParent(this);
+        subTreeNodes.add(treeNode);
+
+        if (treeNode instanceof TreeNodeSetParentAble) {
+            TreeNodeSetParentAble treeNodeSetParentAble = (TreeNodeSetParentAble) treeNode;
+            treeNodeSetParentAble.setParent(this);
+        }
+
         treeNode.setLevel(this.level + 1);
+        //排序
+        TreeNodeComparator comparator = new TreeNodeComparator();
+        subTreeNodes.sort(comparator);
         return this;
     }
 
     @Override
-    public void addSubs(TreeNode... treeNodes) {
+    public TreeNode addSubs(TreeNode... treeNodes) {
         for (TreeNode treeNode : treeNodes) {
-            addSub(treeNode);
+            subTreeNodes.add(treeNode);
+
+            if (treeNode instanceof TreeNodeSetParentAble) {
+                TreeNodeSetParentAble treeNodeSetParentAble = (TreeNodeSetParentAble) treeNode;
+                treeNodeSetParentAble.setParent(this);
+            }
+
+            treeNode.setLevel(this.level + 1);
         }
+
+        //排序
+        TreeNodeComparator comparator = new TreeNodeComparator();
+        subTreeNodes.sort(comparator);
+        return this;
     }
 
     @Override
@@ -153,7 +173,7 @@ public class DefaultTreeNode implements TreeNode {
 
     @Override
     public List<List<TreeNode>> getAllForLevel() {
-        return getAllForLevel(SortMethod.DESCENDING);
+        return getAllForLevel(SortMethod.ASCENDING);
     }
 
     @Override
@@ -216,40 +236,4 @@ public class DefaultTreeNode implements TreeNode {
         return stringBuilder.toString();
     }
 
-    @Override
-    public TreeStructure toTreeStructure() {
-        Map<TreeNode, TreeStructure> treeStructureMap = new HashMap<>();
-        this.foreach(treeNode -> {
-            TreeStructure treeStructure = new TreeStructure();
-            treeStructure.setLevel(treeNode.getLevel());
-            treeStructure.setValue(treeNode.getValue());
-            treeStructureMap.put(treeNode, treeStructure);
-            return true;
-        });
-
-        TreeStructure returnTreeStructure = treeStructureMap.get(this);
-        this.foreach(treeNode -> {
-            TreeStructure thisTreeStructure = treeStructureMap.get(treeNode);
-
-            //设置父节点
-            TreeNode parentTreeNode = treeNode.getParent();
-            if (parentTreeNode != null) {
-                TreeStructure parentTreeStructure = treeStructureMap.get(parentTreeNode);
-                if (parentTreeStructure != null) {
-                    thisTreeStructure.setParentTreeStructure(parentTreeStructure);
-                }
-            }
-
-            //设置子节点
-            List<TreeNode> subTreeNodes = treeNode.getSubs();
-            List<TreeStructure> subTreeStructures = new ArrayList<>();
-            for (TreeNode subTreeNode : subTreeNodes) {
-                subTreeStructures.add(treeStructureMap.get(subTreeNode));
-            }
-            thisTreeStructure.setSubTreeStructures(subTreeStructures);
-            return true;
-        });
-
-        return returnTreeStructure;
-    }
 }

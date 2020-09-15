@@ -3,6 +3,7 @@ package com.jeramtough.jtcomponent.tree.util;
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
+import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ import java.util.*;
 public class TreeNodeUtils {
 
     public static List<TreeNode> getAll(TreeNode rootTreeNode) {
-        return getAll(rootTreeNode, SortMethod.DESCENDING);
+        return getAll(rootTreeNode, SortMethod.ASCENDING);
     }
 
     public static List<TreeNode> getAll(TreeNode rootTreeNode,
@@ -53,7 +54,7 @@ public class TreeNodeUtils {
                 }
             }
 
-            if (sortMethod == SortMethod.ASCENDING) {
+            if (sortMethod == SortMethod.DESCENDING) {
                 Collections.reverse(sortedTreeNodes);
             }
         }
@@ -80,7 +81,7 @@ public class TreeNodeUtils {
             allTreeStructures.add(integerListMap.get(i));
         }
 
-        if (sortMethod == SortMethod.ASCENDING) {
+        if (sortMethod == SortMethod.DESCENDING) {
             Collections.reverse(allTreeStructures);
         }
         return allTreeStructures;
@@ -122,4 +123,88 @@ public class TreeNodeUtils {
         }
     }
 
+    /**
+     * 转变为单纯的数据结构
+     */
+    public static TreeStructure toTreeStructure(TreeNode beTreeNode) {
+        Map<TreeNode, TreeStructure> treeStructureMap = parseTreeStructureMap(beTreeNode);
+        TreeStructure returnTreeStructure = treeStructureMap.get(beTreeNode);
+        return returnTreeStructure;
+    }
+
+    /**
+     * 默认使用升序
+     */
+    public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel) {
+        return toTreeStructuresForLevel(treeNodesForLevel, SortMethod.DESCENDING);
+    }
+
+    /**
+     * 必须要有唯一的父节点
+     * 传SortMethod让我知道是哪个是头
+     */
+    public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel,
+                                                                     SortMethod sortMethod) {
+        TreeNode rootTreeNode = null;
+        switch (sortMethod) {
+            case DESCENDING:
+                rootTreeNode = treeNodesForLevel.get(treeNodesForLevel.size() - 1).get(0);
+                break;
+            case ASCENDING:
+                rootTreeNode = treeNodesForLevel.get(0).get(0);
+                break;
+            default:
+        }
+        Objects.requireNonNull(rootTreeNode);
+
+        List<List<TreeStructure>> treeStructuresForLevel = new ArrayList<>();
+        Map<TreeNode, TreeStructure> treeStructureMap = parseTreeStructureMap(rootTreeNode);
+        for (List<TreeNode> treeNodeList : treeNodesForLevel) {
+            List<TreeStructure> treeStructureList = new ArrayList<>();
+            for (TreeNode treeNode : treeNodeList) {
+                treeStructureList.add(treeStructureMap.get(treeNode));
+            }
+            treeStructuresForLevel.add(treeStructureList);
+        }
+
+        return treeStructuresForLevel;
+    }
+
+
+    //*********************
+
+    private static Map<TreeNode, TreeStructure> parseTreeStructureMap(TreeNode beTreeNode) {
+        Map<TreeNode, TreeStructure> treeStructureMap = new HashMap<>();
+        beTreeNode.foreach(treeNode -> {
+            TreeStructure treeStructure = new TreeStructure();
+            treeStructure.setLevel(treeNode.getLevel());
+            treeStructure.setValue(treeNode.getValue());
+            treeStructureMap.put(treeNode, treeStructure);
+            return true;
+        });
+
+        beTreeNode.foreach(treeNode -> {
+            TreeStructure thisTreeStructure = treeStructureMap.get(treeNode);
+
+            //设置父节点
+            TreeNode parentTreeNode = treeNode.getParent();
+            if (parentTreeNode != null) {
+                TreeStructure parentTreeStructure = treeStructureMap.get(parentTreeNode);
+                if (parentTreeStructure != null) {
+                    thisTreeStructure.setParentTreeStructure(parentTreeStructure);
+                }
+            }
+
+            //设置子节点
+            List<TreeNode> subTreeNodes = treeNode.getSubs();
+            List<TreeStructure> subTreeStructures = new ArrayList<>();
+            for (TreeNode subTreeNode : subTreeNodes) {
+                subTreeStructures.add(treeStructureMap.get(subTreeNode));
+            }
+            thisTreeStructure.setSubTreeStructures(subTreeStructures);
+            return true;
+        });
+
+        return treeStructureMap;
+    }
 }

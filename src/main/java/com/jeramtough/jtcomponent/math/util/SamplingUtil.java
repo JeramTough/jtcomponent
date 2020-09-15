@@ -73,7 +73,7 @@ public class SamplingUtil {
                                     boolean isIgnoredOrder) {
         TreeNode baseTreeNode = getStructure(baseNumber, times, isPutBack);
         List<List<TreeNode>> allLevelNodeLists =
-                baseTreeNode.getAllForLevel(SortMethod.ASCENDING);
+                baseTreeNode.getAllForLevel(SortMethod.DESCENDING);
         List<TreeNode> lastTreeNodeList = allLevelNodeLists.get(0);
 
         List<List<TreeNode>> allNodeLists;

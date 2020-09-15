@@ -7,19 +7,19 @@ package com.jeramtough.jtcomponent.tree.base;
 public enum SortMethod {
 
     /**
-     * 降序
+     * 以层级数Index作为单位，升序
      *   o
      *  ooo
      * ooooo
      */
-    DESCENDING,
+    ASCENDING,
 
     /**
-     * 升序
+     * 以层级数Index作为单位，降序
      * ooooo
      *  ooo
      *   o
      *
      */
-    ASCENDING;
+    DESCENDING;
 }

@@ -14,17 +14,19 @@ public interface TreeNode {
 
     boolean isRoot();
 
+    int getOrder();
+
+    void setOrder(int order);
+
     List<TreeNode> getSubs();
 
     boolean hasSubs();
 
     TreeNode getParent();
 
-    void setParent(TreeNode parentTreeNode);
-
     TreeNode addSub(TreeNode treeNode);
 
-    void addSubs(TreeNode... treeNodes);
+    TreeNode addSubs(TreeNode... treeNodes);
 
     /**
      * 添加子节点过滤器
@@ -82,8 +84,4 @@ public interface TreeNode {
     String getDetail();
 
 
-    /**
-     * 变成单纯的树形结构数据
-     */
-    TreeStructure toTreeStructure();
 }

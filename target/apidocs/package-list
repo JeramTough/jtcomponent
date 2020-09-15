@@ -12,6 +12,7 @@ com.jeramtough.jtcomponent.task.runnable
 com.jeramtough.jtcomponent.task.runner
 com.jeramtough.jtcomponent.tree.adapter
 com.jeramtough.jtcomponent.tree.base
+com.jeramtough.jtcomponent.tree.comparator
 com.jeramtough.jtcomponent.tree.foreach
 com.jeramtough.jtcomponent.tree.processor
 com.jeramtough.jtcomponent.tree.structure

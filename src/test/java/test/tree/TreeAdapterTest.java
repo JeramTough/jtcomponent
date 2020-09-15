@@ -19,7 +19,7 @@ import java.util.*;
  * Created on 2019/7/11 16:31
  * by @author WeiBoWen
  */
-public class TestMain {
+public class TreeAdapterTest {
 
     @Test
     public void test1() {
