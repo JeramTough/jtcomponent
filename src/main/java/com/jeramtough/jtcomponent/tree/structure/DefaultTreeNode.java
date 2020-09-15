@@ -68,14 +68,7 @@ public class DefaultTreeNode implements TreeNodeSetParentAble {
 
     @Override
     public TreeNode addSub(TreeNode treeNode) {
-        subTreeNodes.add(treeNode);
-
-        if (treeNode instanceof TreeNodeSetParentAble) {
-            TreeNodeSetParentAble treeNodeSetParentAble = (TreeNodeSetParentAble) treeNode;
-            treeNodeSetParentAble.setParent(this);
-        }
-
-        treeNode.setLevel(this.level + 1);
+        addSubButDontSort(treeNode);
         //排序
         TreeNodeComparator comparator = new TreeNodeComparator();
         subTreeNodes.sort(comparator);
@@ -85,16 +78,8 @@ public class DefaultTreeNode implements TreeNodeSetParentAble {
     @Override
     public TreeNode addSubs(TreeNode... treeNodes) {
         for (TreeNode treeNode : treeNodes) {
-            subTreeNodes.add(treeNode);
-
-            if (treeNode instanceof TreeNodeSetParentAble) {
-                TreeNodeSetParentAble treeNodeSetParentAble = (TreeNodeSetParentAble) treeNode;
-                treeNodeSetParentAble.setParent(this);
-            }
-
-            treeNode.setLevel(this.level + 1);
+            addSubButDontSort(treeNode);
         }
-
         //排序
         TreeNodeComparator comparator = new TreeNodeComparator();
         subTreeNodes.sort(comparator);
@@ -234,6 +219,28 @@ public class DefaultTreeNode implements TreeNodeSetParentAble {
         });
 
         return stringBuilder.toString();
+    }
+
+
+    //*****************
+
+    /**
+     * 添加子节点，但是不排序
+     */
+    private void addSubButDontSort(TreeNode treeNode) {
+        subTreeNodes.add(treeNode);
+
+        if (treeNode instanceof TreeNodeSetParentAble) {
+            TreeNodeSetParentAble treeNodeSetParentAble = (TreeNodeSetParentAble) treeNode;
+            treeNodeSetParentAble.setParent(this);
+        }
+
+        //自增的level加1，自己的子节点也要跟着加1
+        int baseLevel = this.level + 1;
+        treeNode.setLevel(baseLevel);
+        for (TreeNode subTreeNode : treeNode.getSubs()) {
+            subTreeNode.setLevel(baseLevel + subTreeNode.getLevel());
+        }
     }
 
 }
