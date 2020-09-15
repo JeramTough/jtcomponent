@@ -6,7 +6,10 @@ package com.jeramtough.jtcomponent.tree.structure;
  * by @author WeiBoWen
  * </pre>
  */
-public interface TreeNodeSetParentAble extends TreeNode {
+public interface TreeNodeAble extends TreeNode {
 
     void setParent(TreeNode parentTreeNode);
+
+    void setLevel(int level);
+
 }

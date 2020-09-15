@@ -22,6 +22,7 @@ com\jeramtough\jtcomponent\task\runner\ReturnRunner.class
 com\jeramtough\jtcomponent\io\ExtractedFile.class
 com\jeramtough\jtcomponent\task\runnable\SimpleTaskable.class
 com\jeramtough\jtcomponent\utils\StringUtil.class
+com\jeramtough\jtcomponent\tree\structure\TreeNodeAble.class
 com\jeramtough\jtcomponent\tree\structure\DefaultTreeNode$2.class
 com\jeramtough\jtcomponent\task\response\DefaultReturnResponse.class
 com\jeramtough\jtcomponent\task\response\TaskResponse.class

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * Created on 2019/7/11 15:44
  * by @author WeiBoWen
  */
-public class DefaultTreeNode implements TreeNodeSetParentAble {
+public class DefaultTreeNode implements TreeNodeAble {
 
     private Object value;
     private List<TreeNode> subTreeNodes;
@@ -230,17 +230,27 @@ public class DefaultTreeNode implements TreeNodeSetParentAble {
     private void addSubButDontSort(TreeNode treeNode) {
         subTreeNodes.add(treeNode);
 
-        if (treeNode instanceof TreeNodeSetParentAble) {
-            TreeNodeSetParentAble treeNodeSetParentAble = (TreeNodeSetParentAble) treeNode;
-            treeNodeSetParentAble.setParent(this);
+        if (treeNode instanceof TreeNodeAble) {
+            TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;
+            treeNodeAble.setParent(this);
         }
 
         //自增的level加1，自己的子节点也要跟着加1
         int baseLevel = this.level + 1;
-        treeNode.setLevel(baseLevel);
-        for (TreeNode subTreeNode : treeNode.getSubs()) {
-            subTreeNode.setLevel(baseLevel + subTreeNode.getLevel());
+
+        if (treeNode instanceof TreeNodeAble) {
+
+            TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;
+            treeNodeAble.setLevel(baseLevel);
+
+            for (TreeNode subTreeNode : treeNode.getSubs()) {
+                if (subTreeNode instanceof TreeNodeAble) {
+                    TreeNodeAble subTreeNodeAble = (TreeNodeAble) subTreeNode;
+                    subTreeNodeAble.setLevel(baseLevel + subTreeNode.getLevel());
+                }
+            }
         }
+
     }
 
 }

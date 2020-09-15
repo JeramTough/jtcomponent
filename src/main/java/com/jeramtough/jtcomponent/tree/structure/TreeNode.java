@@ -14,6 +14,9 @@ public interface TreeNode {
 
     boolean isRoot();
 
+    /**
+     * 默认值是0
+     */
     int getOrder();
 
     void setOrder(int order);
@@ -60,9 +63,10 @@ public interface TreeNode {
 
     void setValue(Object value);
 
+    /**
+     * 最小值是0
+     */
     int getLevel();
-
-    void setLevel(int level);
 
     List<TreeNode> getAll();
 
