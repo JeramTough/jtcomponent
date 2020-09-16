@@ -15,9 +15,9 @@ public class TreeStructure implements Serializable {
 
     private Object value;
 
-    private List<TreeStructure> subTreeStructures;
+    private List<TreeStructure> subs;
 
-    private TreeStructure parentTreeStructure;
+    private TreeStructure parent;
 
     public int getLevel() {
         return level;
@@ -35,19 +35,19 @@ public class TreeStructure implements Serializable {
         this.value = value;
     }
 
-    public List<TreeStructure> getSubTreeStructures() {
-        return subTreeStructures;
+    public List<TreeStructure> getSubs() {
+        return subs;
     }
 
-    public void setSubTreeStructures(List<TreeStructure> subTreeStructures) {
-        this.subTreeStructures = subTreeStructures;
+    public void setSubs(List<TreeStructure> subs) {
+        this.subs = subs;
     }
 
-    public TreeStructure getParentTreeStructure() {
-        return parentTreeStructure;
+    public TreeStructure getParent() {
+        return parent;
     }
 
-    public void setParentTreeStructure(TreeStructure parentTreeStructure) {
-        this.parentTreeStructure = parentTreeStructure;
+    public void setParent(TreeStructure parent) {
+        this.parent = parent;
     }
 }

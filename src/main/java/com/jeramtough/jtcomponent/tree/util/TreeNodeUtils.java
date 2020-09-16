@@ -191,7 +191,7 @@ public class TreeNodeUtils {
             if (parentTreeNode != null) {
                 TreeStructure parentTreeStructure = treeStructureMap.get(parentTreeNode);
                 if (parentTreeStructure != null) {
-                    thisTreeStructure.setParentTreeStructure(parentTreeStructure);
+                    thisTreeStructure.setParent(parentTreeStructure);
                 }
             }
 
@@ -201,7 +201,7 @@ public class TreeNodeUtils {
             for (TreeNode subTreeNode : subTreeNodes) {
                 subTreeStructures.add(treeStructureMap.get(subTreeNode));
             }
-            thisTreeStructure.setSubTreeStructures(subTreeStructures);
+            thisTreeStructure.setSubs(subTreeStructures);
             return true;
         });
 
