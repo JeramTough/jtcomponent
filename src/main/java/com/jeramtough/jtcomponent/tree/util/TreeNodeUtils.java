@@ -1,9 +1,11 @@
 package com.jeramtough.jtcomponent.tree.util;
 
+import com.jeramtough.jtcomponent.callback.CommonCallback;
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
+import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 
 import java.util.*;
 
@@ -27,15 +29,15 @@ public class TreeNodeUtils {
 
         if (rootTreeNode.hasSubs()) {
             List<TreeNode> treeNodes = rootTreeNode.getSubsByFilters();
-            for (TreeNode TreeNode : treeNodes) {
-                if (TreeNode.hasSubs()) {
-                    tempTreeNodes.add(TreeNode);
+            for (TreeNode treeNode : treeNodes) {
+                if (treeNode.hasSubs()) {
+                    tempTreeNodes.add(treeNode);
 //                    System.out.println("添加有子结构:" + TreeNode.getValue());
                 }
                 /*else {
                     System.out.println("添加没有子结构:" + TreeNode.getValue());
                 }*/
-                sortedTreeNodes.add(TreeNode);
+                sortedTreeNodes.add(treeNode);
             }
 
             TreeNode tempTreeNode;
@@ -133,6 +135,18 @@ public class TreeNodeUtils {
     }
 
     /**
+     * 转变为单纯的数据结构
+     */
+    public static Map<String, Object> toTreeMap(TreeNode beTreeNode) {
+        return parseTreeNodeMap(beTreeNode, null).get(beTreeNode);
+    }
+
+    public static Map<String, Object> toTreeMap(TreeNode beTreeNode,
+                                                CommonCallback<Map<String, Object>> commonCallback) {
+        return parseTreeNodeMap(beTreeNode, commonCallback).get(beTreeNode);
+    }
+
+    /**
      * 默认使用升序
      */
     public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel) {
@@ -206,5 +220,56 @@ public class TreeNodeUtils {
         });
 
         return treeStructureMap;
+    }
+
+    private static Map<TreeNode, Map<String, Object>> parseTreeNodeMap(TreeNode beTreeNode,
+                                                                       CommonCallback<Map<String, Object>> commonCallback) {
+        Map<TreeNode, Map<String, Object>> treeNodesMap = new HashMap<>();
+        beTreeNode.foreach(treeNode -> {
+            Map<String, Object> nodeMap = null;
+            try {
+                Object value = treeNode.getValue();
+                if (ObjectsUtil.isPrimaryType(value)) {
+                    nodeMap = new HashMap<>();
+                    nodeMap.put("value", value);
+                }
+                else {
+                    nodeMap = ObjectsUtil.getMapFromObject(treeNode.getValue());
+                }
+            }
+            catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            Objects.requireNonNull(nodeMap);
+            nodeMap.put("level", treeNode.getLevel());
+            nodeMap.put("order", treeNode.getOrder());
+            nodeMap.put("hasChildren", treeNode.hasSubs());
+            nodeMap.put("children", new ArrayList<HashMap<String, Object>>());
+            treeNodesMap.put(treeNode, nodeMap);
+            return true;
+        });
+
+        beTreeNode.foreach(treeNode -> {
+            Map<String, Object> thisTreeMap = treeNodesMap.get(treeNode);
+
+            //设置子节点
+            List<TreeNode> subTreeNodes = treeNode.getSubs();
+            List<Map<String, Object>> childrenMapList =
+                    (List<Map<String, Object>>) treeNodesMap.get(treeNode).get("children");
+            if (childrenMapList == null) {
+                System.out.println(childrenMapList.size());
+            }
+            for (TreeNode subTreeNode : subTreeNodes) {
+                childrenMapList.add(treeNodesMap.get(subTreeNode));
+            }
+            thisTreeMap.put("children", childrenMapList);
+
+            if (commonCallback != null) {
+                commonCallback.callback(thisTreeMap);
+            }
+            return true;
+        });
+
+        return treeNodesMap;
     }
 }

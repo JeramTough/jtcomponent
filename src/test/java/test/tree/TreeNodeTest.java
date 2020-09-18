@@ -1,5 +1,7 @@
 package test.tree;
 
+import com.jeramtough.jtcomponent.callback.CommonCallback;
+import com.jeramtough.jtcomponent.task.bean.PreTaskResult;
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
@@ -9,6 +11,7 @@ import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 /**
@@ -96,5 +99,24 @@ public class TreeNodeTest {
 
         List<List<TreeNode>> treeNodesForLevel = treeNode.getAllForLevel(SortMethod.ASCENDING);
         L.debug(treeNodesForLevel.size());
+    }
+
+    @Test
+    public void treeNodeMapTest() {
+        TreeNode treeNode = new DefaultTreeNode(1);
+        PreTaskResult preTaskResult=new PreTaskResult();
+        preTaskResult.setMessage("sdfsfdsfdsfsdf");
+
+        TreeNode treeNode7 = new DefaultTreeNode(preTaskResult);
+
+        treeNode.addSubs(treeNode7);
+
+        Map<String, Object> treeMap = TreeNodeUtils.toTreeMap(treeNode, new CommonCallback<Map<String, Object>>() {
+            @Override
+            public void callback(Map<String, Object> stringObjectMap) {
+                L.debug(stringObjectMap.size());
+            }
+        });
+        L.debug(treeMap.size());
     }
 }
