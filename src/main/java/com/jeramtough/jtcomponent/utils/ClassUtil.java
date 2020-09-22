@@ -23,9 +23,9 @@ public class ClassUtil {
     /**
      * 从包package中获取所有的Class
      *
-     * @param packageName
+     * @param packageName 包名
+     * @return 这个包里的Class集合
      */
-
     public static List<Class<?>> getClassesByPagename(String packageName) {
         //第一个class类的集合
         List<Class<?>> classes = new ArrayList<Class<?>>();
@@ -142,12 +142,11 @@ public class ClassUtil {
     /**
      * 以文件的形式来获取包下的所有Class
      *
-     * @param packageName
-     * @param packagePath
-     * @param recursive
-     * @param classes
+     * @param packageName 包名
+     * @param packagePath 包路径
+     * @param recursive 是否递归循环
+     * @param classes classes
      */
-
     public static void findAndAddClassesInPackageByFile(String packageName, String packagePath,
                                                         final boolean recursive, List<Class<?>> classes) {
 

@@ -125,18 +125,12 @@ public class TreeNodeUtils {
         }
     }
 
-    /**
-     * 转变为单纯的数据结构
-     */
     public static TreeStructure toTreeStructure(TreeNode beTreeNode) {
         Map<TreeNode, TreeStructure> treeStructureMap = parseTreeStructureMap(beTreeNode);
         TreeStructure returnTreeStructure = treeStructureMap.get(beTreeNode);
         return returnTreeStructure;
     }
 
-    /**
-     * 转变为单纯的数据结构
-     */
     public static Map<String, Object> toTreeMap(TreeNode beTreeNode) {
         return parseTreeNodeMap(beTreeNode, null).get(beTreeNode);
     }
@@ -156,6 +150,9 @@ public class TreeNodeUtils {
     /**
      * 必须要有唯一的父节点
      * 传SortMethod让我知道是哪个是头
+     * @param treeNodesForLevel TreeNodes的层级结构
+     * @param sortMethod 排序方法
+     * @return 排序后的TreeStructures层级结构
      */
     public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel,
                                                                      SortMethod sortMethod) {

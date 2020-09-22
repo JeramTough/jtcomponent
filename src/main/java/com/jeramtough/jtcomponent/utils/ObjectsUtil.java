@@ -20,6 +20,9 @@ public class ObjectsUtil {
 
     /**
      * 将Object转换成Map对象
+     * @param obj 要被转换的Object对象
+     * @return 键值对的Map集合
+     * @throws IllegalAccessException 不合法异常
      */
     public static Map<String, Object> getMapFromObject(Object obj) throws IllegalAccessException {
         Class<?> clazz = obj.getClass();
@@ -47,6 +50,8 @@ public class ObjectsUtil {
 
     /**
      * 是不是基础数据类型，或者是基础数据类型的包装类
+     * @param o 要被判断的Object对象
+     * @return 是则返回true
      */
     public static boolean isPrimaryType(Object o) {
         if (o.getClass().isPrimitive()) {
@@ -75,10 +80,6 @@ public class ObjectsUtil {
      * @param type 要转化的类型
      * @param map  包含属性值的 map
      * @return 转化出来的 JavaBean 对象
-     * @throws IntrospectionException    如果分析类属性失败
-     * @throws IllegalAccessException    如果实例化 JavaBean 失败
-     * @throws InstantiationException    如果实例化 JavaBean 失败
-     * @throws InvocationTargetException 如果调用属性的 setter 方法失败
      */
     public static Object convertMap(Class type, Map map) {
         try {

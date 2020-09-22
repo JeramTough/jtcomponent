@@ -191,6 +191,7 @@ public class KeyUtil {
 
     /**
      * 得到一个新创建的RsaKey对
+     * @return RsaKey对
      */
     public static RsaKeysProvider getRsaKeysProvider() {
         KeyPairGenerator keyPairGen = null;
