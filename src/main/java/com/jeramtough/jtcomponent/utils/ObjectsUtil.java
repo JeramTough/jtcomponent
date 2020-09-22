@@ -1,5 +1,9 @@
 package com.jeramtough.jtcomponent.utils;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,6 +18,9 @@ import java.util.Map;
  */
 public class ObjectsUtil {
 
+    /**
+     * 将Object转换成Map对象
+     */
     public static Map<String, Object> getMapFromObject(Object obj) throws IllegalAccessException {
         Class<?> clazz = obj.getClass();
         Map<String, Object> map = new HashMap<>(clazz.getDeclaredFields().length);
@@ -38,6 +45,9 @@ public class ObjectsUtil {
         return map;
     }
 
+    /**
+     * 是不是基础数据类型，或者是基础数据类型的包装类
+     */
     public static boolean isPrimaryType(Object o) {
         if (o.getClass().isPrimitive()) {
             return true;
@@ -56,5 +66,81 @@ public class ObjectsUtil {
         catch (Exception e) {
             return false;
         }
+    }
+
+
+    /**
+     * 将一个 Map 对象转化为一个 JavaBean
+     *
+     * @param type 要转化的类型
+     * @param map  包含属性值的 map
+     * @return 转化出来的 JavaBean 对象
+     * @throws IntrospectionException    如果分析类属性失败
+     * @throws IllegalAccessException    如果实例化 JavaBean 失败
+     * @throws InstantiationException    如果实例化 JavaBean 失败
+     * @throws InvocationTargetException 如果调用属性的 setter 方法失败
+     */
+    public static Object convertMap(Class type, Map map) {
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(type); // 获取类属性
+            Object obj = type.newInstance(); // 创建 JavaBean 对象
+
+            // 给 JavaBean 对象的属性赋值
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for (int i = 0; i < propertyDescriptors.length; i++) {
+                PropertyDescriptor descriptor = propertyDescriptors[i];
+                String propertyName = descriptor.getName();
+                // propertyName = convertObjNameToFieldName(propertyName).toUpperCase();
+                if (map.containsKey(propertyName)) {
+                    try {
+                        // 全部转换类型
+                        Object value = null;
+                        if ("".equals(map.get(propertyName)) || null == map.get(propertyName)) {
+                            value = "";
+                        }
+                        else {
+                            value = String.valueOf(value);
+                        }
+                        Object[] args = new Object[1];
+                        args[0] = value;
+                        descriptor.getWriteMethod().invoke(obj, args);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return obj;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 转换对象名：把表对象名或字段对象名转成字段名，比如itemName转成item_name
+     *
+     * @param srcName
+     * @return
+     */
+    public static String convertObjNameToFieldName(String srcName) {
+        String result = "";
+        if (srcName == null) {
+            srcName = "";
+        }
+        if (srcName.equals("")) {
+            return "";
+        }
+
+        for (int i = 0; i < srcName.length(); i++) {
+            if (srcName.charAt(i) >= 65 && srcName.charAt(i) <= 90) {
+                result += "_" + srcName.substring(i, i + 1).toLowerCase();
+            }
+            else {
+                result += srcName.substring(i, i + 1);
+            }
+        }
+        return result;
     }
 }
