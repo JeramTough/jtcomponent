@@ -2,16 +2,16 @@ package com.jeramtough.jtcomponent.task.bean;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- *
  * 任务进行中，还没有出现结果的TaskResult对象
- *
+ * <p>
  * Created on 2018-12-28 12:46
  * by @author JeramTough
  */
-public class PreTaskResult implements Serializable{
+public class PreTaskResult implements Serializable {
 
     private static final int INITIAL_PAYLOADS_MAP_CAPACITY = 3;
 
@@ -40,6 +40,9 @@ public class PreTaskResult implements Serializable{
     private Map<String, double[]> doubleArrayPayloads;
     private Map<String, boolean[]> booleanArrayPayloads;
 
+
+    private Map<String, List> listPayloads;
+    private Map<String, Map> mapPayloads;
 
     public PreTaskResult() {
     }
@@ -161,6 +164,14 @@ public class PreTaskResult implements Serializable{
         return (char[]) getPayloadFromMap(key, characterArrayPayloads);
     }
 
+    public List getListPayload(String key) {
+        return (List) getPayloadFromMap(key, listPayloads);
+    }
+
+    public Map getMapPayload(String key) {
+        return (Map) getPayloadFromMap(key, mapPayloads);
+    }
+
 
     //
     public Serializable getSerializablePayload(String key, Serializable defaultValue) {
@@ -240,8 +251,16 @@ public class PreTaskResult implements Serializable{
         return (char[]) getPayloadFromMap(key, defaultValue, characterArrayPayloads);
     }
 
+    public List getListPayload(String key, List defaultValue) {
+        return (List) getPayloadFromMap(key, defaultValue, listPayloads);
+    }
 
-    //
+    public Map getMapPayload(String key, Map defaultValue) {
+        return (Map) getPayloadFromMap(key, defaultValue, mapPayloads);
+    }
+
+    //put
+
     public void putPayload(String key, Serializable value) {
         if (serializablePayloads == null) {
             serializablePayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
@@ -432,6 +451,34 @@ public class PreTaskResult implements Serializable{
         booleanArrayPayloads.put(key, value);
     }
 
+    public void putPayload(String key, List value) {
+        if (listPayloads == null) {
+            listPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        listPayloads.put(key, value);
+    }
+
+    public void putPayload(String key, Map value) {
+        if (mapPayloads == null) {
+            mapPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        mapPayloads.put(key, value);
+    }
+
+    public void putPayloadForMap(String key, Map value) {
+        if (mapPayloads == null) {
+            mapPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        mapPayloads.put(key, value);
+    }
+
+    public void putPayloadForSerializable(String key, Serializable value) {
+        if (serializablePayloads == null) {
+            serializablePayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        serializablePayloads.put(key, value);
+    }
+
     @Override
     public String toString() {
         return getDetail();
@@ -439,6 +486,7 @@ public class PreTaskResult implements Serializable{
 
     /**
      * get task detail and what same as toString();
+     *
      * @return task detail
      */
     public String getDetail() {

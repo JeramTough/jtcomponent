@@ -61,7 +61,7 @@ public class ObjectsUtil {
             //int, double, float, long, short, boolean, byte, char
             if (o.getClass() == Integer.class || o.getClass() == Double.class || o.getClass() == Float.class
                     || o.getClass() == Long.class || o.getClass() == Short.class || o.getClass() == Boolean.class ||
-                    o.getClass() == Byte.class || o.getClass() == Character.class) {
+                    o.getClass() == Byte.class || o.getClass() == Character.class||o.getClass() == String.class) {
                 return true;
             }
             else {

@@ -119,4 +119,19 @@ public class TreeNodeTest {
         });
         L.debug(treeMap.size());
     }
+
+    @Test
+    public void treeNodeMapTest2() {
+        TreeNode rootTreeNode = new DefaultTreeNode();
+        rootTreeNode.setValue("传到前端的bean类");
+
+        TreeNode treeNode1 = new DefaultTreeNode("传到前端的bean类1");
+        TreeNode treeNode2 = new DefaultTreeNode("传到前端的bean类2");
+        TreeNode treeNode3 = new DefaultTreeNode("传到前端的bean类3");
+
+        rootTreeNode.addSubs(treeNode1,treeNode2,treeNode3);
+
+        Map<String,Object> resultMap=TreeNodeUtils.toTreeMap(rootTreeNode);
+        L.debug(resultMap);
+    }
 }
