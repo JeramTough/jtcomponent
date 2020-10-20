@@ -1,14 +1,14 @@
 package test.tree;
 
-import com.jeramtough.jtcomponent.tree.adapter.BaseTreeNodeAdapter;
-import com.jeramtough.jtcomponent.tree.adapter.FileTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.BaseRootTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.FileRootTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
-import test.tree.component.dingtalk.DepartmentTreeNodeAdapter;
+import test.tree.component.dingtalk.DepartmentRootTreeNodeAdapter;
 import test.tree.component.dingtalk.net.DingTalkHttpClient;
 import test.tree.component.dingtalk.net.MyDingTalkHttpClient;
 
@@ -92,7 +92,7 @@ public class TreeAdapterTest {
     public void test() {
 
         File rootFile = new File("C:\\Users\\weibw\\Desktop");
-        FileTreeNodeAdapter adapter = new FileTreeNodeAdapter(rootFile);
+        FileRootTreeNodeAdapter adapter = new FileRootTreeNodeAdapter(rootFile);
         TreeProcessor treeProcessor = new DefaultTreeProcessor();
         TreeNode treeNode = treeProcessor.processing(true, adapter);
 
@@ -107,7 +107,7 @@ public class TreeAdapterTest {
         DingTalkHttpClient dingTalkHttpClient = new MyDingTalkHttpClient();
         TreeProcessor treeProcessor = new DefaultTreeProcessor();
 
-        BaseTreeNodeAdapter adapter = new DepartmentTreeNodeAdapter(dingTalkHttpClient, 0L);
+        BaseRootTreeNodeAdapter adapter = new DepartmentRootTreeNodeAdapter(dingTalkHttpClient, 0L);
         TreeNode treeNode = treeProcessor.processing(true, adapter);
 
         if (treeNode.getSubs().size() > 0) {

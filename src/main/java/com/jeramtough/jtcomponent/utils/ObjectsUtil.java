@@ -1,7 +1,8 @@
 package com.jeramtough.jtcomponent.utils;
 
+
+import javax.annotation.*;
 import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -20,6 +21,7 @@ public class ObjectsUtil {
 
     /**
      * 将Object转换成Map对象
+     *
      * @param obj 要被转换的Object对象
      * @return 键值对的Map集合
      * @throws IllegalAccessException 不合法异常
@@ -50,6 +52,7 @@ public class ObjectsUtil {
 
     /**
      * 是不是基础数据类型，或者是基础数据类型的包装类
+     *
      * @param o 要被判断的Object对象
      * @return 是则返回true
      */
@@ -61,7 +64,7 @@ public class ObjectsUtil {
             //int, double, float, long, short, boolean, byte, char
             if (o.getClass() == Integer.class || o.getClass() == Double.class || o.getClass() == Float.class
                     || o.getClass() == Long.class || o.getClass() == Short.class || o.getClass() == Boolean.class ||
-                    o.getClass() == Byte.class || o.getClass() == Character.class||o.getClass() == String.class) {
+                    o.getClass() == Byte.class || o.getClass() == Character.class || o.getClass() == String.class) {
                 return true;
             }
             else {
@@ -119,29 +122,4 @@ public class ObjectsUtil {
         }
     }
 
-    /**
-     * 转换对象名：把表对象名或字段对象名转成字段名，比如itemName转成item_name
-     *
-     * @param srcName
-     * @return
-     */
-    public static String convertObjNameToFieldName(String srcName) {
-        String result = "";
-        if (srcName == null) {
-            srcName = "";
-        }
-        if (srcName.equals("")) {
-            return "";
-        }
-
-        for (int i = 0; i < srcName.length(); i++) {
-            if (srcName.charAt(i) >= 65 && srcName.charAt(i) <= 90) {
-                result += "_" + srcName.substring(i, i + 1).toLowerCase();
-            }
-            else {
-                result += srcName.substring(i, i + 1);
-            }
-        }
-        return result;
-    }
 }

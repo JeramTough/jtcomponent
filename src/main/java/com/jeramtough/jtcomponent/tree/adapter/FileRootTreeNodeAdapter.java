@@ -7,9 +7,9 @@ import java.util.*;
  * Created on 2019/7/12 8:59
  * by @author WeiBoWen
  */
-public class FileTreeNodeAdapter extends BaseTreeNodeAdapter<File> {
+public class FileRootTreeNodeAdapter extends BaseRootTreeNodeAdapter<File> {
 
-    public FileTreeNodeAdapter(File file) {
+    public FileRootTreeNodeAdapter(File file) {
         super(file);
     }
 
@@ -38,7 +38,7 @@ public class FileTreeNodeAdapter extends BaseTreeNodeAdapter<File> {
     }
 
     @Override
-    public BaseTreeNodeAdapter<File> getNewInstance(File file) {
-        return new FileTreeNodeAdapter(file);
+    public BaseRootTreeNodeAdapter<File> getNewInstance(File file) {
+        return new FileRootTreeNodeAdapter(file);
     }
 }

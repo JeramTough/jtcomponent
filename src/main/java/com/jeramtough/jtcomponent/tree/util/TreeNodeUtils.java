@@ -142,6 +142,8 @@ public class TreeNodeUtils {
 
     /**
      * 默认使用升序
+     * @param treeNodesForLevel treeNodesForLevel
+     * @return 排序后的转换成TreeStructure
      */
     public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel) {
         return toTreeStructuresForLevel(treeNodesForLevel, SortMethod.DESCENDING);
@@ -150,8 +152,9 @@ public class TreeNodeUtils {
     /**
      * 必须要有唯一的父节点
      * 传SortMethod让我知道是哪个是头
+     *
      * @param treeNodesForLevel TreeNodes的层级结构
-     * @param sortMethod 排序方法
+     * @param sortMethod        排序方法
      * @return 排序后的TreeStructures层级结构
      */
     public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel,
@@ -226,7 +229,10 @@ public class TreeNodeUtils {
             Map<String, Object> nodeMap = null;
             try {
                 Object value = treeNode.getValue();
-                if (ObjectsUtil.isPrimaryType(value)) {
+                if (value == null) {
+                    nodeMap = new HashMap<>(1);
+                }
+                else if (ObjectsUtil.isPrimaryType(value)) {
                     nodeMap = new HashMap<>();
                     nodeMap.put("value", value);
                 }

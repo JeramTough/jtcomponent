@@ -1,6 +1,7 @@
 package com.jeramtough.jtcomponent.tree.processor;
 
-import com.jeramtough.jtcomponent.tree.adapter.TreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.OnceTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.RootTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 
@@ -17,12 +18,12 @@ public class DefaultTreeProcessor implements TreeProcessor {
 
 
     @Override
-    public TreeNode processing(boolean root, TreeNodeAdapter adapter) {
+    public TreeNode processing(boolean root, RootTreeNodeAdapter adapter) {
 
-        LinkedList<TreeNodeAdapter> tempTreeAdapterLinkedList = new LinkedList<>();
+        LinkedList<RootTreeNodeAdapter> tempTreeAdapterLinkedList = new LinkedList<>();
         TreeNode rootTreeNode;
-        TreeNodeAdapter rootAdapter;
-        Map<TreeNodeAdapter, TreeNode> keyAdapterTreeStructureMap = new HashMap<>();
+        RootTreeNodeAdapter rootAdapter;
+        Map<RootTreeNodeAdapter, TreeNode> keyAdapterTreeStructureMap = new HashMap<>();
 //        TreeNode startTreeNode = new DefaultTreeNode(adapter.get());
 
 
@@ -48,7 +49,7 @@ public class DefaultTreeProcessor implements TreeProcessor {
         if (rootAdapter.hasSubs()) {
             List subList = rootAdapter.getSubs();
             for (Object o : subList) {
-                TreeNodeAdapter newAdapter = adapter.getNewInstance(o);
+                RootTreeNodeAdapter newAdapter = adapter.getNewInstance(o);
                 tempTreeAdapterLinkedList.add(newAdapter);
 
                 TreeNode treeNode = new DefaultTreeNode(newAdapter.get());
@@ -56,7 +57,7 @@ public class DefaultTreeProcessor implements TreeProcessor {
                 keyAdapterTreeStructureMap.put(newAdapter, treeNode);
             }
 
-            TreeNodeAdapter tempAdapter;
+            RootTreeNodeAdapter tempAdapter;
             while (!tempTreeAdapterLinkedList.isEmpty()) {
                 tempAdapter = tempTreeAdapterLinkedList.removeFirst();
                 TreeNode treeNode = keyAdapterTreeStructureMap.get(tempAdapter);
@@ -65,7 +66,7 @@ public class DefaultTreeProcessor implements TreeProcessor {
                     List subList1 = tempAdapter.getSubs();
 
                     for (Object o1 : subList1) {
-                        TreeNodeAdapter newAdapter = adapter.getNewInstance(o1);
+                        RootTreeNodeAdapter newAdapter = adapter.getNewInstance(o1);
                         if (newAdapter.hasSubs()) {
                             tempTreeAdapterLinkedList.add(newAdapter);
                         }
@@ -81,4 +82,31 @@ public class DefaultTreeProcessor implements TreeProcessor {
 
         return rootTreeNode;
     }
+
+    @Override
+    public <T> TreeNode processing(List<OnceTreeNodeAdapter<T>> onceTreeNodeAdapterList) {
+        TreeNode rootTreeNode = new DefaultTreeNode();
+        Map<Object, TreeNode> idKeyTreeNodeMap = new HashMap<>();
+
+
+        for (OnceTreeNodeAdapter<T> adapter : onceTreeNodeAdapterList) {
+            TreeNode treeNode = new DefaultTreeNode(adapter.getValue());
+            treeNode.setOrder(adapter.getOrder());
+            idKeyTreeNodeMap.put(adapter.getKey(), treeNode);
+        }
+
+        for (OnceTreeNodeAdapter<T> adapter : onceTreeNodeAdapterList) {
+            TreeNode parentTreeNode = idKeyTreeNodeMap.get(adapter.getParentKey());
+            TreeNode thisTreeNode = idKeyTreeNodeMap.get(adapter.getKey());
+            if (parentTreeNode == null) {
+                rootTreeNode.addSub(thisTreeNode);
+            }
+            else {
+                parentTreeNode.addSub(thisTreeNode);
+            }
+        }
+        return rootTreeNode;
+    }
+
+
 }

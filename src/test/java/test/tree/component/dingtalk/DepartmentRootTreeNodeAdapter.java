@@ -1,6 +1,6 @@
 package test.tree.component.dingtalk;
 
-import com.jeramtough.jtcomponent.tree.adapter.BaseTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.BaseRootTreeNodeAdapter;
 import test.tree.component.dingtalk.net.DingTalkHttpClient;
 
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.List;
  * Created on 2019/7/12 14:26
  * by @author WeiBoWen
  */
-public class DepartmentTreeNodeAdapter extends BaseTreeNodeAdapter<Long> {
+public class DepartmentRootTreeNodeAdapter extends BaseRootTreeNodeAdapter<Long> {
 
     private DingTalkHttpClient dingTalkHttpClient;
 
-    public DepartmentTreeNodeAdapter(
+    public DepartmentRootTreeNodeAdapter(
             DingTalkHttpClient dingTalkHttpClient, Long aLong) {
         super(aLong);
         this.dingTalkHttpClient = dingTalkHttpClient;
@@ -41,7 +41,7 @@ public class DepartmentTreeNodeAdapter extends BaseTreeNodeAdapter<Long> {
     }
 
     @Override
-    public BaseTreeNodeAdapter<Long> getNewInstance(Long aLong) {
-        return new DepartmentTreeNodeAdapter(dingTalkHttpClient, aLong);
+    public BaseRootTreeNodeAdapter<Long> getNewInstance(Long aLong) {
+        return new DepartmentRootTreeNodeAdapter(dingTalkHttpClient, aLong);
     }
 }

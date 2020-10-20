@@ -3,10 +3,13 @@ package com.jeramtough.jtcomponent.tree.adapter;
 import java.util.List;
 
 /**
+ *
+ * 遍历一个根节点的适配器
+ *
  * Created on 2019/7/12 14:46
  * by @author WeiBoWen
  */
-public interface TreeNodeAdapter<T> {
+public interface RootTreeNodeAdapter<T> {
 
     T getParent();
 
@@ -14,7 +17,7 @@ public interface TreeNodeAdapter<T> {
 
     boolean hasSubs();
 
-    TreeNodeAdapter<T> getNewInstance(T t);
+    RootTreeNodeAdapter<T> getNewInstance(T t);
 
     T get();
 

@@ -19,13 +19,13 @@ public class DateTimeTest {
 
     @Test
     public void test2() {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date1 =format.parse("2020-12-28 10:00:00");
-            Date date2 =format.parse("2020-12-30 23:00:00");
-            String result=DateTimeUtil.getDistanceTimeStr(date1,date2);
+            Date date1 =format.parse("2020-09-28 10:00:00");
+            Date date2 =format.parse("2020-09-30 21:00:00");
+            String result=DateTimeUtil.getDistanceTimeStr(new Date(),date2);
             String result1=DateTimeUtil.getDistanceTimeStr(date1,date2,"天");
-            L.debugs(result,result1);
+            L.debugs(result);
         }
         catch (ParseException e) {
             e.printStackTrace();

@@ -128,6 +128,8 @@ public class WordUtil
 	
 	/**
 	 * 判断是否含有中文
+	 * @param str 字符串
+	 * @return 返回true如果含有中文
 	 */
 	public static boolean isContainsChinese(String str)
 	{

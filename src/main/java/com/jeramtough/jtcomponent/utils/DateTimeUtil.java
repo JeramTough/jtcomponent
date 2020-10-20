@@ -86,9 +86,9 @@ public class DateTimeUtil {
     }
 
     /**
-     * @param date
+     * @param date 日期对象
      * @param day  想要获取的日期与传入日期的差值 比如想要获取传入日期前四天的日期 day=-4即可
-     * @return
+     * @return 计算差值后的date对象
      */
     public static Date getSomeDay(Date date, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -100,9 +100,9 @@ public class DateTimeUtil {
     /**
      * 日期差天数、小时、分钟、秒数组
      *
-     * @param startDate
-     * @param endDate
-     * @return
+     * @param startDate date
+     * @param endDate date
+     * @return 数值
      */
     public static long[] getDisTime(Date startDate, Date endDate) {
         long timesDis = Math.abs(startDate.getTime() - endDate.getTime());
@@ -116,9 +116,9 @@ public class DateTimeUtil {
     /**
      * 日期差天数
      *
-     * @param startDate
-     * @param endDate
-     * @return
+     * @param startDate date
+     * @param endDate date
+     * @return 相差的天数
      */
     public static long getDisDay(Date startDate, Date endDate) {
         long[] dis = getDisTime(startDate, endDate);
@@ -132,9 +132,9 @@ public class DateTimeUtil {
     /**
      * 日期差文字描述
      *
-     * @param startDate
-     * @param endDate
-     * @return
+     * @param startDate date
+     * @param endDate date
+     * @return 格式化后的日期差文字描述
      */
     public static String getDistanceTimeStr(Date startDate, Date endDate) {
         long[] dis = getDisTime(startDate, endDate);

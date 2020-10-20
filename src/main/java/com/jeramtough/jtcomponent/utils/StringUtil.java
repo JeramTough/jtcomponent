@@ -1,6 +1,12 @@
 package com.jeramtough.jtcomponent.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StringUtil {
+
+    private static final Pattern LINE_PATTERN = Pattern.compile("_(\\w)");
+    private static final Pattern HUMP_PATTERN = Pattern.compile("[A-Z]");
 
     public static String addOrDeleteWords(String originalText, boolean isAdded, int start,
                                           String words) {
@@ -21,6 +27,7 @@ public class StringUtil {
 
     /**
      * return true if the str is empty or the str just is comprised of spaces.
+     *
      * @param str `
      * @return `
      */
@@ -38,5 +45,40 @@ public class StringUtil {
             }
         }
         return true;
+    }
+
+
+    /**
+     * 下划线字符串转驼峰字符串
+     *
+     * @param str 要转换的字符串
+     * @return 转换后的字符串
+     */
+    public static String lineToHump(String str) {
+        str = str.toLowerCase();
+        Matcher matcher = LINE_PATTERN.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+
+    /**
+     * 转驼峰字符串转下划线字符串
+     *
+     * @param str 要转换的字符串
+     * @return 转换后的字符串
+     */
+    public static String humpToLine(String str) {
+        Matcher matcher = HUMP_PATTERN.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 }
