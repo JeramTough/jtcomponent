@@ -48,10 +48,6 @@ public class TreeNodeUtils {
                     sortedTreeNodes.add(treeNode2);
                     if (treeNode2.hasSubs()) {
                         tempTreeNodes.add(treeNode2);
-//                        System.out.println("添加有子结构:" + treeNode2.getValue());
-                    }
-                    else {
-//                        System.out.println("添加没有子结构:" + treeNode2.getValue());
                     }
                 }
             }
@@ -67,7 +63,7 @@ public class TreeNodeUtils {
     public static List<List<TreeNode>> getAllForLevel(TreeNode rootTreeNode,
                                                       SortMethod sortMethod) {
         List<TreeNode> sortTreeNodes = getAll(rootTreeNode, sortMethod);
-        Map<Integer, List<TreeNode>> integerListMap = new HashMap<>();
+        Map<Integer, List<TreeNode>> integerListMap = new HashMap<>(16);
 
         for (TreeNode treeNode : sortTreeNodes) {
             List<TreeNode> treeStructures1 = integerListMap.get(treeNode.getLevel());
@@ -142,6 +138,7 @@ public class TreeNodeUtils {
 
     /**
      * 默认使用升序
+     *
      * @param treeNodesForLevel treeNodesForLevel
      * @return 排序后的转换成TreeStructure
      */
@@ -188,7 +185,7 @@ public class TreeNodeUtils {
     //*********************
 
     private static Map<TreeNode, TreeStructure> parseTreeStructureMap(TreeNode beTreeNode) {
-        Map<TreeNode, TreeStructure> treeStructureMap = new HashMap<>();
+        Map<TreeNode, TreeStructure> treeStructureMap = new HashMap<>(16);
         beTreeNode.foreach(treeNode -> {
             TreeStructure treeStructure = new TreeStructure();
             treeStructure.setLevel(treeNode.getLevel());
@@ -224,7 +221,10 @@ public class TreeNodeUtils {
 
     private static Map<TreeNode, Map<String, Object>> parseTreeNodeMap(TreeNode beTreeNode,
                                                                        CommonCallback<Map<String, Object>> commonCallback) {
-        Map<TreeNode, Map<String, Object>> treeNodesMap = new HashMap<>();
+        //以TreeNode和相应的Map集合的映射关系
+        Map<TreeNode, Map<String, Object>> treeNodesMap = new HashMap<>(16);
+
+        //第一次遍历，先组成相应的映射关系
         beTreeNode.foreach(treeNode -> {
             Map<String, Object> nodeMap = null;
             try {
@@ -233,7 +233,7 @@ public class TreeNodeUtils {
                     nodeMap = new HashMap<>(1);
                 }
                 else if (ObjectsUtil.isPrimaryType(value)) {
-                    nodeMap = new HashMap<>();
+                    nodeMap = new HashMap<>(16);
                     nodeMap.put("value", value);
                 }
                 else {
@@ -252,20 +252,27 @@ public class TreeNodeUtils {
             return true;
         });
 
+        //第二次遍历，添加上子节点
         beTreeNode.foreach(treeNode -> {
+            //取出与TreeNode对应的Map集合
             Map<String, Object> thisTreeMap = treeNodesMap.get(treeNode);
 
             //设置子节点
             List<TreeNode> subTreeNodes = treeNode.getSubs();
             List<Map<String, Object>> childrenMapList =
                     (List<Map<String, Object>>) treeNodesMap.get(treeNode).get("children");
-            if (childrenMapList == null) {
-                System.out.println(childrenMapList.size());
+
+            //如果有子节点则添加，没有则移除children属性
+            if (subTreeNodes.size()>0){
+                for (TreeNode subTreeNode : subTreeNodes) {
+                    childrenMapList.add(treeNodesMap.get(subTreeNode));
+                }
+                thisTreeMap.put("children", childrenMapList);
             }
-            for (TreeNode subTreeNode : subTreeNodes) {
-                childrenMapList.add(treeNodesMap.get(subTreeNode));
+            else{
+                thisTreeMap.remove("children");
             }
-            thisTreeMap.put("children", childrenMapList);
+
 
             if (commonCallback != null) {
                 commonCallback.callback(thisTreeMap);

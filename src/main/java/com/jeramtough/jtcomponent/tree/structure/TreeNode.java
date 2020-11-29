@@ -114,6 +114,10 @@ public interface TreeNode {
      */
     List<TreeNode> getBrothers();
 
+    /**
+     * 回调器返回true则继续执行，返回false则终止执行
+     * @param nodeCaller 回调器
+     */
     void foreach(NodeCaller nodeCaller);
 
     /**

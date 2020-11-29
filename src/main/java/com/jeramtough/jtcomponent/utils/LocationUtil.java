@@ -6,7 +6,7 @@ package com.jeramtough.jtcomponent.utils;
  * by @author WeiBoWen
  * </pre>
  */
-public class LocationUtils {
+public class LocationUtil {
 
     /**
      * 赤道半径

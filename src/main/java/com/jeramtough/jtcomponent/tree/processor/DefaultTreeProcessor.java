@@ -1,6 +1,6 @@
 package com.jeramtough.jtcomponent.tree.processor;
 
-import com.jeramtough.jtcomponent.tree.adapter.OnceTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.adapter.RootTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
@@ -84,18 +84,18 @@ public class DefaultTreeProcessor implements TreeProcessor {
     }
 
     @Override
-    public <T> TreeNode processing(List<OnceTreeNodeAdapter<T>> onceTreeNodeAdapterList) {
+    public <T> TreeNode processing(List<? extends OneTreeNodeAdapter<T>> oneTreeNodeAdapterList) {
         TreeNode rootTreeNode = new DefaultTreeNode();
         Map<Object, TreeNode> idKeyTreeNodeMap = new HashMap<>();
 
 
-        for (OnceTreeNodeAdapter<T> adapter : onceTreeNodeAdapterList) {
+        for (OneTreeNodeAdapter<T> adapter : oneTreeNodeAdapterList) {
             TreeNode treeNode = new DefaultTreeNode(adapter.getValue());
             treeNode.setOrder(adapter.getOrder());
             idKeyTreeNodeMap.put(adapter.getKey(), treeNode);
         }
 
-        for (OnceTreeNodeAdapter<T> adapter : onceTreeNodeAdapterList) {
+        for (OneTreeNodeAdapter<T> adapter : oneTreeNodeAdapterList) {
             TreeNode parentTreeNode = idKeyTreeNodeMap.get(adapter.getParentKey());
             TreeNode thisTreeNode = idKeyTreeNodeMap.get(adapter.getKey());
             if (parentTreeNode == null) {

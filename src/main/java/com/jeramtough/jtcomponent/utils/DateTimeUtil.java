@@ -1,7 +1,10 @@
 package com.jeramtough.jtcomponent.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -90,7 +93,7 @@ public class DateTimeUtil {
      * @param day  想要获取的日期与传入日期的差值 比如想要获取传入日期前四天的日期 day=-4即可
      * @return 计算差值后的date对象
      */
-    public static Date getSomeDay(Date date, int day) {
+    public static Date getCountDay(Date date, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, day);
@@ -101,7 +104,7 @@ public class DateTimeUtil {
      * 日期差天数、小时、分钟、秒数组
      *
      * @param startDate date
-     * @param endDate date
+     * @param endDate   date
      * @return 数值
      */
     public static long[] getDisTime(Date startDate, Date endDate) {
@@ -117,7 +120,7 @@ public class DateTimeUtil {
      * 日期差天数
      *
      * @param startDate date
-     * @param endDate date
+     * @param endDate   date
      * @return 相差的天数
      */
     public static long getDisDay(Date startDate, Date endDate) {
@@ -133,7 +136,7 @@ public class DateTimeUtil {
      * 日期差文字描述
      *
      * @param startDate date
-     * @param endDate date
+     * @param endDate   date
      * @return 格式化后的日期差文字描述
      */
     public static String getDistanceTimeStr(Date startDate, Date endDate) {
@@ -166,6 +169,46 @@ public class DateTimeUtil {
                         "分钟").append(dis[3]).append("秒").toString();
         }
 
+    }
+
+    /**
+     * 根据LocalDateTime返回时间戳
+     *
+     * @param localDateTime {@link LocalDateTime}
+     * @return 时间戳
+     */
+    public static Long getTimestamp(LocalDateTime localDateTime) {
+        return localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+    }
+
+    /**
+     * 格式化时间
+     *
+     * @param date       Date
+     * @param dateFormat 时间格式
+     * @return 格式化后的字符串
+     */
+    public static String formatDate(Date date, String dateFormat) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 格式化时间
+     *
+     * @param date       Date For String
+     * @param dateFormat 时间格式
+     * @return 格式化后的字符串
+     */
+    public static Date formatDate(String date, String dateFormat) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        try {
+            return simpleDateFormat.parse(date);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

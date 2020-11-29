@@ -5,11 +5,10 @@ import javax.annotation.*;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * <pre>
@@ -57,14 +56,28 @@ public class ObjectsUtil {
      * @return 是则返回true
      */
     public static boolean isPrimaryType(Object o) {
-        if (o.getClass().isPrimitive()) {
+        return isPrimaryType(o.getClass());
+    }
+
+    public static boolean isPrimaryType(Type type) {
+        return isPrimaryType((Class<?>) type);
+    }
+
+    /**
+     * 是不是基础数据类型，或者是基础数据类型的包装类
+     *
+     * @param clazz class
+     * @return 是则返回true
+     */
+    public static boolean isPrimaryType(Class clazz) {
+        if (clazz.isPrimitive()) {
             return true;
         }
         try {
             //int, double, float, long, short, boolean, byte, char
-            if (o.getClass() == Integer.class || o.getClass() == Double.class || o.getClass() == Float.class
-                    || o.getClass() == Long.class || o.getClass() == Short.class || o.getClass() == Boolean.class ||
-                    o.getClass() == Byte.class || o.getClass() == Character.class || o.getClass() == String.class) {
+            if (clazz == Integer.class || clazz == Double.class || clazz == Float.class
+                    || clazz == Long.class || clazz == Short.class || clazz == Boolean.class ||
+                    clazz == Byte.class || clazz == Character.class || clazz == String.class) {
                 return true;
             }
             else {
@@ -76,6 +89,41 @@ public class ObjectsUtil {
         }
     }
 
+
+    public static boolean isBasicType(Object o) {
+        return isBasicType(o.getClass());
+    }
+
+    public static boolean isBasicType(Type type) {
+        return isBasicType((Class<?>) type);
+    }
+
+    /**
+     * 是不是基础数据类型，或者是基础数据类型的包装类，或者是日期类
+     *
+     * @param clazz class
+     * @return 是则返回true
+     */
+    public static boolean isBasicType(Class clazz) {
+        if (clazz.isPrimitive()) {
+            return true;
+        }
+        try {
+            //int, double, float, long, short, boolean, byte, char,date,String,localDate,localDateTime
+            if (clazz == Integer.class || clazz == Double.class || clazz == Float.class
+                    || clazz == Long.class || clazz == Short.class || clazz == Boolean.class ||
+                    clazz == Byte.class || clazz == Character.class || clazz == String.class
+                    || clazz == Date.class || clazz == LocalDate.class || clazz == LocalDateTime.class) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
 
     /**
      * 将一个 Map 对象转化为一个 JavaBean
@@ -122,4 +170,63 @@ public class ObjectsUtil {
         }
     }
 
+
+    /**
+     * 从lass中解析出包含get和set的field，并且这个field是基础数据类型
+     * ，并且这个field的访问修饰符是private。
+     *
+     * @param clazz 被解析的class
+     * @return 这个class包含的基础Field
+     */
+    public static List<Field> getFieldsIfIncludeGetSet(Class clazz) {
+        List<Field> fieldList = new ArrayList<>();
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            String fieldName = field.getName();
+
+            //如果修饰符不是private
+            if ((Modifier.PRIVATE != field.getModifiers())) {
+                continue;
+            }
+
+            //如果不是包括日期类在内的基础数据类型
+            if (!isBasicType(field.getGenericType())) {
+                continue;
+            }
+
+            String methodName1 = "get" + fieldName;
+            String methodName2 = "set" + fieldName;
+            String methodName3 = "";
+            String methodName4 = "";
+            if (fieldName.contains("is")) {
+                methodName3 = fieldName;
+                methodName4 = "set" + fieldName.replace("is", "");
+            }
+
+
+            int methodCount = 0;
+            for (Method method : clazz.getDeclaredMethods()) {
+                if (methodName1.equalsIgnoreCase(method.getName())) {
+                    methodCount++;
+                }
+                if (methodName2.equalsIgnoreCase(method.getName())) {
+                    methodCount++;
+                }
+                if (methodName3.equalsIgnoreCase(method.getName())) {
+                    methodCount++;
+                }
+                if (methodName4.equalsIgnoreCase(method.getName())) {
+                    methodCount++;
+                }
+            }
+
+            //如果匹配上的方法数小于2就跳出
+            if (methodCount < 2) {
+                continue;
+            }
+
+            fieldList.add(field);
+        }
+        return fieldList;
+    }
 }

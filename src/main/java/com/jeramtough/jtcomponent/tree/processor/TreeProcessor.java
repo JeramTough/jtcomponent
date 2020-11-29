@@ -1,6 +1,6 @@
 package com.jeramtough.jtcomponent.tree.processor;
 
-import com.jeramtough.jtcomponent.tree.adapter.OnceTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.adapter.RootTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 
@@ -21,11 +21,12 @@ public interface TreeProcessor {
     TreeNode processing(boolean root, RootTreeNodeAdapter baseRootTreeNodeAdapter);
 
     /**
-     * 处理List集合成为TreeNode
+     * 处理List(OneTreeNodeAdapter一个TreeNode的适配器)集合成为TreeNode
      *
-     * @param onceTreeNodeAdapterList {@link OnceTreeNodeAdapter}
+     * @param oneTreeNodeAdapterList {@link OneTreeNodeAdapter}
      * @return {@link TreeNode}
+     * @param <T> t
      */
-    <T> TreeNode processing(List<OnceTreeNodeAdapter<T>> onceTreeNodeAdapterList);
+    <T> TreeNode processing(List<? extends OneTreeNodeAdapter<T>> oneTreeNodeAdapterList);
 
 }

@@ -1,5 +1,6 @@
 package com.jeramtough.jtcomponent.utils;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +56,12 @@ public class StringUtil {
      * @return 转换后的字符串
      */
     public static String lineToHump(String str) {
+        Objects.requireNonNull(str);
+
+        if (!str.contains("_")) {
+            return str;
+        }
+
         str = str.toLowerCase();
         Matcher matcher = LINE_PATTERN.matcher(str);
         StringBuffer sb = new StringBuffer();
@@ -73,12 +80,32 @@ public class StringUtil {
      * @return 转换后的字符串
      */
     public static String humpToLine(String str) {
+        Objects.requireNonNull(str);
+
+        if (!WordUtil.isContainsUpperCase(str)) {
+            return str;
+        }
+
         Matcher matcher = HUMP_PATTERN.matcher(str);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
         }
         matcher.appendTail(sb);
-        return sb.toString();
+
+        String result = sb.toString();
+
+        if (str.length() > 1) {
+            if (Character.isUpperCase(str.charAt(0))) {
+                if (result.length() > 0) {
+                    result = result.substring(1);
+                }
+                return result;
+            }
+        }
+
+        return result;
+
+
     }
 }
