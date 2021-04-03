@@ -101,6 +101,20 @@ public class DateTimeUtil {
     }
 
     /**
+     * @param date 日期对象
+     * @param day  想要获取的日期与传入日期的差值 比如想要获取传入日期前四天的日期 day=-4即可
+     * @param hour 小时数
+     * @return 计算差值后的date对象
+     */
+    public static Date getCountDay(Date date, int day, int hour) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, day);
+        calendar.add(Calendar.HOUR_OF_DAY, hour);
+        return calendar.getTime();
+    }
+
+    /**
      * 日期差天数、小时、分钟、秒数组
      *
      * @param startDate date
@@ -209,6 +223,20 @@ public class DateTimeUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 格式化时间数字，转为字符串，并加0，比如8变08
+     *
+     * @param dateForNumber 被格式化的数字时间，可以是年、月、日、小时、分钟
+     * @return 加零后的时间
+     */
+    public static String formatDateNumber(int dateForNumber) {
+        String s = String.valueOf(dateForNumber);
+        if (s.length() == 1) {
+            s = "0" + s;
+        }
+        return s;
     }
 
 }

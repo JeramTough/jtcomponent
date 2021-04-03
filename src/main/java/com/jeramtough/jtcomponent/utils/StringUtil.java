@@ -1,5 +1,7 @@
 package com.jeramtough.jtcomponent.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,5 +109,62 @@ public class StringUtil {
         return result;
 
 
+    }
+
+
+    /**
+     * 用中英文逗号分割字符串
+     *
+     * @param str 被分割的字符串
+     * @return 分割后的数组
+     */
+    public static List<String> splitByComma(String str) {
+        List<String> lis = new ArrayList<>();
+        if (str.contains(",")) {
+            String[] split = str.split(",");
+            for (int i = 0; i < split.length; i++) {
+                String url = split[i];
+                lis.add(url);
+            }
+        }
+        else if (str.contains("，")) {
+            String[] split = str.split("，");
+            for (int i = 0; i < split.length; i++) {
+                String url = split[i];
+                lis.add(url);
+            }
+        }
+        else {
+            String[] split = str.split(",");
+            for (int i = 0; i < split.length; i++) {
+                String url = split[i];
+                lis.add(url);
+            }
+        }
+        return lis;
+    }
+
+    /**
+     * 用英文逗号拼接字串符
+     *
+     * @param strList 被拼接的字符串集合
+     * @return 拼接后的字符串
+     */
+    public static String appendByComma(List<String> strList) {
+        if (strList.size() == 0) {
+            return null;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (String s : strList) {
+            if (s != null) {
+                result.append(s).append(",");
+            }
+        }
+        String str = result.toString();
+        if (str.length() > 0) {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str;
     }
 }

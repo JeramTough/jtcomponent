@@ -29,6 +29,7 @@ public class PreTaskResult implements Serializable {
     private Map<String, Float> floatPayloads;
     private Map<String, Double> doublePayloads;
     private Map<String, Boolean> booleanPayloads;
+    private Map<String, Object> objectPayloads;
 
     private Map<String, String[]> stringArrayPayloads;
     private Map<String, char[]> characterArrayPayloads;
@@ -125,6 +126,10 @@ public class PreTaskResult implements Serializable {
 
     public Character getCharPayload(String key) {
         return (Character) getPayloadFromMap(key, characterPayloads);
+    }
+
+    public Object getObjectPayload(String key){
+        return  getPayloadFromMap(key, objectPayloads);
     }
 
     //
@@ -463,6 +468,13 @@ public class PreTaskResult implements Serializable {
             mapPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
         }
         mapPayloads.put(key, value);
+    }
+
+    public void putPayloadForObject(String key, Object value) {
+        if (objectPayloads == null) {
+            objectPayloads = new HashMap<>(INITIAL_PAYLOADS_MAP_CAPACITY);
+        }
+        objectPayloads.put(key, value);
     }
 
     public void putPayloadForMap(String key, Map value) {

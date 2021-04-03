@@ -1,10 +1,7 @@
 package com.jeramtough.jtcomponent.utils;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Objects;
 
 /**
@@ -34,7 +31,7 @@ public class Base64Util {
      * @return 字节码数据的base64格式
      */
     public static String toBase64Str(byte[] data) {
-        return (new BASE64Encoder()).encodeBuffer(data);
+        return Base64.getEncoder().encodeToString(data);
     }
 
     /**
@@ -45,9 +42,9 @@ public class Base64Util {
      */
     public static byte[] decodeBytesFromBase64(String base64String) {
         try {
-            return (new BASE64Decoder()).decodeBuffer(base64String);
+            return Base64.getDecoder().decode(base64String);
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
         return null;

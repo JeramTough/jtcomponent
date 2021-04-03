@@ -27,6 +27,17 @@ public class ObjectsUtil {
      */
     public static Map<String, Object> getMapFromObject(Object obj) throws IllegalAccessException {
         Class<?> clazz = obj.getClass();
+
+        if (obj instanceof Map) {
+            try {
+                Map<String, Object> map = (Map<String, Object>) obj;
+                return map;
+            }
+            catch (Exception e) {
+                throw new IllegalAccessException("不支持value的转换类型" + clazz.getName());
+            }
+        }
+
         Map<String, Object> map = new HashMap<>(clazz.getDeclaredFields().length);
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);

@@ -6,7 +6,8 @@
 
     <groupId>com.jeramtough</groupId>
     <artifactId>jtcomponent</artifactId>
-    <version>1.4.6-RELEASE</version>
+    <version>1.5.3-SNAPSHOT</version>
+    <!--<version>1.5.2-RELEASE</version>-->
     <!--<version>1.2.4-SNAPSHOT</version>-->
     <!--<version>1.2.4-RELEASE</version>-->
 
@@ -45,17 +46,17 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.2.11</version>
-        </dependency>
+        <!-- <dependency>
+             <groupId>com.sun.xml.bind</groupId>
+             <artifactId>jaxb-impl</artifactId>
+             <version>2.2.11</version>
+         </dependency>
 
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>13.0</version>
-        </dependency>
+         <dependency>
+             <groupId>org.jetbrains</groupId>
+             <artifactId>annotations</artifactId>
+             <version>13.0</version>
+         </dependency>-->
 
     </dependencies>
 
@@ -83,7 +84,7 @@
         </developer>
     </developers>
 
-    <distributionManagement>
+    <!--<distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -92,6 +93,19 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+    </distributionManagement>-->
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-ssd</id>
+            <name>Nexus ssd</name>
+            <url>http://maven.ssd.vi:3333/repository/nexus-ssd/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-ssd-snapshots</id>
+            <name>Nexus ssd snapshot</name>
+            <url>http://maven.ssd.vi:3333/repository/nexus-ssd-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <build>

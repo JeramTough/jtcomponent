@@ -16,7 +16,12 @@ public class URLBuilder {
     protected boolean firstParam = true;
     protected boolean hasPath = false;
 
+    public URLBuilder() {
+    }
 
+    public URLBuilder(String url) {
+        url(url);
+    }
 
     public static String encodeURIComponent(String s) {
         if (s == null) {
@@ -117,6 +122,10 @@ public class URLBuilder {
         this.builder.append(str);
 
         return this;
+    }
+
+    public String build() {
+        return toString();
     }
 
     @Override
