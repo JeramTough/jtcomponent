@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-public class IOUtil
+public class JtIoUtil
 {
 	public static String readTxtFile(String fileUri, String encoding)
 	{

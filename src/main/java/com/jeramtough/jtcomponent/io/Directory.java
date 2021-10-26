@@ -10,6 +10,10 @@ import java.io.File;
 
 public class Directory extends File {
 
+    private Directory(File file) {
+        this(file.getAbsolutePath());
+    }
+
     public Directory(String pathname) {
         super(pathname);
         if (!this.isDirectory()) {

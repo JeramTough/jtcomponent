@@ -12,6 +12,7 @@ import java.nio.file.Paths;
  * Created on 2019-08-01 12:37
  * by @author JeramTough
  */
+@Deprecated
 public class FileUtil {
 
     public static boolean createFile(File file) {

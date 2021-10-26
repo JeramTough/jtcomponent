@@ -25,7 +25,8 @@ public class ObjectsUtil {
      * @return 键值对的Map集合
      * @throws IllegalAccessException 不合法异常
      */
-    public static Map<String, Object> getMapFromObject(Object obj) throws IllegalAccessException {
+    public static Map<String, Object> getMapFromObject(Object obj) throws
+            IllegalAccessException {
         Class<?> clazz = obj.getClass();
 
         if (obj instanceof Map) {
@@ -158,7 +159,8 @@ public class ObjectsUtil {
                     try {
                         // 全部转换类型
                         Object value = null;
-                        if ("".equals(map.get(propertyName)) || null == map.get(propertyName)) {
+                        if ("".equals(map.get(propertyName)) || null == map.get(
+                                propertyName)) {
                             value = "";
                         }
                         else {
@@ -240,4 +242,77 @@ public class ObjectsUtil {
         }
         return fieldList;
     }
+
+    /**
+     * 得到变量的get方法和set方法
+     *
+     * @param clazz 反射类
+     * @param fieldName 变量名
+     * @return 返回get和set方法，可能为空
+     */
+    public static Method[] getGetSetMethodsOfField(Class<?> clazz, String fieldName) {
+        Objects.requireNonNull(fieldName);
+
+
+        String methodName1 = "get" + fieldName;
+        String methodName2 = "set" + fieldName;
+        //isXXX
+        String methodName3 = "";
+        //setXXX
+        String methodName4 = "";
+
+        if (fieldName.contains("is")) {
+            methodName3 = fieldName;
+            fieldName = fieldName.replace("is", "");
+            methodName4 = "set" + fieldName.replace("is", "");
+        }
+
+        Method[] methods=new Method[2];
+        for (Method method : clazz.getDeclaredMethods()) {
+
+            if (methodName1.equalsIgnoreCase(method.getName())) {
+                methods[0]=method;
+            }
+            if (methodName2.equalsIgnoreCase(method.getName())) {
+                methods[1]=method;
+            }
+            if (methodName3.equalsIgnoreCase(method.getName())) {
+                methods[0]=method;
+            }
+            if (methodName4.equalsIgnoreCase(method.getName())) {
+                methods[1]=method;
+            }
+        }
+        return methods;
+    }
+
+    public static void setTime(Object entity, String fieldName) {
+        try {
+            Field field = entity.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+
+            Method[] getSetMethod =
+                    ObjectsUtil.getGetSetMethodsOfField(entity.getClass(), fieldName);
+            Method setMethod = null;
+            if (getSetMethod[1] != null) {
+                setMethod = getSetMethod[1];
+                setMethod.setAccessible(true);
+//                setMethod.invoke(entity, new Date());
+            }
+
+            if (field.getType() == Date.class && setMethod != null) {
+                setMethod.invoke(entity, new Date());
+            }
+            else if (field.getType() == LocalDate.class && setMethod != null) {
+                setMethod.invoke(entity, LocalDate.now());
+            }
+            else if (field.getType() == LocalDateTime.class && setMethod != null) {
+                setMethod.invoke(entity, LocalDateTime.now());
+            }
+        }
+        catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException e) {
+//            e.printStackTrace();
+        }
+    }
+
 }

@@ -21,6 +21,27 @@ public interface TreeNode {
      */
     int getOrder();
 
+    /**
+     * 设置表达式，用于检索
+     *
+     * @param expression 表达式
+     */
+    void setExpression(String expression);
+
+    /**
+     * 返回表达式
+     * @return 表达式
+     */
+    String getExpression();
+
+    /**
+     * 语法：3234||2312,null||cccc,empty||121||323
+     *检索第一级子节点表达式为3234或者2312，二级子节点为null或者cccc。。。。
+     * @param expression 检索表达式
+     * @return 搜索到的子节点
+     */
+    List<TreeNode> query(String expression);
+
     void setOrder(int order);
 
     List<TreeNode> getSubs();
@@ -32,6 +53,7 @@ public interface TreeNode {
     TreeNode addSub(TreeNode treeNode);
 
     TreeNode addSubs(TreeNode... treeNodes);
+
 
     /**
      * 添加子节点过滤器

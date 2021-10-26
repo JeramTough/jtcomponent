@@ -2,6 +2,10 @@ package com.jeramtough.jtcomponent.tree.structure;
 
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.comparator.TreeNodeComparator;
+import com.jeramtough.jtcomponent.tree.expression.TreeContext;
+import com.jeramtough.jtcomponent.tree.expression.core.TreeExpression;
+import com.jeramtough.jtcomponent.tree.expression.interpret.DefaultExpressionInterpreter;
+import com.jeramtough.jtcomponent.tree.expression.interpret.ExpressionInterpreter;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
@@ -16,11 +20,12 @@ import java.util.stream.Collectors;
 public class DefaultTreeNode implements TreeNodeAble {
 
     private Object value;
-    private List<TreeNode> subTreeNodes;
+    private final List<TreeNode> subTreeNodes;
     private TreeNode parentTreeNode;
     private int level = 0;
     private Predicate<TreeNode> subFilters;
     private int order = 0;
+    private String expression;
 
     public DefaultTreeNode() {
         subTreeNodes = new ArrayList<>();
@@ -29,6 +34,12 @@ public class DefaultTreeNode implements TreeNodeAble {
     public DefaultTreeNode(Object value) {
         this();
         this.value = value;
+    }
+
+    public DefaultTreeNode(Object value, String expression) {
+        this();
+        this.value = value;
+        this.expression = expression;
     }
 
     @Override
@@ -253,4 +264,24 @@ public class DefaultTreeNode implements TreeNodeAble {
 
     }
 
+    @Override
+    public String getExpression() {
+        return expression;
+    }
+
+
+    @Override
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
+    @Override
+    public List<TreeNode> query(String expression) {
+        TreeContext context = new TreeContext(this);
+        ExpressionInterpreter interpreter = new DefaultExpressionInterpreter();
+        TreeExpression treeExpression = interpreter.interpret(expression);
+
+        List<TreeNode> treeNodeList = treeExpression.interpret(context);
+        return treeNodeList;
+    }
 }

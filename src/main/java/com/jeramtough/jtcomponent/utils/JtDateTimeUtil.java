@@ -1,5 +1,7 @@
 package com.jeramtough.jtcomponent.utils;
 
+import com.jeramtough.jtcomponent.time.bean.YearMonthDay;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,8 +13,7 @@ import java.util.Date;
 /**
  * @author 11718
  */
-@Deprecated
-public class DateTimeUtil {
+public class JtDateTimeUtil {
 
     /**
      * 返回当前时间
@@ -156,7 +157,8 @@ public class DateTimeUtil {
      */
     public static String getDistanceTimeStr(Date startDate, Date endDate) {
         long[] dis = getDisTime(startDate, endDate);
-        return new StringBuilder().append(dis[0]).append("天").append(dis[1]).append("小时").append(dis[2]).append(
+        return new StringBuilder().append(dis[0]).append("天").append(dis[1]).append(
+                "小时").append(dis[2]).append(
                 "分钟").append(dis[3]).append("秒").toString();
     }
 
@@ -179,7 +181,8 @@ public class DateTimeUtil {
                     return dayNumber + "天前";
                 }
             default:
-                return new StringBuilder().append(dis[0]).append("天").append(dis[1]).append("小时").append(
+                return new StringBuilder().append(dis[0]).append("天").append(dis[1]).append(
+                        "小时").append(
                         dis[2]).append(
                         "分钟").append(dis[3]).append("秒").toString();
         }
@@ -239,5 +242,25 @@ public class DateTimeUtil {
         }
         return s;
     }
+
+    public static YearMonthDay toYearMonthDay(Date date) {
+        YearMonthDay yearMonthDay = new YearMonthDay();
+        String year = formatDate(date, "yyyy");
+        String month = formatDate(date, "MM");
+        String day = formatDate(date, "dd");
+        String hour = formatDate(date, "HH");
+        String minute = formatDate(date, "mm");
+        String second = formatDate(date, "ss");
+
+        yearMonthDay.setYear(year);
+        yearMonthDay.setMonth(month);
+        yearMonthDay.setDay(day);
+        yearMonthDay.setHour(hour);
+        yearMonthDay.setMinute(minute);
+        yearMonthDay.setSecond(second);
+
+        return yearMonthDay;
+    }
+
 
 }
