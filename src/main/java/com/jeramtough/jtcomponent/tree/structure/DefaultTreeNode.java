@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class DefaultTreeNode implements TreeNodeAble {
 
     private Object value;
-    private final List<TreeNode> subTreeNodes;
+    private List<TreeNode> subTreeNodes;
     private TreeNode parentTreeNode;
     private int level = 0;
     private Predicate<TreeNode> subFilters;
@@ -98,7 +98,7 @@ public class DefaultTreeNode implements TreeNodeAble {
     }
 
     @Override
-    public TreeNode andPredicate(Predicate<TreeNode> filter) {
+    public TreeNode andFilter(Predicate<TreeNode> filter) {
         if (subFilters == null) {
             subFilters = filter;
         }
@@ -106,11 +106,6 @@ public class DefaultTreeNode implements TreeNodeAble {
             subFilters = subFilters.and(filter);
         }
         return this;
-    }
-
-    @Override
-    public Predicate<TreeNode> getSubFilters() {
-        return this.subFilters;
     }
 
 
@@ -128,6 +123,32 @@ public class DefaultTreeNode implements TreeNodeAble {
     }
 
     @Override
+    public void doFilters() {
+        if (subFilters != null) {
+            List<TreeNode> allTreeNode = TreeNodeUtils.getAll(this, SortMethod.DESCENDING);
+
+            allTreeNode
+                    .parallelStream()
+                    .filter(new Predicate<TreeNode>() {
+                        @Override
+                        public boolean test(TreeNode treeNode) {
+                            //如果该节点是根节点本身，直接过滤掉
+                            if (treeNode.equals(DefaultTreeNode.this)) {
+                                return false;
+                            }
+                            //因为是要过滤出要被移除的节点，所有这里取反
+                            return !subFilters.test(treeNode);
+                        }
+                    })
+                    .forEach(TreeNode::beMoved);
+
+        }
+        else {
+            throw new IllegalStateException("No have any filter was add");
+        }
+    }
+
+    @Override
     public void beMoved() {
         if (!isRoot()) {
             parentTreeNode.getSubs().remove(this);
@@ -135,6 +156,11 @@ public class DefaultTreeNode implements TreeNodeAble {
         else {
             throw new IllegalStateException("The root node can't be removed");
         }
+    }
+
+    @Override
+    public void moveSubs() {
+        this.subTreeNodes = new ArrayList<TreeNode>();
     }
 
     @Override
@@ -210,10 +236,32 @@ public class DefaultTreeNode implements TreeNodeAble {
 
 
     @Override
+    public String getExpression() {
+        return expression;
+    }
+
+
+    @Override
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
+    @Override
+    public List<TreeNode> query(String expression) {
+        TreeContext context = new TreeContext(this);
+        ExpressionInterpreter interpreter = new DefaultExpressionInterpreter();
+        TreeExpression treeExpression = interpreter.interpret(expression);
+
+        List<TreeNode> treeNodeList = treeExpression.interpret(context);
+        return treeNodeList;
+    }
+
+    @Override
     public String toString() {
-        return "DefaultTreeNode{" +
+        return "{" +
                 "value=" + value +
                 ", level=" + level +
+                ", hashcode=" + this.hashCode() +
                 '}';
     }
 
@@ -221,17 +269,29 @@ public class DefaultTreeNode implements TreeNodeAble {
     public String getDetail() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        foreach(new NodeCaller() {
-            @Override
-            public boolean called(TreeNode treeNode) {
-                stringBuilder.append(treeNode.toString()).append("\n");
-                return true;
+        List<List<TreeNode>> all=TreeNodeUtils.getAllForLevel(this,SortMethod.ASCENDING);
+        for (List<TreeNode> list1 : all) {
+            for (TreeNode treeNode : list1) {
+                stringBuilder.append(treeNode.toString()).append(", ");
             }
-        });
+            stringBuilder.append("\n");
+        }
 
         return stringBuilder.toString();
     }
 
+    @Override
+    public Object clone() {
+        DefaultTreeNode newTreeNode = new DefaultTreeNode(getValue());
+        newTreeNode.setExpression(this.getExpression());
+        newTreeNode.setParent(this.parentTreeNode);
+        newTreeNode.setLevel(this.level);
+        newTreeNode.setOrder(this.order);
+        if (hasSubs()) {
+            cloneSubs(newTreeNode, this.subTreeNodes);
+        }
+        return newTreeNode;
+    }
 
     //*****************
 
@@ -264,24 +324,17 @@ public class DefaultTreeNode implements TreeNodeAble {
 
     }
 
-    @Override
-    public String getExpression() {
-        return expression;
-    }
+    private void cloneSubs(TreeNode newParentTreeNode, List<TreeNode> oldSubTreeNodes) {
+        newParentTreeNode.moveSubs();
 
-
-    @Override
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    @Override
-    public List<TreeNode> query(String expression) {
-        TreeContext context = new TreeContext(this);
-        ExpressionInterpreter interpreter = new DefaultExpressionInterpreter();
-        TreeExpression treeExpression = interpreter.interpret(expression);
-
-        List<TreeNode> treeNodeList = treeExpression.interpret(context);
-        return treeNodeList;
+        for (TreeNode oldSubTreeNode : oldSubTreeNodes) {
+            TreeNode newSub = new DefaultTreeNode(oldSubTreeNode.getValue());
+            newSub.setExpression(oldSubTreeNode.getExpression());
+            newSub.setOrder(oldSubTreeNode.getOrder());
+            newParentTreeNode.addSub(newSub);
+            if (oldSubTreeNode.hasSubs()) {
+                this.cloneSubs(newSub, oldSubTreeNode.getSubs());
+            }
+        }
     }
 }

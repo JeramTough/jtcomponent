@@ -4,7 +4,6 @@ import com.jeramtough.jtcomponent.callback.CommonCallback;
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
-import com.jeramtough.jtcomponent.tree.structure.TreeStructure;
 import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 
 import java.util.*;
@@ -75,13 +74,29 @@ public class TreeNodeUtils {
         }
 
         List<List<TreeNode>> allTreeStructures = new ArrayList<>();
-        for (int i = 0; i < integerListMap.size(); i++) {
+
+        //键值对的键进行排序
+        Set<Integer> sortSet = new TreeSet<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (SortMethod.DESCENDING == sortMethod) {
+                    return o2.compareTo(o1);//降序排列
+                }
+                else {
+                    return o1.compareTo(o2);
+                }
+            }
+        });
+
+        sortSet.addAll(integerListMap.keySet());
+
+        for (Integer i : sortSet) {
             allTreeStructures.add(integerListMap.get(i));
         }
 
-        if (sortMethod == SortMethod.DESCENDING) {
+        /*if (sortMethod == SortMethod.DESCENDING) {
             Collections.reverse(allTreeStructures);
-        }
+        }*/
         return allTreeStructures;
     }
 
@@ -121,11 +136,6 @@ public class TreeNodeUtils {
         }
     }
 
-    public static TreeStructure toTreeStructure(TreeNode beTreeNode) {
-        Map<TreeNode, TreeStructure> treeStructureMap = parseTreeStructureMap(beTreeNode);
-        TreeStructure returnTreeStructure = treeStructureMap.get(beTreeNode);
-        return returnTreeStructure;
-    }
 
     public static Map<String, Object> toTreeMap(TreeNode beTreeNode) {
         return parseTreeNodeMap(beTreeNode, null).get(beTreeNode);
@@ -136,88 +146,8 @@ public class TreeNodeUtils {
         return parseTreeNodeMap(beTreeNode, commonCallback).get(beTreeNode);
     }
 
-    /**
-     * 默认使用升序
-     *
-     * @param treeNodesForLevel treeNodesForLevel
-     * @return 排序后的转换成TreeStructure
-     */
-    public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel) {
-        return toTreeStructuresForLevel(treeNodesForLevel, SortMethod.DESCENDING);
-    }
-
-    /**
-     * 必须要有唯一的父节点
-     * 传SortMethod让我知道是哪个是头
-     *
-     * @param treeNodesForLevel TreeNodes的层级结构
-     * @param sortMethod        排序方法
-     * @return 排序后的TreeStructures层级结构
-     */
-    public static List<List<TreeStructure>> toTreeStructuresForLevel(List<List<TreeNode>> treeNodesForLevel,
-                                                                     SortMethod sortMethod) {
-        TreeNode rootTreeNode = null;
-        switch (sortMethod) {
-            case DESCENDING:
-                rootTreeNode = treeNodesForLevel.get(treeNodesForLevel.size() - 1).get(0);
-                break;
-            case ASCENDING:
-                rootTreeNode = treeNodesForLevel.get(0).get(0);
-                break;
-            default:
-        }
-        Objects.requireNonNull(rootTreeNode);
-
-        List<List<TreeStructure>> treeStructuresForLevel = new ArrayList<>();
-        Map<TreeNode, TreeStructure> treeStructureMap = parseTreeStructureMap(rootTreeNode);
-        for (List<TreeNode> treeNodeList : treeNodesForLevel) {
-            List<TreeStructure> treeStructureList = new ArrayList<>();
-            for (TreeNode treeNode : treeNodeList) {
-                treeStructureList.add(treeStructureMap.get(treeNode));
-            }
-            treeStructuresForLevel.add(treeStructureList);
-        }
-
-        return treeStructuresForLevel;
-    }
-
 
     //*********************
-
-    private static Map<TreeNode, TreeStructure> parseTreeStructureMap(TreeNode beTreeNode) {
-        Map<TreeNode, TreeStructure> treeStructureMap = new HashMap<>(16);
-        beTreeNode.foreach(treeNode -> {
-            TreeStructure treeStructure = new TreeStructure();
-            treeStructure.setLevel(treeNode.getLevel());
-            treeStructure.setValue(treeNode.getValue());
-            treeStructureMap.put(treeNode, treeStructure);
-            return true;
-        });
-
-        beTreeNode.foreach(treeNode -> {
-            TreeStructure thisTreeStructure = treeStructureMap.get(treeNode);
-
-            //设置父节点
-            TreeNode parentTreeNode = treeNode.getParent();
-            if (parentTreeNode != null) {
-                TreeStructure parentTreeStructure = treeStructureMap.get(parentTreeNode);
-                if (parentTreeStructure != null) {
-                    thisTreeStructure.setParent(parentTreeStructure);
-                }
-            }
-
-            //设置子节点
-            List<TreeNode> subTreeNodes = treeNode.getSubs();
-            List<TreeStructure> subTreeStructures = new ArrayList<>();
-            for (TreeNode subTreeNode : subTreeNodes) {
-                subTreeStructures.add(treeStructureMap.get(subTreeNode));
-            }
-            thisTreeStructure.setSubs(subTreeStructures);
-            return true;
-        });
-
-        return treeStructureMap;
-    }
 
     private static Map<TreeNode, Map<String, Object>> parseTreeNodeMap(TreeNode beTreeNode,
                                                                        CommonCallback<Map<String, Object>> commonCallback) {
@@ -263,13 +193,13 @@ public class TreeNodeUtils {
                     (List<Map<String, Object>>) treeNodesMap.get(treeNode).get("children");
 
             //如果有子节点则添加，没有则移除children属性
-            if (subTreeNodes.size()>0){
+            if (subTreeNodes.size() > 0) {
                 for (TreeNode subTreeNode : subTreeNodes) {
                     childrenMapList.add(treeNodesMap.get(subTreeNode));
                 }
                 thisTreeMap.put("children", childrenMapList);
             }
-            else{
+            else {
                 thisTreeMap.remove("children");
             }
 

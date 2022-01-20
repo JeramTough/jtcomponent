@@ -10,9 +10,11 @@ import java.util.function.Predicate;
  * Created on 2019/7/11 15:25
  * by @author WeiBoWen
  */
-public interface TreeNode {
+public interface TreeNode extends Cloneable {
 
     boolean isRoot();
+
+    Object clone();
 
     /**
      * 返回排序顺序，0最大，1次之
@@ -25,18 +27,21 @@ public interface TreeNode {
      * 设置表达式，用于检索
      *
      * @param expression 表达式
+     * @see #query(String)
      */
     void setExpression(String expression);
 
     /**
      * 返回表达式
+     *
      * @return 表达式
      */
     String getExpression();
 
     /**
      * 语法：3234||2312,null||cccc,empty||121||323
-     *检索第一级子节点表达式为3234或者2312，二级子节点为null或者cccc。。。。
+     * 检索第一级子节点表达式为3234或者2312，二级子节点为null或者cccc。。。。
+     *
      * @param expression 检索表达式
      * @return 搜索到的子节点
      */
@@ -59,32 +64,41 @@ public interface TreeNode {
      * 添加子节点过滤器
      *
      * @param filter 过滤器表达式
-     * @see #getSubsByFilters()
-     * @return 过滤后的TreeNode对象
+     * @return 返回TreeNode对象可以继续过滤
+     * @see #getSubsByFilters() ，得到过滤后的List节点
      */
-    TreeNode andPredicate(Predicate<TreeNode> filter);
+    TreeNode andFilter(Predicate<TreeNode> filter);
+
 
     /**
-     * 返回完整版的子节点过滤器
+     * 得到过滤后的List子节点，使用上过滤器
      *
-     * @return 返回完整版的子节点过滤器
-     */
-    Predicate<TreeNode> getSubFilters();
-
-    /**
-     * 得到所有子节点并使用上所有过滤器
-     *
-     * @see #andPredicate(Predicate) 关于如何添加子节点过滤器
      * @return 过滤后的集合
+     * @see #andFilter(Predicate) 关于如何添加子节点过滤器
      */
     List<TreeNode> getSubsByFilters();
 
     /**
+     * 得到过滤后的这个节点，这个节点的子节点将会被移除掉。
+     * 这个节点下的子节点的子节点。。。一样会被过滤
+     * <p>
+     * 如果想保留原来的节点，请使用克隆后的节点进行过滤
+     *
+     * @see #clone()
+     */
+    void doFilters();
+
+    /**
      * 该节点被移除，如果你不想真正移除该节点，可以试试用子节点过滤器
      *
-     * @see #andPredicate(Predicate)
+     * @see #andFilter(Predicate)
      */
     void beMoved();
+
+    /**
+     * 删除该节点的所有子节点，子节点List为新new出来的;
+     */
+    void moveSubs();
 
     /**
      * 返回附带的值对象
@@ -102,6 +116,7 @@ public interface TreeNode {
 
     /**
      * 最小值是0
+     *
      * @return 层级
      */
     int getLevel();
@@ -132,12 +147,14 @@ public interface TreeNode {
 
     /**
      * get brothers of node
+     *
      * @return the list
      */
     List<TreeNode> getBrothers();
 
     /**
      * 回调器返回true则继续执行，返回false则终止执行
+     *
      * @param nodeCaller 回调器
      */
     void foreach(NodeCaller nodeCaller);

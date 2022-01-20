@@ -107,7 +107,9 @@ public final class JtClassUtil {
     }
 
     /**
+     * @param clazz class
      * @deprecated
+     * @return list
      */
     @Deprecated
     public static List<Field> doGetFieldList(Class<?> clazz) {

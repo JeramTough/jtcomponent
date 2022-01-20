@@ -6,6 +6,7 @@ import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
+import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 import test.tree.component.dingtalk.DepartmentRootTreeNodeAdapter;
@@ -97,6 +98,7 @@ public class TreeAdapterTest {
         TreeNode treeNode = treeProcessor.processing(true, adapter);
 
         String detail = treeNode.getDetail();
+
         L.debug(detail);
 
     }

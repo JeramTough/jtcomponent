@@ -52,7 +52,7 @@ public class SamplingUtil {
                     TreeNode tempTreeNode = indexTreeNode;
                     while (!tempTreeNode.isRoot()) {
                         final int ownValue = ((int) tempTreeNode.getValue());
-                        indexTreeNode.andPredicate((TreeNode treeNode1) -> {
+                        indexTreeNode.andFilter((TreeNode treeNode1) -> {
                             int value = (int) treeNode1.getValue();
                             return ownValue != value;
                         });
