@@ -11,11 +11,22 @@ import java.io.File;
 public class Directory extends File {
 
     private Directory(File file) {
-        this(file.getAbsolutePath());
+        this(file.getAbsolutePath(), false);
     }
 
     public Directory(String pathname) {
+        this(pathname, false);
+    }
+
+    private Directory(File file, boolean autoCreate) {
+        this(file.getAbsolutePath(), autoCreate);
+    }
+
+    public Directory(String pathname, boolean autoCreate) {
         super(pathname);
+        if (!this.exists() && autoCreate) {
+            this.mkdirs();
+        }
         if (!this.isDirectory()) {
             throw new IllegalArgumentException("This path isn't a directory");
         }

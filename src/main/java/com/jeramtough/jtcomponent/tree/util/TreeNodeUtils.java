@@ -15,16 +15,24 @@ import java.util.*;
 public class TreeNodeUtils {
 
     public static List<TreeNode> getAll(TreeNode rootTreeNode) {
-        return getAll(rootTreeNode, SortMethod.ASCENDING);
+        return getAll(rootTreeNode, SortMethod.ASCENDING, true);
     }
 
     public static List<TreeNode> getAll(TreeNode rootTreeNode,
                                         SortMethod sortMethod) {
+        return getAll(rootTreeNode, sortMethod, true);
+    }
+
+    public static List<TreeNode> getAll(TreeNode rootTreeNode,
+                                        SortMethod sortMethod,
+                                        boolean containRoot) {
 
         List<TreeNode> sortedTreeNodes = new ArrayList<>();
         LinkedList<TreeNode> tempTreeNodes = new LinkedList<>();
 
-        sortedTreeNodes.add(rootTreeNode);
+        if (containRoot) {
+            sortedTreeNodes.add(rootTreeNode);
+        }
 
         if (rootTreeNode.hasSubs()) {
             List<TreeNode> treeNodes = rootTreeNode.getSubsByFilters();
@@ -61,7 +69,7 @@ public class TreeNodeUtils {
 
     public static List<List<TreeNode>> getAllForLevel(TreeNode rootTreeNode,
                                                       SortMethod sortMethod) {
-        List<TreeNode> sortTreeNodes = getAll(rootTreeNode, sortMethod);
+        List<TreeNode> sortTreeNodes = getAll(rootTreeNode, sortMethod, true);
         Map<Integer, List<TreeNode>> integerListMap = new HashMap<>(16);
 
         for (TreeNode treeNode : sortTreeNodes) {

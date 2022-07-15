@@ -13,6 +13,14 @@ public class KeyValue implements Serializable {
     private String key;
     private Serializable value;
 
+    public KeyValue() {
+    }
+
+    public KeyValue(String key, Serializable value) {
+        this.key = key;
+        this.value = value;
+    }
+
     public String getKey() {
         return key;
     }

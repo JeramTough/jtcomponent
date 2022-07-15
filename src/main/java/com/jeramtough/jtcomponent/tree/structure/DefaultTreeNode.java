@@ -58,6 +58,12 @@ public class DefaultTreeNode implements TreeNodeAble {
     }
 
     @Override
+    public List<TreeNode> getAllSubs() {
+        List<TreeNode> allTreeNodes = TreeNodeUtils.getAll(this, SortMethod.DESCENDING, false);
+        return allTreeNodes;
+    }
+
+    @Override
     public int getOrder() {
         return order;
     }
@@ -115,8 +121,9 @@ public class DefaultTreeNode implements TreeNodeAble {
             return getSubs();
         }
         else {
+            List<TreeNode> allSubTreeNodes = getAllSubs();
             List<TreeNode> treeNodeList =
-                    getSubs().stream().filter(subFilters).collect(Collectors.toList());
+                    allSubTreeNodes.stream().filter(subFilters).collect(Collectors.toList());
 
             return treeNodeList;
         }
@@ -269,7 +276,7 @@ public class DefaultTreeNode implements TreeNodeAble {
     public String getDetail() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        List<List<TreeNode>> all=TreeNodeUtils.getAllForLevel(this,SortMethod.ASCENDING);
+        List<List<TreeNode>> all = TreeNodeUtils.getAllForLevel(this, SortMethod.ASCENDING);
         for (List<TreeNode> list1 : all) {
             for (TreeNode treeNode : list1) {
                 stringBuilder.append(treeNode.toString()).append(", ");

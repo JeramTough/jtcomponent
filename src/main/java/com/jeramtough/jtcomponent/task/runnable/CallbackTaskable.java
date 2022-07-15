@@ -27,10 +27,21 @@ public class CallbackTaskable extends BaseTaskable {
     public TaskResult doTask() throws Exception {
         TaskResult taskResult = getTaskResult();
         taskCallback.onTaskStart();
-        boolean isSuccessful = callbackRunner.doTask(taskResult, taskCallback);
-        taskResult.setSuccessful(isSuccessful);
-        taskResult.setTimeConsuming(System.currentTimeMillis() - getStartTaskTime());
-        taskCallback.onTaskCompleted(taskResult);
-        return taskResult;
+        try {
+            boolean isSuccessful = callbackRunner.doTask(taskResult, taskCallback);
+            taskResult.setSuccessful(isSuccessful);
+            taskResult.setTimeConsuming(System.currentTimeMillis() - getStartTaskTime());
+            taskCallback.onTaskCompleted(taskResult);
+            return taskResult;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            taskResult.setSuccessful(false);
+            taskResult.setMessage(e.getMessage());
+            taskResult.setTimeConsuming(System.currentTimeMillis() - getStartTaskTime());
+            taskCallback.onTaskCompleted(taskResult);
+            return taskResult;
+        }
+
     }
 }

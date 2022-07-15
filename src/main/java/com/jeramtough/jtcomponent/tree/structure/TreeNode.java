@@ -51,6 +51,12 @@ public interface TreeNode extends Cloneable {
 
     List<TreeNode> getSubs();
 
+    /**
+     * 得到除了本身以外的所有子节点，子节点倒序排列
+     * @return 子节点
+     */
+    List<TreeNode> getAllSubs();
+
     boolean hasSubs();
 
     TreeNode getParent();

@@ -74,6 +74,20 @@ public class StringUtil {
         return sb.toString();
     }
 
+    public static String lineToHump(String str, boolean firstCharUpper) {
+        if (firstCharUpper) {
+            str = lineToHump(str);
+            String firstChar = str.charAt(0) + "";
+            firstChar = firstChar.toUpperCase();
+            String newStr = firstChar + str.substring(1);
+            return newStr;
+
+        }
+        else {
+            return lineToHump(str);
+        }
+    }
+
 
     /**
      * 转驼峰字符串转下划线字符串
@@ -166,5 +180,41 @@ public class StringUtil {
             str = str.substring(0, str.length() - 1);
         }
         return str;
+    }
+
+    /**
+     * 首字母大写
+     *
+     * @param str 字符串参数
+     * @return 修改后字符串
+     */
+    public static String firstCharUpperCase(String str) {
+        if (str == null || str.length() == 0) {
+            throw new IllegalStateException("参数异常！");
+        }
+
+        String firstChar = str.charAt(0) + "";
+        firstChar = firstChar.toUpperCase();
+        String newStr = firstChar + str.substring(1);
+        return newStr;
+
+    }
+
+    /**
+     * 首字母小写
+     *
+     * @param str 字符串参数
+     * @return 修改后字符串
+     */
+    public static String firstCharLowerCase(String str) {
+        if (str == null || str.length() == 0) {
+            throw new IllegalStateException("参数异常！");
+        }
+
+        String firstChar = str.charAt(0) + "";
+        firstChar = firstChar.toLowerCase();
+        String newStr = firstChar + str.substring(1);
+        return newStr;
+
     }
 }
