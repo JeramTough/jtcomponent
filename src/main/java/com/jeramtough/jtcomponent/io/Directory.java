@@ -41,4 +41,21 @@ public class Directory extends File {
             return false;
         }
     }
+
+    public static Directory createFromFile(File file) {
+        if (!file.getParentFile().exists()) {
+            boolean isSuccessful = file.getParentFile().mkdirs();
+            if (!isSuccessful) {
+                throw new RuntimeException(String.format("create directory【%s】failing",
+                        file.getParentFile().getAbsoluteFile()));
+            }
+            else {
+                return new Directory(file.getParentFile().getAbsolutePath());
+            }
+        }
+        else {
+            return new Directory(file.getParentFile().getAbsolutePath());
+        }
+    }
+
 }

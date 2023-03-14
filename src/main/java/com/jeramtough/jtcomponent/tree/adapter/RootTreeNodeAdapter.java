@@ -3,6 +3,7 @@ package com.jeramtough.jtcomponent.tree.adapter;
 import java.util.List;
 
 /**
+ *这是为了拆tree
  *
  * 遍历一个根节点的适配器
  *

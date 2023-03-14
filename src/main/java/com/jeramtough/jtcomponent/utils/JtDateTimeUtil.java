@@ -154,7 +154,9 @@ public class JtDateTimeUtil {
      * @param startDate date
      * @param endDate   date
      * @return 格式化后的日期差文字描述
+     * @deprecated eprecatedsee JtTimeFormatUtil.getPastTime()
      */
+    @Deprecated
     public static String getDistanceTimeStr(Date startDate, Date endDate) {
         long[] dis = getDisTime(startDate, endDate);
         return new StringBuilder().append(dis[0]).append("天").append(dis[1]).append(
@@ -162,6 +164,10 @@ public class JtDateTimeUtil {
                 "分钟").append(dis[3]).append("秒").toString();
     }
 
+    /**
+     * @deprecated eprecatedsee JtTimeFormatUtil.getPastTime()
+     */
+    @Deprecated
     public static String getDistanceTimeStr(Date startDate, Date endDate, String type) {
         long[] dis = getDisTime(startDate, endDate);
 

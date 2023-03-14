@@ -67,6 +67,31 @@ public class TreeNodeUtils {
         return sortedTreeNodes;
     }
 
+
+    public static List<TreeNode> getAllForTree(TreeNode rootTreeNode,
+                                               SortMethod sortMethod,
+                                               boolean containRoot) {
+
+        List<TreeNode> sortedTreeNodes = new ArrayList<>();
+
+        if (containRoot) {
+            sortedTreeNodes.add(rootTreeNode);
+        }
+
+        if (rootTreeNode.hasSubs()) {
+            List<TreeNode> treeNodes = rootTreeNode.getSubsByFilters();
+            for (TreeNode treeNode : treeNodes) {
+                addChildNode(sortedTreeNodes, treeNode);
+            }
+        }
+
+        if (sortMethod == SortMethod.DESCENDING) {
+            Collections.reverse(sortedTreeNodes);
+        }
+
+        return sortedTreeNodes;
+    }
+
     public static List<List<TreeNode>> getAllForLevel(TreeNode rootTreeNode,
                                                       SortMethod sortMethod) {
         List<TreeNode> sortTreeNodes = getAll(rootTreeNode, sortMethod, true);
@@ -102,7 +127,7 @@ public class TreeNodeUtils {
             allTreeStructures.add(integerListMap.get(i));
         }
 
-        /*if (sortMethod == SortMethod.DESCENDING) {
+       /* if (sortMethod == SortMethod.DESCENDING) {
             Collections.reverse(allTreeStructures);
         }*/
         return allTreeStructures;
@@ -182,10 +207,19 @@ public class TreeNodeUtils {
                 e.printStackTrace();
             }
             Objects.requireNonNull(nodeMap);
-            nodeMap.put("level", treeNode.getLevel());
-            nodeMap.put("order", treeNode.getOrder());
-            nodeMap.put("hasChildren", treeNode.hasSubs());
-            nodeMap.put("children", new ArrayList<HashMap<String, Object>>());
+            if (!nodeMap.containsKey("level")) {
+                nodeMap.put("level", treeNode.getLevel());
+            }
+            if (!nodeMap.containsKey("order")) {
+                nodeMap.put("order", treeNode.getOrder());
+            }
+            if (!nodeMap.containsKey("hasChildren")) {
+                nodeMap.put("hasChildren", treeNode.hasSubs());
+            }
+            if (!nodeMap.containsKey("children")) {
+                nodeMap.put("children", new ArrayList<HashMap<String, Object>>());
+            }
+
             treeNodesMap.put(treeNode, nodeMap);
             return true;
         });
@@ -219,5 +253,18 @@ public class TreeNodeUtils {
         });
 
         return treeNodesMap;
+    }
+
+
+    private static void addChildNode(List<TreeNode> sortedTreeNodes, TreeNode treeNode) {
+
+        sortedTreeNodes.add(treeNode);
+
+        if (treeNode.hasSubs()) {
+            List<TreeNode> treeNodes = treeNode.getSubsByFilters();
+            for (TreeNode node : treeNodes) {
+                addChildNode(sortedTreeNodes, node);
+            }
+        }
     }
 }
