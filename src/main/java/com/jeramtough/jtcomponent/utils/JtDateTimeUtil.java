@@ -165,7 +165,11 @@ public class JtDateTimeUtil {
     }
 
     /**
+     * @param startDate date
+     * @param endDate date
+     * @param type type
      * @deprecated eprecatedsee JtTimeFormatUtil.getPastTime()
+     * @return
      */
     @Deprecated
     public static String getDistanceTimeStr(Date startDate, Date endDate, String type) {
