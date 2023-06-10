@@ -6,11 +6,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Deprecated: 使用JtStrUtil
- */
-@Deprecated
-public class StringUtil {
+public class JtStrUtil {
 
     private static final Pattern LINE_PATTERN = Pattern.compile("_(\\w)");
     private static final Pattern HUMP_PATTERN = Pattern.compile("[A-Z]");
@@ -218,6 +214,40 @@ public class StringUtil {
         String firstChar = str.charAt(0) + "";
         firstChar = firstChar.toLowerCase();
         String newStr = firstChar + str.substring(1);
+        return newStr;
+
+    }
+
+    /**
+     * 截断字符串
+     *
+     * @param str   字符串
+     * @param start 开始位置
+     * @param end   结束位置
+     * @return 新的截断后的字符串
+     */
+    public static String sub(String str, int start, int end) {
+        return sub(str, start, end, false);
+    }
+
+    /**
+     * 截断字符串
+     *
+     * @param str           字符串
+     * @param start         开始位置
+     * @param end           结束位置
+     * @param isAddEllipsis 是否添加省略号
+     * @return 新的截断后的字符串
+     */
+    public static String sub(String str, int start, int end, boolean isAddEllipsis) {
+        String newStr = str.substring(start, end + 1 > str.length() ? str.length() - 1 : end);
+
+        if (isAddEllipsis) {
+            if (str.length() > newStr.length()) {
+                newStr = newStr + "...";
+            }
+        }
+
         return newStr;
 
     }
