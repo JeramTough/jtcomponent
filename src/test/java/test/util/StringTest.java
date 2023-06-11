@@ -1,9 +1,12 @@
 package test.util;
 
+import com.jeramtough.jtcomponent.utils.JtStrUtil;
 import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 import com.jeramtough.jtcomponent.utils.StringUtil;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 
 /**
  * Created on 2018-12-17 10:52
@@ -35,6 +38,17 @@ public class StringTest {
         L.debugs(a, a1, a2, a3, b, b1, b2);
     }
 
+    @Test
+    public void test2() {
+        String str1 = "kitten";
+        String str2 = "sitting";
+
+        double similarity = JtStrUtil.getStringSimilarity(str1, str2).doubleValue();
+
+
+        System.out.println("Similarity: " + similarity);
+    }
+
     public class AbcdEfgG {
 
         private int myName;
@@ -64,5 +78,7 @@ public class StringTest {
         public void setIsTest(String isTest) {
             this.isTest = isTest;
         }
+
+
     }
 }
