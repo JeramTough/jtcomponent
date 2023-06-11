@@ -77,7 +77,7 @@ public final class JtClassUtil {
     public static Map<String, Field> getFieldMap(Class<?> clazz) {
         List<Field> fieldList = getFieldList(clazz);
 
-        boolean isNotEmpty = CollectionUtil.isNotEmpty(fieldList);
+        boolean isNotEmpty = JtCollectionUtil.isNotEmpty(fieldList);
 
         return isNotEmpty ? (Map) fieldList.stream().collect(
                 Collectors.toMap(Field::getName, (field) -> {
@@ -86,7 +86,7 @@ public final class JtClassUtil {
     }
 
     public static List<Field> getFieldList(Class<?> clazz) {
-        return Objects.isNull(clazz) ? Collections.emptyList() : (List) CollectionUtil.computeIfAbsent(
+        return Objects.isNull(clazz) ? Collections.emptyList() : (List) JtCollectionUtil.computeIfAbsent(
                 CLASS_FIELD_CACHE, clazz, (k) -> {
                     Field[] fields = k.getDeclaredFields();
                     List<Field> superFields = new ArrayList();

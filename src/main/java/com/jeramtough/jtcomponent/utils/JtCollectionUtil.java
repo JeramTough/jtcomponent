@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class CollectionUtil {
+public class JtCollectionUtil {
     private static final int MAX_POWER_OF_TWO = 1073741824;
 
-    public CollectionUtil() {
+    public JtCollectionUtil() {
     }
 
     public static boolean isEmpty(Collection<?> coll) {
