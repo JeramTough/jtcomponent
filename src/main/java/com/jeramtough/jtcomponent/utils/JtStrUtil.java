@@ -1,5 +1,6 @@
 package com.jeramtough.jtcomponent.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -251,4 +252,44 @@ public class JtStrUtil {
         return newStr;
 
     }
+
+    /**
+     *  得到两个字符串的相似度系数
+     *
+     * @param str1 str1
+     * @param str2 str2
+     * @return 相似度
+     */
+    public static BigDecimal getStringSimilarity(String str1, String str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+
+        // 创建二维数组来存储距离矩阵
+        int[][] distanceMatrix = new int[len1 + 1][len2 + 1];
+
+        // 初始化第一行和第一列
+        for (int i = 0; i <= len1; i++) {
+            distanceMatrix[i][0] = i;
+        }
+        for (int j = 0; j <= len2; j++) {
+            distanceMatrix[0][j] = j;
+        }
+
+        // 计算距离矩阵
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                int cost = (str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1;
+                distanceMatrix[i][j] = Math.min(
+                        Math.min(distanceMatrix[i - 1][j] + 1, distanceMatrix[i][j - 1] + 1),
+                        distanceMatrix[i - 1][j - 1] + cost);
+            }
+        }
+
+        // 计算相似度
+        int maxLen = Math.max(len1, len2);
+        double similarity = 1.0 - (double) distanceMatrix[len1][len2] / maxLen;
+        BigDecimal bigDecimal=new BigDecimal(similarity);
+        return bigDecimal;
+    }
+
 }
