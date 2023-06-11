@@ -253,8 +253,52 @@ public class JtStrUtil {
 
     }
 
+
+    public static BigDecimal calculateSimilarity(List<String> list1, List<String> list2) {
+        int totalDistance = 0;
+
+        for (String str1 : list1) {
+            int minDistance = Integer.MAX_VALUE;
+            for (String str2 : list2) {
+                int distance = calculateLevenshteinDistance(str1, str2);
+                minDistance = Math.min(minDistance, distance);
+            }
+            totalDistance += minDistance;
+        }
+
+        int maxLength = Math.max(list1.size(), list2.size());
+        double similarity = 1 - ((double) totalDistance / maxLength);
+
+        return new BigDecimal(similarity);
+    }
+
+    public static int calculateLevenshteinDistance(String str1, String str2) {
+        int[][] distanceMatrix = new int[str1.length() + 1][str2.length() + 1];
+
+        for (int i = 0; i <= str1.length(); i++) {
+            distanceMatrix[i][0] = i;
+        }
+
+        for (int j = 0; j <= str2.length(); j++) {
+            distanceMatrix[0][j] = j;
+        }
+
+        for (int i = 1; i <= str1.length(); i++) {
+            for (int j = 1; j <= str2.length(); j++) {
+                int cost = (str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1;
+
+                distanceMatrix[i][j] = Math.min(
+                        Math.min(distanceMatrix[i - 1][j] + 1, distanceMatrix[i][j - 1] + 1),
+                        distanceMatrix[i - 1][j - 1] + cost
+                );
+            }
+        }
+
+        return distanceMatrix[str1.length()][str2.length()];
+    }
+
     /**
-     *  得到两个字符串的相似度系数
+     * 得到两个字符串的相似度系数
      *
      * @param str1 str1
      * @param str2 str2
@@ -288,7 +332,7 @@ public class JtStrUtil {
         // 计算相似度
         int maxLen = Math.max(len1, len2);
         double similarity = 1.0 - (double) distanceMatrix[len1][len2] / maxLen;
-        BigDecimal bigDecimal=new BigDecimal(similarity);
+        BigDecimal bigDecimal = new BigDecimal(similarity);
         return bigDecimal;
     }
 
