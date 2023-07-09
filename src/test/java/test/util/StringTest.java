@@ -1,5 +1,6 @@
 package test.util;
 
+import com.jeramtough.jtcomponent.utils.JtStrSimilarityUtil;
 import com.jeramtough.jtcomponent.utils.JtStrUtil;
 import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 import com.jeramtough.jtcomponent.utils.StringUtil;
@@ -43,7 +44,7 @@ public class StringTest {
         String str1 = "kitten";
         String str2 = "sitting";
 
-        double similarity = JtStrUtil.getStringSimilarity(str1, str2).doubleValue();
+        double similarity = JtStrSimilarityUtil.getStringSimilarity(str1, str2).doubleValue();
 
 
         System.out.println("Similarity: " + similarity);
