@@ -7,10 +7,7 @@ package com.jeramtough.jtcomponent.utils;
  * </pre>
  */
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 public class JtCollectionUtil {
@@ -60,6 +57,11 @@ public class JtCollectionUtil {
      * @return 分页后的list
      */
     public static <T> List<T> paginate(List<T> dataList, int pageSize, int currentPage) {
+
+        if (dataList.isEmpty()){
+            return new ArrayList<>();
+        }
+
         int totalElements = dataList.size();
         int totalPages = (int) Math.ceil((double) totalElements / pageSize);
 
