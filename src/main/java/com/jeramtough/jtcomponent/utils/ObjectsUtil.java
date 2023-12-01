@@ -315,4 +315,25 @@ public class ObjectsUtil {
         }
     }
 
+    public static void setValue(Object entity, String fieldName,Object value) {
+        try {
+            Field field = entity.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+
+            Method[] getSetMethod =
+                    ObjectsUtil.getGetSetMethodsOfField(entity.getClass(), fieldName);
+            Method setMethod = null;
+            if (getSetMethod[1] != null) {
+                setMethod = getSetMethod[1];
+                setMethod.setAccessible(true);
+//                setMethod.invoke(entity, new Date());
+            }
+
+            setMethod.invoke(entity, value);
+        }
+        catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException e) {
+//            e.printStackTrace();
+        }
+    }
+
 }
