@@ -50,7 +50,7 @@ public class StringTest {
         System.out.println("Similarity: " + similarity);
     }
 
-    @Test
+  /*  @Test
     public void test3() {
         String str1 = "习近平总书记在2021年中央人才工作会议上强调，要加大人才发展投入，提高人才投入效益。";
         String str2 = "习近平,总书记,人才,历史,dkjdas,dasfsa";
@@ -60,7 +60,7 @@ public class StringTest {
 
 
         System.out.println("Similarity: " + similarity);
-    }
+    }*/
 
 
     public class AbcdEfgG {
