@@ -18,7 +18,9 @@ public class JtMathFactionUtil {
      * @return 函数值
      */
     public static double logistic(double t, double L, double k, double t0) {
-        return L / (1 + Math.exp(-k * (t - t0)));
+        double result = L / (1 + Math.exp(-k * (t - t0)));
+        // 四舍五入保留三位小数
+        return Math.round(result * 1000.0) / 1000.0;
     }
 
 }
