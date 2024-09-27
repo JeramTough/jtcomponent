@@ -246,7 +246,7 @@ public class ObjectsUtil {
     /**
      * 得到变量的get方法和set方法
      *
-     * @param clazz 反射类
+     * @param clazz     反射类
      * @param fieldName 变量名
      * @return 返回get和set方法，可能为空
      */
@@ -267,25 +267,29 @@ public class ObjectsUtil {
             methodName4 = "set" + fieldName.replace("is", "");
         }
 
-        Method[] methods=new Method[2];
+        Method[] methods = new Method[2];
         for (Method method : clazz.getDeclaredMethods()) {
 
             if (methodName1.equalsIgnoreCase(method.getName())) {
-                methods[0]=method;
+                methods[0] = method;
             }
             if (methodName2.equalsIgnoreCase(method.getName())) {
-                methods[1]=method;
+                methods[1] = method;
             }
             if (methodName3.equalsIgnoreCase(method.getName())) {
-                methods[0]=method;
+                methods[0] = method;
             }
             if (methodName4.equalsIgnoreCase(method.getName())) {
-                methods[1]=method;
+                methods[1] = method;
             }
         }
         return methods;
     }
 
+    /**
+     * @param entity    entity
+     * @param fieldName fieldName
+     */
     public static void setTime(Object entity, String fieldName) {
         try {
             Field field = entity.getClass().getDeclaredField(fieldName);
@@ -315,7 +319,12 @@ public class ObjectsUtil {
         }
     }
 
-    public static void setValue(Object entity, String fieldName,Object value) {
+    /**
+     * @param entity    entity
+     * @param fieldName fieldName
+     * @param value     value
+     */
+    public static void setValue(Object entity, String fieldName, Object value) {
         try {
             Field field = entity.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -333,6 +342,32 @@ public class ObjectsUtil {
         }
         catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException e) {
 //            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * @param object data
+     * @param clazz  toClass
+     * @param <T>    toClassType
+     * @return toClassData
+     */
+    public static <T> T transferToLongIntStr(Object object, Class<T> clazz) {
+        Objects.requireNonNull(object);
+        if (clazz == String.class) {
+            return (T) String.valueOf(object);
+        }
+        else if (clazz == Integer.class) {
+            return (T) Integer.valueOf(String.valueOf(object));
+        }
+        else if (clazz == Long.class) {
+            return (T) Long.valueOf(String.valueOf(object));
+        }
+        else if (clazz == Boolean.class) {
+            return (T) Boolean.valueOf(String.valueOf(object));
+        }
+        else {
+            return (T) object;
         }
     }
 

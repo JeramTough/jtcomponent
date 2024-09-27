@@ -134,29 +134,43 @@ public class JtStrUtil {
      * @return 分割后的数组
      */
     public static List<String> splitByComma(String str) {
-        List<String> lis = new ArrayList<>();
+        return splitByComma(str, String.class);
+    }
+
+    /**
+     * 用中英文逗号分割字符串
+     *
+     * @param str 被分割的字符串
+     * @return 分割后的数组
+     */
+    public static <T> List<T> splitByComma(String str, Class<T> dataClass) {
+        if (isEmpty(str)) {
+            return new ArrayList<>();
+        }
+
+        String splitChar;
         if (str.contains(",")) {
-            String[] split = str.split(",");
-            for (int i = 0; i < split.length; i++) {
-                String url = split[i];
-                lis.add(url);
-            }
+            splitChar = ",";
         }
         else if (str.contains("，")) {
-            String[] split = str.split("，");
-            for (int i = 0; i < split.length; i++) {
-                String url = split[i];
-                lis.add(url);
-            }
+            splitChar = "，";
+        }
+        else if (str.contains("|")) {
+            splitChar = "|";
         }
         else {
-            String[] split = str.split(",");
-            for (int i = 0; i < split.length; i++) {
-                String url = split[i];
-                lis.add(url);
-            }
+            List<T> list = new ArrayList<>();
+            list.add(ObjectsUtil.transferToLongIntStr(str, dataClass));
+            return list;
         }
-        return lis;
+
+        String[] split = str.split(splitChar);
+        List<T> list = new ArrayList<>();
+        for (int i = 0; i < split.length; i++) {
+            String str2 = split[i];
+            list.add(ObjectsUtil.transferToLongIntStr(str2, dataClass));
+        }
+        return list;
     }
 
     /**
@@ -252,7 +266,6 @@ public class JtStrUtil {
         return newStr;
 
     }
-
 
 
 }

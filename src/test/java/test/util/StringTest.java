@@ -95,4 +95,10 @@ public class StringTest {
 
 
     }
+
+
+    @Test
+    public void test3() {
+        L.debug(ObjectsUtil.transferToLongIntStr("123456789", String.class));
+    }
 }
