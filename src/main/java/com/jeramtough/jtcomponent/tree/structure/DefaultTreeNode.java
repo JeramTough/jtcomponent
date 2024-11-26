@@ -118,22 +118,18 @@ public class DefaultTreeNode implements TreeNodeAble {
 
     @Override
     public TreeNode addSub(TreeNode treeNode) {
+        //先不排序添添加，最后在排序
         addSubButDontSort(treeNode);
         //排序
         TreeNodeComparator comparator = new TreeNodeComparator();
         subTreeNodes.sort(comparator);
-
-        //路线
-        List<String> subPaths = new ArrayList<>(paths);
-        subPaths.add(treeNode.getKey());
-        TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;
-        treeNodeAble.setPaths(subPaths);
 
         return this;
     }
 
     @Override
     public TreeNode addSubs(TreeNode... treeNodes) {
+        //先不排序添添加，最后在排序
         for (TreeNode treeNode : treeNodes) {
             addSubButDontSort(treeNode);
         }
@@ -367,15 +363,6 @@ public class DefaultTreeNode implements TreeNodeAble {
                 subTreeNodeAble.setLevel(baseLevel + subTreeNode.getLevel());
             }
         }
-
-        //路线
-        if (treeNode instanceof TreeNodeAble) {
-            List<String> subPaths = new ArrayList<>(paths);
-            subPaths.add(treeNode.getKey());
-            TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;
-            treeNodeAble.setPaths(subPaths);
-        }
-
 
     }
 

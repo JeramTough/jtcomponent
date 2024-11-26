@@ -2,14 +2,14 @@ package com.jeramtough.jtcomponent.tree.processor;
 
 import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.adapter.RootTreeNodeAdapter;
+import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNodeAble;
+import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created on 2019/7/12 9:04
@@ -88,11 +88,12 @@ public class DefaultTreeProcessor implements TreeProcessor {
     public <T> TreeNode processing(
             List<? extends OneTreeNodeAdapter<T>> oneTreeNodeAdapterList) {
         TreeNode rootTreeNode = new DefaultTreeNode();
+
         Map<Object, TreeNode> idKeyTreeNodeMap = new HashMap<>();
 
-
         for (OneTreeNodeAdapter<T> adapter : oneTreeNodeAdapterList) {
-            TreeNode treeNode = new DefaultTreeNode(adapter.getValue(),adapter.getKey().toString());
+            TreeNode treeNode = new DefaultTreeNode(adapter.getValue(),
+                    adapter.getKey().toString());
             treeNode.setOrder(adapter.getOrder());
             idKeyTreeNodeMap.put(adapter.getKey(), treeNode);
         }
@@ -107,8 +108,10 @@ public class DefaultTreeProcessor implements TreeProcessor {
                 parentTreeNode.addSub(thisTreeNode);
             }
         }
+
+        //更新路径值
+        TreeNodeUtils.updatePaths(rootTreeNode);
+
         return rootTreeNode;
     }
-
-
 }

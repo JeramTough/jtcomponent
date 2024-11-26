@@ -6,6 +6,7 @@ import com.jeramtough.jtcomponent.tree.expression.interpret.DefaultExpressionInt
 import com.jeramtough.jtcomponent.tree.expression.interpret.ExpressionInterpreter;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
+import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 
@@ -83,6 +84,9 @@ public class ExpressionTest {
 
         List<TreeNode> treeNodeList = rootTreeNode.query("aaa||null,bbb||empty,ccc||ddd");
         L.debug(treeNodeList.size());
+
+        TreeNodeUtils.updatePaths(rootTreeNode);
+        L.arrive();
     }
 
 }

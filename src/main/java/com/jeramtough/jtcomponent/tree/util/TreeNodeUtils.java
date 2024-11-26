@@ -8,6 +8,7 @@ import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
+import com.jeramtough.jtcomponent.tree.structure.TreeNodeAble;
 import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 
 import java.util.*;
@@ -270,6 +271,34 @@ public class TreeNodeUtils {
         return rootTreeNode;
     }
 
+    public static void updatePaths(TreeNode rootTreeNode) {
+        //设置路径,从上至下设置路径
+        List<TreeNode> allTreeNode = TreeNodeUtils.getAll(rootTreeNode, SortMethod.ASCENDING,
+                false);
+        for (TreeNode treeNode : allTreeNode) {
+            TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;
+            if (treeNodeAble.getParent() != null) {
+                if (!treeNodeAble.getParent().isRoot()) {
+                    List<String> paths = new ArrayList<>(treeNodeAble.getParent()
+                                                                     .getPaths());
+                    paths.add(treeNodeAble.getKey());
+                    treeNodeAble.setPaths(paths);
+                }
+                else {
+                    List<String> paths = new ArrayList<>();
+                    paths.add(treeNodeAble.getKey());
+                    treeNodeAble.setPaths(paths);
+                }
+            }
+            else {
+                List<String> paths = new ArrayList<>();
+                paths.add(treeNodeAble.getKey());
+                treeNodeAble.setPaths(paths);
+            }
+        }
+
+    }
+
     //*********************
 
     private static Map<TreeNode, Map<String, Object>> parseTreeNodeMap(TreeNode beTreeNode,
@@ -357,4 +386,6 @@ public class TreeNodeUtils {
             }
         }
     }
+
+
 }
