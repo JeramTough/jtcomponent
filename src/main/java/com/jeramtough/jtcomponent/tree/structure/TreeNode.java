@@ -3,6 +3,7 @@ package com.jeramtough.jtcomponent.tree.structure;
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -10,7 +11,7 @@ import java.util.function.Predicate;
  * Created on 2019/7/11 15:25
  * by @author WeiBoWen
  */
-public interface TreeNode extends Cloneable {
+public interface TreeNode extends Cloneable, Serializable {
 
     boolean isRoot();
 
@@ -53,6 +54,7 @@ public interface TreeNode extends Cloneable {
 
     /**
      * 得到除了本身以外的所有子节点，子节点倒序排列
+     *
      * @return 子节点
      */
     List<TreeNode> getAllSubs();

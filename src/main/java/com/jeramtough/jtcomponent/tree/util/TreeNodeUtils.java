@@ -1,12 +1,17 @@
 package com.jeramtough.jtcomponent.tree.util;
 
 import com.jeramtough.jtcomponent.callback.CommonCallback;
+import com.jeramtough.jtcomponent.tree.adapter.AssemblyOneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.base.SortMethod;
+import com.jeramtough.jtcomponent.tree.filter.TreeNodeFilter;
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
+import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
+import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created on 2019/6/18 10:28
@@ -23,44 +28,53 @@ public class TreeNodeUtils {
         return getAll(rootTreeNode, sortMethod, true);
     }
 
-    public static List<TreeNode> getAll(TreeNode rootTreeNode,
-                                        SortMethod sortMethod,
+    public static List<TreeNode> getAll(TreeNode rootTreeNode, SortMethod sortMethod,
                                         boolean containRoot) {
-
         List<TreeNode> sortedTreeNodes = new ArrayList<>();
-        LinkedList<TreeNode> tempTreeNodes = new LinkedList<>();
+        Deque<TreeNode> tempTreeNodes = new ArrayDeque<>();
 
         if (containRoot) {
             sortedTreeNodes.add(rootTreeNode);
         }
 
+        // 是否从末尾插入决定最终排序
+        boolean addToEnd = (sortMethod != SortMethod.DESCENDING);
+
+        // 添加根节点的子节点到队列
         if (rootTreeNode.hasSubs()) {
-            List<TreeNode> treeNodes = rootTreeNode.getSubsByFilters();
-            for (TreeNode treeNode : treeNodes) {
-                if (treeNode.hasSubs()) {
-                    tempTreeNodes.add(treeNode);
-//                    System.out.println("添加有子结构:" + TreeNode.getValue());
-                }
-                /*else {
-                    System.out.println("添加没有子结构:" + TreeNode.getValue());
-                }*/
-                sortedTreeNodes.add(treeNode);
+            List<TreeNode> rootSubs = rootTreeNode.getSubsByFilters();
+            if (addToEnd) {
+                sortedTreeNodes.addAll(rootSubs);
+            }
+            else {
+                sortedTreeNodes.addAll(0, rootSubs);
             }
 
-            TreeNode tempTreeNode;
-            while (!tempTreeNodes.isEmpty()) {
-                tempTreeNode = tempTreeNodes.removeFirst();
-                treeNodes = tempTreeNode.getSubsByFilters();
-                for (TreeNode treeNode2 : treeNodes) {
-                    sortedTreeNodes.add(treeNode2);
-                    if (treeNode2.hasSubs()) {
-                        tempTreeNodes.add(treeNode2);
-                    }
+            // 将子节点加入队列进行广度优先遍历
+            for (TreeNode node : rootSubs) {
+                if (node.hasSubs()) {
+                    tempTreeNodes.add(node);
                 }
             }
+        }
 
-            if (sortMethod == SortMethod.DESCENDING) {
-                Collections.reverse(sortedTreeNodes);
+        while (!tempTreeNodes.isEmpty()) {
+            TreeNode currentNode = tempTreeNodes.removeFirst();
+            List<TreeNode> subs = currentNode.getSubsByFilters();
+
+            // 根据排序方法决定插入方式
+            if (addToEnd) {
+                sortedTreeNodes.addAll(subs);
+            }
+            else {
+                sortedTreeNodes.addAll(0, subs);
+            }
+
+            // 继续遍历子节点
+            for (TreeNode node : subs) {
+                if (node.hasSubs()) {
+                    tempTreeNodes.add(node);
+                }
             }
         }
 
@@ -179,6 +193,45 @@ public class TreeNodeUtils {
         return parseTreeNodeMap(beTreeNode, commonCallback).get(beTreeNode);
     }
 
+
+    /**
+     * 并行过滤整个子树的所有子节点。
+     *
+     * @param rootTreeNode 被过滤的根节点
+     * @param filterList   过滤器
+     * @return 过滤后的所有子节点
+     */
+    public static List<TreeNode> filterAllSubs(TreeNode rootTreeNode,
+                                               List<TreeNodeFilter> filterList) {
+        List<TreeNode> result = new ArrayList<>();
+
+        // 检查当前节点是否符合所有过滤器
+        if (filterList.stream().allMatch(filter -> filter.accept(rootTreeNode))) {
+            result.add(rootTreeNode);
+        }
+
+        // 递归过滤子节点，使用并行流
+        if (rootTreeNode.hasSubs()) {
+            rootTreeNode.getSubs()
+                        .parallelStream() // 并行流处理子节点
+                        .map(sub -> filterAllSubs(sub, filterList)) // 递归过滤
+                        .forEach(result::addAll); // 合并结果
+        }
+
+        return result;
+    }
+
+    public static TreeNode assemblyTreeNode(List<TreeNode> treeNodeList) {
+
+        List<AssemblyOneTreeNodeAdapter> adapterList = treeNodeList
+                .parallelStream()
+                .map(AssemblyOneTreeNodeAdapter::new)
+                .collect(Collectors.toList());
+
+        TreeProcessor treeProcessor = new DefaultTreeProcessor();
+        TreeNode rootTreeNode = treeProcessor.processing(adapterList);
+        return rootTreeNode;
+    }
 
     //*********************
 
