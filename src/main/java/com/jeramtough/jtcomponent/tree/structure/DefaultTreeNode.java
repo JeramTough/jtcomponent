@@ -9,7 +9,8 @@ import com.jeramtough.jtcomponent.tree.expression.interpret.ExpressionInterprete
 import com.jeramtough.jtcomponent.tree.foreach.NodeCaller;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  */
 public class DefaultTreeNode implements TreeNodeAble {
 
+    private String key;
     private Object value;
     private List<TreeNode> subTreeNodes;
     private TreeNode parentTreeNode;
@@ -27,8 +29,11 @@ public class DefaultTreeNode implements TreeNodeAble {
     private int order = 0;
     private String expression;
 
+    private List<String> paths;
+
     public DefaultTreeNode() {
         subTreeNodes = new ArrayList<>();
+        paths = new ArrayList<>();
     }
 
     public DefaultTreeNode(Object value) {
@@ -36,10 +41,28 @@ public class DefaultTreeNode implements TreeNodeAble {
         this.value = value;
     }
 
-    public DefaultTreeNode(Object value, String expression) {
+
+    public DefaultTreeNode(Object value, String key) {
         this();
         this.value = value;
+        this.key = key;
+    }
+
+    public DefaultTreeNode(Object value, String key, String expression) {
+        this();
+        this.value = value;
+        this.key = key;
         this.expression = expression;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @Override
@@ -69,6 +92,16 @@ public class DefaultTreeNode implements TreeNodeAble {
     }
 
     @Override
+    public List<String> getPaths() {
+        return paths;
+    }
+
+    @Override
+    public void setPaths(List<String> paths) {
+        this.paths = paths;
+    }
+
+    @Override
     public void setOrder(int order) {
         this.order = order;
     }
@@ -89,6 +122,13 @@ public class DefaultTreeNode implements TreeNodeAble {
         //排序
         TreeNodeComparator comparator = new TreeNodeComparator();
         subTreeNodes.sort(comparator);
+
+        //路线
+        List<String> subPaths = new ArrayList<>(paths);
+        subPaths.add(treeNode.getKey());
+        TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;
+        treeNodeAble.setPaths(subPaths);
+
         return this;
     }
 
@@ -189,6 +229,7 @@ public class DefaultTreeNode implements TreeNodeAble {
     public void setLevel(int level) {
         this.level = level;
     }
+
 
     @Override
     public List<TreeNode> getAll() {
@@ -322,12 +363,19 @@ public class DefaultTreeNode implements TreeNodeAble {
             treeNodeAble.setLevel(baseLevel);
 
             for (TreeNode subTreeNode : treeNode.getSubs()) {
-                if (subTreeNode instanceof TreeNodeAble) {
-                    TreeNodeAble subTreeNodeAble = (TreeNodeAble) subTreeNode;
-                    subTreeNodeAble.setLevel(baseLevel + subTreeNode.getLevel());
-                }
+                TreeNodeAble subTreeNodeAble = (TreeNodeAble) subTreeNode;
+                subTreeNodeAble.setLevel(baseLevel + subTreeNode.getLevel());
             }
         }
+
+        //路线
+        if (treeNode instanceof TreeNodeAble) {
+            List<String> subPaths = new ArrayList<>(paths);
+            subPaths.add(treeNode.getKey());
+            TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;
+            treeNodeAble.setPaths(subPaths);
+        }
+
 
     }
 

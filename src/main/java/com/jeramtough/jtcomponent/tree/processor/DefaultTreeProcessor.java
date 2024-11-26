@@ -4,6 +4,7 @@ import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.adapter.RootTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
+import com.jeramtough.jtcomponent.tree.structure.TreeNodeAble;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -84,13 +85,14 @@ public class DefaultTreeProcessor implements TreeProcessor {
     }
 
     @Override
-    public <T> TreeNode processing(List<? extends OneTreeNodeAdapter<T>> oneTreeNodeAdapterList) {
+    public <T> TreeNode processing(
+            List<? extends OneTreeNodeAdapter<T>> oneTreeNodeAdapterList) {
         TreeNode rootTreeNode = new DefaultTreeNode();
         Map<Object, TreeNode> idKeyTreeNodeMap = new HashMap<>();
 
 
         for (OneTreeNodeAdapter<T> adapter : oneTreeNodeAdapterList) {
-            TreeNode treeNode = new DefaultTreeNode(adapter.getValue());
+            TreeNode treeNode = new DefaultTreeNode(adapter.getValue(),adapter.getKey().toString());
             treeNode.setOrder(adapter.getOrder());
             idKeyTreeNodeMap.put(adapter.getKey(), treeNode);
         }

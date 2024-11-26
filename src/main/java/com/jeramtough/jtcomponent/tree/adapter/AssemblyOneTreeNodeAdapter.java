@@ -20,9 +20,8 @@ public class AssemblyOneTreeNodeAdapter implements OneTreeNodeAdapter<Object> {
 
     @Override
     public Object getKey() {
-        Object value = treeNode.getValue();
-        Objects.requireNonNull(value);
-        return value.hashCode();
+        String key = treeNode.getKey();
+        return key;
     }
 
     @Override
@@ -32,7 +31,7 @@ public class AssemblyOneTreeNodeAdapter implements OneTreeNodeAdapter<Object> {
             return null;
         }
         else {
-            return parent.hashCode();
+            return parent.getKey();
         }
     }
 

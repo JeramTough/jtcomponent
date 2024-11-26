@@ -13,6 +13,7 @@ import java.util.function.Predicate;
  */
 public interface TreeNode extends Cloneable, Serializable {
 
+    String getKey();
     boolean isRoot();
 
     Object clone();
@@ -23,6 +24,8 @@ public interface TreeNode extends Cloneable, Serializable {
      * @return 默认值是0
      */
     int getOrder();
+
+    List<String> getPaths();
 
     /**
      * 设置表达式，用于检索

@@ -58,13 +58,13 @@ public class ExpressionTest {
     public void test1 (){
         TreeNode rootTreeNode = new DefaultTreeNode(0);
 
-        TreeNode treeNode = new DefaultTreeNode(1);
-        TreeNode treeNode2 = new DefaultTreeNode(2);
-        TreeNode treeNode3 = new DefaultTreeNode(3);
-        TreeNode treeNode4 = new DefaultTreeNode(4);
-        TreeNode treeNode5 = new DefaultTreeNode(5);
-        TreeNode treeNode6 = new DefaultTreeNode(6);
-        TreeNode treeNode7 = new DefaultTreeNode(7);
+        TreeNode treeNode = new DefaultTreeNode(1,"1");
+        TreeNode treeNode2 = new DefaultTreeNode(2,"2");
+        TreeNode treeNode3 = new DefaultTreeNode(3,"3");
+        TreeNode treeNode4 = new DefaultTreeNode(4,"4");
+        TreeNode treeNode5 = new DefaultTreeNode(5,"5");
+        TreeNode treeNode6 = new DefaultTreeNode(6,"6");
+        TreeNode treeNode7 = new DefaultTreeNode(7,"7");
 
         treeNode.setExpression("aaa");
         treeNode2.setExpression(null);

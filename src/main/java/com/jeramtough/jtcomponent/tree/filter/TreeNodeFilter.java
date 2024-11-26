@@ -10,5 +10,5 @@ import com.jeramtough.jtcomponent.tree.structure.TreeNode;
  */
 @FunctionalInterface
 public interface TreeNodeFilter {
-    boolean accept(TreeNode node);
+    boolean accept(TreeNode treeNode);
 }

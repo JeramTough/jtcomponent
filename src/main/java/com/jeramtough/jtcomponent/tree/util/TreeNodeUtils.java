@@ -11,7 +11,10 @@ import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+
+import static javafx.scene.input.KeyCode.L;
 
 /**
  * Created on 2019/6/18 10:28
@@ -23,8 +26,7 @@ public class TreeNodeUtils {
         return getAll(rootTreeNode, SortMethod.ASCENDING, true);
     }
 
-    public static List<TreeNode> getAll(TreeNode rootTreeNode,
-                                        SortMethod sortMethod) {
+    public static List<TreeNode> getAll(TreeNode rootTreeNode, SortMethod sortMethod) {
         return getAll(rootTreeNode, sortMethod, true);
     }
 
@@ -82,8 +84,7 @@ public class TreeNodeUtils {
     }
 
 
-    public static List<TreeNode> getAllForTree(TreeNode rootTreeNode,
-                                               SortMethod sortMethod,
+    public static List<TreeNode> getAllForTree(TreeNode rootTreeNode, SortMethod sortMethod,
                                                boolean containRoot) {
 
         List<TreeNode> sortedTreeNodes = new ArrayList<>();
@@ -203,30 +204,66 @@ public class TreeNodeUtils {
      */
     public static List<TreeNode> filterAllSubs(TreeNode rootTreeNode,
                                                List<TreeNodeFilter> filterList) {
-        List<TreeNode> result = new ArrayList<>();
+        Queue<TreeNode> result = new ConcurrentLinkedQueue<>(); // 使用线程安全的集合
+        boolean accepted = true;
 
-        // 检查当前节点是否符合所有过滤器
-        if (filterList.stream().allMatch(filter -> filter.accept(rootTreeNode))) {
-            result.add(rootTreeNode);
+        if (!rootTreeNode.isRoot()) {
+            // 当前节点通过所有过滤器时加入结果
+            for (TreeNodeFilter filter : filterList) {
+                try {
+                    if (!filter.accept(rootTreeNode)) {
+                        accepted = false;
+                        break;
+                    }
+                }
+                catch (Exception e) {
+                    System.err.println("过滤器异常！" + e.getMessage());
+                    throw new IllegalStateException(e);
+                }
+
+            }
+            if (accepted) {
+                result.add(rootTreeNode);
+            }
         }
+
 
         // 递归过滤子节点，使用并行流
         if (rootTreeNode.hasSubs()) {
-            rootTreeNode.getSubs()
-                        .parallelStream() // 并行流处理子节点
+            rootTreeNode.getSubs().parallelStream() // 并行流处理子节点
                         .map(sub -> filterAllSubs(sub, filterList)) // 递归过滤
                         .forEach(result::addAll); // 合并结果
         }
 
-        return result;
+        return new ArrayList<>(result); // 转换为 ArrayList 返回
     }
 
+    /**
+     * 并行过滤整个子树的所有子节点。
+     *
+     * @param rootTreeNode 被过滤的根节点
+     * @param filterList   过滤器
+     * @return 过滤后的新的树形结构
+     */
+    public static TreeNode filterAllSubs2(TreeNode rootTreeNode,
+                                          List<TreeNodeFilter> filterList) {
+
+        List<TreeNode> treeNodeList = filterAllSubs(rootTreeNode,
+                filterList);
+        TreeNode rootTreeNode2 = assemblyTreeNode(treeNodeList);
+        return rootTreeNode2;
+    }
+
+    /**
+     * 还原rootTreeNode
+     *
+     * @param treeNodeList treeNodeList
+     * @return treeNodeList
+     */
     public static TreeNode assemblyTreeNode(List<TreeNode> treeNodeList) {
 
-        List<AssemblyOneTreeNodeAdapter> adapterList = treeNodeList
-                .parallelStream()
-                .map(AssemblyOneTreeNodeAdapter::new)
-                .collect(Collectors.toList());
+        List<AssemblyOneTreeNodeAdapter> adapterList = treeNodeList.parallelStream().map(
+                AssemblyOneTreeNodeAdapter::new).collect(Collectors.toList());
 
         TreeProcessor treeProcessor = new DefaultTreeProcessor();
         TreeNode rootTreeNode = treeProcessor.processing(adapterList);
@@ -284,8 +321,8 @@ public class TreeNodeUtils {
 
             //设置子节点
             List<TreeNode> subTreeNodes = treeNode.getSubs();
-            List<Map<String, Object>> childrenMapList =
-                    (List<Map<String, Object>>) treeNodesMap.get(treeNode).get("children");
+            List<Map<String, Object>> childrenMapList = (List<Map<String, Object>>) treeNodesMap.get(
+                    treeNode).get("children");
 
             //如果有子节点则添加，没有则移除children属性
             if (subTreeNodes.size() > 0) {
