@@ -45,6 +45,11 @@ public interface OneTreeNodeAdapter<T> {
 
     Object getKey();
 
+    /**
+     * 最上层就返回null，返回null挂在rootTreeNode下，如果key不为null
+     * ，但是找不到parentKey对应的treenode，则抛弃这个节点
+     * @return 父节点的key
+     */
     Object getParentKey();
 
     T getValue();

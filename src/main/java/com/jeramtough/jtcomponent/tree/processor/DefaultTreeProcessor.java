@@ -96,14 +96,21 @@ public class DefaultTreeProcessor implements TreeProcessor {
         }
 
         for (OneTreeNodeAdapter<T> adapter : oneTreeNodeAdapterList) {
-            TreeNode parentTreeNode = idKeyTreeNodeMap.get(adapter.getParentKey());
             TreeNode thisTreeNode = idKeyTreeNodeMap.get(adapter.getKey());
-            if (parentTreeNode == null) {
+            Object parentKey = adapter.getKey();
+            if (parentKey == null) {
                 rootTreeNode.addSub(thisTreeNode);
             }
             else {
-                parentTreeNode.addSub(thisTreeNode);
+                TreeNode parentTreeNode = idKeyTreeNodeMap.get(adapter.getParentKey());
+                if (parentTreeNode == null) {
+                    System.out.println("warn:该节点找不到对应的父节点，parentKey:" + adapter.getParentKey());
+                }
+                else {
+                    parentTreeNode.addSub(thisTreeNode);
+                }
             }
+
         }
 
         //更新路径值
