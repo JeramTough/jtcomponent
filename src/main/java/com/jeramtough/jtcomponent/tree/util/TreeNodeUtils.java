@@ -9,13 +9,12 @@ import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNodeAble;
+import com.jeramtough.jtcomponent.utils.JtBeanUtil;
 import com.jeramtough.jtcomponent.utils.ObjectsUtil;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
-
-import static javafx.scene.input.KeyCode.L;
 
 /**
  * Created on 2019/6/18 10:28
@@ -271,7 +270,7 @@ public class TreeNodeUtils {
         return rootTreeNode;
     }
 
-    public static void updatePaths(TreeNode rootTreeNode) {
+    public static void updatePathsAndLevel(TreeNode rootTreeNode) {
         //设置路径,从上至下设置路径
         List<TreeNode> allTreeNode = TreeNodeUtils.getAll(rootTreeNode, SortMethod.ASCENDING,
                 false);
@@ -283,17 +282,20 @@ public class TreeNodeUtils {
                                                                      .getPaths());
                     paths.add(treeNodeAble.getKey());
                     treeNodeAble.setPaths(paths);
+                    treeNodeAble.setLevel(treeNode.getParent().getLevel() + 1);
                 }
                 else {
                     List<String> paths = new ArrayList<>();
                     paths.add(treeNodeAble.getKey());
                     treeNodeAble.setPaths(paths);
+                    treeNodeAble.setLevel(0);
                 }
             }
             else {
                 List<String> paths = new ArrayList<>();
                 paths.add(treeNodeAble.getKey());
                 treeNodeAble.setPaths(paths);
+                treeNodeAble.setLevel(0);
             }
         }
 
@@ -309,21 +311,16 @@ public class TreeNodeUtils {
         //第一次遍历，先组成相应的映射关系
         beTreeNode.foreach(treeNode -> {
             Map<String, Object> nodeMap = null;
-            try {
-                Object value = treeNode.getValue();
-                if (value == null) {
-                    nodeMap = new HashMap<>(1);
-                }
-                else if (ObjectsUtil.isPrimaryType(value)) {
-                    nodeMap = new HashMap<>(16);
-                    nodeMap.put("value", value);
-                }
-                else {
-                    nodeMap = ObjectsUtil.getMapFromObject(treeNode.getValue());
-                }
+            Object value = treeNode.getValue();
+            if (value == null) {
+                nodeMap = new HashMap<>(1);
             }
-            catch (IllegalAccessException e) {
-                e.printStackTrace();
+            else if (ObjectsUtil.isPrimaryType(value)) {
+                nodeMap = new HashMap<>(16);
+                nodeMap.put("value", value);
+            }
+            else {
+                nodeMap = JtBeanUtil.beanToMap(treeNode.getValue());
             }
             Objects.requireNonNull(nodeMap);
             if (!nodeMap.containsKey("level")) {

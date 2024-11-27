@@ -2,14 +2,11 @@ package com.jeramtough.jtcomponent.tree.processor;
 
 import com.jeramtough.jtcomponent.tree.adapter.OneTreeNodeAdapter;
 import com.jeramtough.jtcomponent.tree.adapter.RootTreeNodeAdapter;
-import com.jeramtough.jtcomponent.tree.base.SortMethod;
 import com.jeramtough.jtcomponent.tree.structure.DefaultTreeNode;
 import com.jeramtough.jtcomponent.tree.structure.TreeNode;
-import com.jeramtough.jtcomponent.tree.structure.TreeNodeAble;
 import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created on 2019/7/12 9:04
@@ -110,7 +107,7 @@ public class DefaultTreeProcessor implements TreeProcessor {
         }
 
         //更新路径值
-        TreeNodeUtils.updatePaths(rootTreeNode);
+        TreeNodeUtils.updatePathsAndLevel(rootTreeNode);
 
         return rootTreeNode;
     }

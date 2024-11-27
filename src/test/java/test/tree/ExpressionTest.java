@@ -85,7 +85,7 @@ public class ExpressionTest {
         List<TreeNode> treeNodeList = rootTreeNode.query("aaa||null,bbb||empty,ccc||ddd");
         L.debug(treeNodeList.size());
 
-        TreeNodeUtils.updatePaths(rootTreeNode);
+        TreeNodeUtils.updatePathsAndLevel(rootTreeNode);
         L.arrive();
     }
 
