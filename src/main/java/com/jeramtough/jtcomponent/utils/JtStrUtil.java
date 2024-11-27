@@ -141,7 +141,9 @@ public class JtStrUtil {
      * 用中英文逗号分割字符串
      *
      * @param str 被分割的字符串
+     * @param dataClass 任意
      * @return 分割后的数组
+     * @param <T> 任意
      */
     public static <T> List<T> splitByComma(String str, Class<T> dataClass) {
         if (isEmpty(str)) {
