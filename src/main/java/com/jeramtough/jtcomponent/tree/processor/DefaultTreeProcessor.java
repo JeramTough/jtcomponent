@@ -97,7 +97,7 @@ public class DefaultTreeProcessor implements TreeProcessor {
 
         for (OneTreeNodeAdapter<T> adapter : oneTreeNodeAdapterList) {
             TreeNode thisTreeNode = idKeyTreeNodeMap.get(adapter.getKey());
-            Object parentKey = adapter.getKey();
+            Object parentKey = adapter.getParentKey();
             if (parentKey == null) {
                 rootTreeNode.addSub(thisTreeNode);
             }

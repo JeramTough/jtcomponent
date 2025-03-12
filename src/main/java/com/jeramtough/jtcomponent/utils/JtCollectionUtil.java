@@ -58,7 +58,7 @@ public class JtCollectionUtil {
      */
     public static <T> List<T> paginate(List<T> dataList, int pageSize, int currentPage) {
 
-        if (dataList.isEmpty()){
+        if (dataList.isEmpty()) {
             return new ArrayList<>();
         }
 
@@ -80,6 +80,31 @@ public class JtCollectionUtil {
         // 截取指定范围的数据作为分页结果
         return dataList.subList(startIndex, endIndex);
     }
+
+    /**
+     * 通用分组方法，将 List 分成指定大小的子列表
+     *
+     * @param <T>       集合中元素的类型
+     * @param list      原始集合
+     * @param groupSize 每组的最大大小
+     * @return 分组后的列表，每组为一个 List
+     */
+    public static <T> List<List<T>> partitionList(List<T> list, int groupSize) {
+        if (list == null || list.isEmpty() || groupSize <= 0) {
+            throw new IllegalArgumentException("参数无效：list 不能为空，groupSize 必须大于 0！");
+        }
+
+        List<List<T>> result = new ArrayList<>();
+        int totalSize = list.size();
+
+        for (int i = 0; i < totalSize; i += groupSize) {
+            List<T> group = list.subList(i, Math.min(i + groupSize, totalSize));
+            result.add(new ArrayList<>(group));
+        }
+
+        return result;
+    }
+
 
     //********************
 
