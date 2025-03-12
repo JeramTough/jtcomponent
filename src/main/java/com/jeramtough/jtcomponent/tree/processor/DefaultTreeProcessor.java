@@ -104,7 +104,8 @@ public class DefaultTreeProcessor implements TreeProcessor {
             else {
                 TreeNode parentTreeNode = idKeyTreeNodeMap.get(adapter.getParentKey());
                 if (parentTreeNode == null) {
-                    System.out.println("warn:该节点找不到对应的父节点，parentKey:" + adapter.getParentKey());
+                    System.out.println("warn:该节点找不到对应的父节点,所以添加到根节点rootTreeNode，parentKey:" + adapter.getParentKey());
+                    rootTreeNode.addSub(thisTreeNode);
                 }
                 else {
                     parentTreeNode.addSub(thisTreeNode);

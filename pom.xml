@@ -8,7 +8,7 @@
     <artifactId>jtcomponent</artifactId>
     <!--<version>1.5.8-SNAPSHOT</version>-->
     <!--<version>1.5.2-RELEASE</version>-->
-    <version>1.7.8-RELEASE</version>
+    <version>1.8.0-RELEASE</version>
     <!--<version>1.2.4-RELEASE</version>-->
 
     <properties>
