@@ -140,10 +140,10 @@ public class JtStrUtil {
     /**
      * 用中英文逗号分割字符串
      *
-     * @param str 被分割的字符串
+     * @param str       被分割的字符串
      * @param dataClass 任意
+     * @param <T>       任意
      * @return 分割后的数组
-     * @param <T> 任意
      */
     public static <T> List<T> splitByComma(String str, Class<T> dataClass) {
         if (isEmpty(str)) {
@@ -267,6 +267,40 @@ public class JtStrUtil {
 
         return newStr;
 
+    }
+
+    /**
+     * 格式化URL，将URL中的多个连续斜杠替换为单个斜杠
+     * 此方法处理的URL可以包含协议（如http://）或不包含协议
+     * 如果URL以多个斜杠开头，或者在域名和路径之间有多个斜杠，这些斜杠会被替换为单个斜杠
+     *
+     * @param url 待格式化的URL字符串，可以为空或不为空
+     * @return 格式化后的URL字符串如果输入为null或空字符串，则原样返回
+     */
+    public static String formatUrl(String url) {
+        // 检查输入URL是否为null或空，如果是，则直接返回
+        if (url == null || url.isEmpty()) {
+            return url;
+        }
+        // 匹配协议部分(支持 http 或 https，不区分大小写)
+        Pattern pattern = Pattern.compile("^(https?://)(.*)$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(url);
+        // 如果找到匹配的协议部分，则进一步处理
+        if (matcher.find()) {
+            // 协议部分，比如 "http://"
+            String protocol = matcher.group(1);
+            // 协议之后的部分
+            String rest = matcher.group(2);
+
+            // 将连续的斜杠替换成单个斜杠
+            rest = rest.replaceAll("/{2,}", "/");
+            // 返回格式化后的完整URL
+            return protocol + rest;
+        }
+        else {
+            // 如果没有协议部分，直接替换多个斜杠为单个斜杠
+            return url.replaceAll("/{2,}", "/");
+        }
     }
 
 
