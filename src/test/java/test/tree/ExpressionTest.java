@@ -89,4 +89,35 @@ public class ExpressionTest {
         L.arrive();
     }
 
+    @Test
+    public void test3 (){
+        TreeNode rootTreeNode = new DefaultTreeNode(0);
+
+        TreeNode treeNode = new DefaultTreeNode(1,"1");
+        TreeNode treeNode2 = new DefaultTreeNode(2,"2");
+        TreeNode treeNode3 = new DefaultTreeNode(3,"3");
+        TreeNode treeNode4 = new DefaultTreeNode(4,"4");
+        TreeNode treeNode5 = new DefaultTreeNode(5,"5");
+        TreeNode treeNode6 = new DefaultTreeNode(6,"6");
+        TreeNode treeNode7 = new DefaultTreeNode(7,"7");
+
+        treeNode.setExpression("aaa");
+        treeNode2.setExpression(null);
+        treeNode3.setExpression("bbb");
+        treeNode4.setExpression("");
+        treeNode5.setExpression("ccc");
+        treeNode6.setExpression("ddd");
+        treeNode7.setExpression("eee");
+
+        rootTreeNode.addSubs(treeNode, treeNode2);
+
+        treeNode.addSubs(treeNode3);
+        treeNode2.addSubs(treeNode4);
+        treeNode3.addSubs(treeNode5);
+        treeNode4.addSubs(treeNode6, treeNode7);
+
+        L.debug(rootTreeNode.findAllByKey("7"));
+        L.debug(rootTreeNode.findAllByKey("000"));
+    }
+
 }

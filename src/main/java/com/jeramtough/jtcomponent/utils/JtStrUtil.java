@@ -1,6 +1,5 @@
 package com.jeramtough.jtcomponent.utils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -140,10 +139,10 @@ public class JtStrUtil {
     /**
      * 用中英文逗号分割字符串
      *
-     * @param str 被分割的字符串
+     * @param str       被分割的字符串
      * @param dataClass 任意
+     * @param <T>       任意
      * @return 分割后的数组
-     * @param <T> 任意
      */
     public static <T> List<T> splitByComma(String str, Class<T> dataClass) {
         if (isEmpty(str)) {
@@ -181,19 +180,19 @@ public class JtStrUtil {
      * @param strList 被拼接的字符串集合
      * @return 拼接后的字符串
      */
-    public static String appendByComma(List<String> strList) {
-        if (strList.size() == 0) {
+    public static String appendByComma(List<Object> strList) {
+        if (strList == null || strList.isEmpty()) {
             return null;
         }
 
         StringBuilder result = new StringBuilder();
-        for (String s : strList) {
+        for (Object s : strList) {
             if (s != null) {
-                result.append(s).append(",");
+                result.append(s.toString()).append(",");
             }
         }
         String str = result.toString();
-        if (str.length() > 0) {
+        if (!str.isEmpty()) {
             str = str.substring(0, str.length() - 1);
         }
         return str;

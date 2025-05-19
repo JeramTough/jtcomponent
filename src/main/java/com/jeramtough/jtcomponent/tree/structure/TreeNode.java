@@ -51,6 +51,8 @@ public interface TreeNode extends Cloneable, Serializable {
      */
     List<TreeNode> query(String expression);
 
+    TreeNode findAllByKey(String key);
+
     void setOrder(int order);
 
     List<TreeNode> getSubs();

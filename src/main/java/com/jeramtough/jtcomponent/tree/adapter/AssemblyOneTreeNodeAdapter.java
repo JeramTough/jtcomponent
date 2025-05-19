@@ -44,4 +44,5 @@ public class AssemblyOneTreeNodeAdapter implements OneTreeNodeAdapter<Object> {
     public int getOrder() {
         return treeNode.getOrder();
     }
+
 }
