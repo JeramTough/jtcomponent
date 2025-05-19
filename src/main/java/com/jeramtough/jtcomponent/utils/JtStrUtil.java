@@ -180,7 +180,43 @@ public class JtStrUtil {
      * @param strList 被拼接的字符串集合
      * @return 拼接后的字符串
      */
-    public static String appendByComma(List<Object> strList) {
+    public static String appendByComma(List<String> strList) {
+        if (strList == null || strList.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (Object s : strList) {
+            if (s != null) {
+                result.append(s.toString()).append(",");
+            }
+        }
+        String str = result.toString();
+        if (!str.isEmpty()) {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str;
+    }
+
+    public static String appendByCommaInt(List<Integer> strList) {
+        if (strList == null || strList.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (Object s : strList) {
+            if (s != null) {
+                result.append(s.toString()).append(",");
+            }
+        }
+        String str = result.toString();
+        if (!str.isEmpty()) {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str;
+    }
+
+    public static String appendByCommaLong(List<Long> strList) {
         if (strList == null || strList.isEmpty()) {
             return null;
         }
