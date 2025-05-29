@@ -106,6 +106,26 @@ public class JtCollectionUtil {
     }
 
 
+    /**
+     * 计算分页的总页数。
+     *
+     * @param total 总的项目数量。
+     * @param size  每页显示的项目数量。
+     * @return 分页的总页数。
+     */
+    public static int calculateTotalPages(long total, int size) {
+        if (size <= 0 || total < 0) {
+            throw new IllegalArgumentException(
+                    "Size must be positive and total cannot be negative.");
+        }
+        // 如果总项目数为0，则总页数为1或0取决于业务需求，这里假设为0
+        if (total == 0) {
+            return 0;
+        }
+
+        // 计算总页数，使用 Math.ceil 来确保如果有剩余项目也会增加一页
+        return (int) Math.ceil((double) total / size);
+    }
     //********************
 
     private static int capacity(int expectedSize) {
