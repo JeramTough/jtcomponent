@@ -11,6 +11,8 @@ import com.jeramtough.jtcomponent.tree.util.TreeNodeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,7 @@ public class DefaultTreeNode implements TreeNodeAble {
     private String key;
     private Object value;
     private List<TreeNode> subTreeNodes;
+    private Map<String, TreeNode> subTreeNodeMap;
     private TreeNode parentTreeNode;
     private int level = 0;
     private Predicate<TreeNode> subFilters;
@@ -34,6 +37,7 @@ public class DefaultTreeNode implements TreeNodeAble {
     public DefaultTreeNode() {
         subTreeNodes = new ArrayList<>();
         paths = new ArrayList<>();
+        subTreeNodeMap = new ConcurrentHashMap<>();
     }
 
     public DefaultTreeNode(Object value) {
@@ -301,6 +305,24 @@ public class DefaultTreeNode implements TreeNodeAble {
     }
 
     @Override
+    public TreeNode findAllByKey(String key) {
+        TreeNode treeNode = this.subTreeNodeMap.get(key);
+        if (treeNode != null) {
+            return treeNode;
+        }
+
+        for (TreeNode subTreeNode : this.subTreeNodes) {
+            TreeNode result = subTreeNode.findAllByKey(key);
+            if (result != null) {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+
+    @Override
     public String toString() {
         return "{" +
                 "value=" + value +
@@ -344,6 +366,7 @@ public class DefaultTreeNode implements TreeNodeAble {
      */
     private void addSubButDontSort(TreeNode treeNode) {
         subTreeNodes.add(treeNode);
+        subTreeNodeMap.put(treeNode.getKey(), treeNode);
 
         if (treeNode instanceof TreeNodeAble) {
             TreeNodeAble treeNodeAble = (TreeNodeAble) treeNode;

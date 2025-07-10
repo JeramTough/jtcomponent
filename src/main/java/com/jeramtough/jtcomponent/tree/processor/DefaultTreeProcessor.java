@@ -92,6 +92,7 @@ public class DefaultTreeProcessor implements TreeProcessor {
             TreeNode treeNode = new DefaultTreeNode(adapter.getValue(),
                     adapter.getKey().toString());
             treeNode.setOrder(adapter.getOrder());
+            treeNode.setExpression(adapter.getKey().toString());
             idKeyTreeNodeMap.put(adapter.getKey(), treeNode);
         }
 

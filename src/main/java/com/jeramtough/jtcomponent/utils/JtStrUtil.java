@@ -1,6 +1,5 @@
 package com.jeramtough.jtcomponent.utils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -182,18 +181,54 @@ public class JtStrUtil {
      * @return 拼接后的字符串
      */
     public static String appendByComma(List<String> strList) {
-        if (strList.size() == 0) {
+        if (strList == null || strList.isEmpty()) {
             return null;
         }
 
         StringBuilder result = new StringBuilder();
-        for (String s : strList) {
+        for (Object s : strList) {
             if (s != null) {
-                result.append(s).append(",");
+                result.append(s.toString()).append(",");
             }
         }
         String str = result.toString();
-        if (str.length() > 0) {
+        if (!str.isEmpty()) {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str;
+    }
+
+    public static String appendByCommaInt(List<Integer> strList) {
+        if (strList == null || strList.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (Object s : strList) {
+            if (s != null) {
+                result.append(s.toString()).append(",");
+            }
+        }
+        String str = result.toString();
+        if (!str.isEmpty()) {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str;
+    }
+
+    public static String appendByCommaLong(List<Long> strList) {
+        if (strList == null || strList.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (Object s : strList) {
+            if (s != null) {
+                result.append(s.toString()).append(",");
+            }
+        }
+        String str = result.toString();
+        if (!str.isEmpty()) {
             str = str.substring(0, str.length() - 1);
         }
         return str;
