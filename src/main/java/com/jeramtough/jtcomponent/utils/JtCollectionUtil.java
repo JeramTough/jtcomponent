@@ -126,6 +126,42 @@ public class JtCollectionUtil {
         // 计算总页数，使用 Math.ceil 来确保如果有剩余项目也会增加一页
         return (int) Math.ceil((double) total / size);
     }
+
+    /**
+     * 截取列表：从 fromIndex 到列表末尾
+     *
+     * @param <T> 泛型类型
+     * @param list 原始列表
+     * @param fromIndex 起始下标（包含）
+     * @return 截取后的新列表
+     */
+    public static <T> List<T> truncateList(List<T> list, int fromIndex) {
+        return truncateList(list, fromIndex, list == null ? 0 : list.size());
+    }
+
+    /**
+     * 截取列表：从 fromIndex 到 toIndex（不包含）
+     *
+     * @param <T> 泛型类型
+     * @param list 原始列表
+     * @param fromIndex 起始下标（包含）
+     * @param toIndex 结束下标（不包含）
+     * @return 截取后的新列表
+     */
+    public static <T> List<T> truncateList(List<T> list, int fromIndex, int toIndex) {
+        if (list == null || list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        int size = list.size();
+
+        // 自动修正边界
+        fromIndex = Math.max(0, Math.min(fromIndex, size));
+        toIndex = Math.max(fromIndex, Math.min(toIndex, size));
+
+        return new ArrayList<>(list.subList(fromIndex, toIndex));
+    }
+
     //********************
 
     private static int capacity(int expectedSize) {

@@ -21,7 +21,7 @@ public interface TaskCallback extends RunningTaskCallback {
     /**
      * Calling while the task is completed.
      *
-     * @param taskResult TaskResult bean
+     * @param taskResult TaskResult core
      */
     void onTaskCompleted(TaskResult taskResult);
 }

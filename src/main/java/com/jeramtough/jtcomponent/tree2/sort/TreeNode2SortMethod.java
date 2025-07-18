@@ -1,10 +1,12 @@
-package com.jeramtough.jtcomponent.tree.base;
+package com.jeramtough.jtcomponent.tree2.sort;
 
 /**
- * Created on 2019-07-14 23:20
- * by @author JeramTough
+ * <pre>
+ * Created on 2025/7/17 下午7:38
+ * by @author WeiBoWen
+ * </pre>
  */
-public enum SortMethod {
+public enum TreeNode2SortMethod {
 
     /**
      * 以层级数Index作为单位，升序
@@ -22,4 +24,5 @@ public enum SortMethod {
      *
      */
     DESCENDING;
+
 }

@@ -70,7 +70,7 @@ public class JtBeanUtil {
             return resultMap;
         }
         catch (Exception e) {
-            throw new RuntimeException("Error using BeanMap to convert bean to map", e);
+            throw new RuntimeException("Error using BeanMap to convert core to map", e);
         }
     }
 
@@ -96,7 +96,7 @@ public class JtBeanUtil {
             }
         }
         catch (Exception e) {
-            throw new RuntimeException("Error using Introspector to convert bean to map", e);
+            throw new RuntimeException("Error using Introspector to convert core to map", e);
         }
         return map;
     }

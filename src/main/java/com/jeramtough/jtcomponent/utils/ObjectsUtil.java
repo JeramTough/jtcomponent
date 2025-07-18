@@ -44,7 +44,7 @@ public class ObjectsUtil {
             field.setAccessible(true);
             String fieldName = field.getName();
 
-            String methodName = "get" + fieldName.substring(0, 1).toUpperCase();
+            String methodName = "getValue" + fieldName.substring(0, 1).toUpperCase();
             if (fieldName.length() > 1) {
                 methodName = methodName + fieldName.substring(1, fieldName.length());
             }
@@ -207,13 +207,13 @@ public class ObjectsUtil {
                 continue;
             }
 
-            String methodName1 = "get" + fieldName;
-            String methodName2 = "set" + fieldName;
+            String methodName1 = "getValue" + fieldName;
+            String methodName2 = "setValue" + fieldName;
             String methodName3 = "";
             String methodName4 = "";
             if (fieldName.contains("is")) {
                 methodName3 = fieldName;
-                methodName4 = "set" + fieldName.replace("is", "");
+                methodName4 = "setValue" + fieldName.replace("is", "");
             }
 
 
@@ -254,8 +254,8 @@ public class ObjectsUtil {
         Objects.requireNonNull(fieldName);
 
 
-        String methodName1 = "get" + fieldName;
-        String methodName2 = "set" + fieldName;
+        String methodName1 = "getValue" + fieldName;
+        String methodName2 = "setValue" + fieldName;
         //isXXX
         String methodName3 = "";
         //setXXX
@@ -264,7 +264,7 @@ public class ObjectsUtil {
         if (fieldName.contains("is")) {
             methodName3 = fieldName;
             fieldName = fieldName.replace("is", "");
-            methodName4 = "set" + fieldName.replace("is", "");
+            methodName4 = "setValue" + fieldName.replace("is", "");
         }
 
         Method[] methods = new Method[2];

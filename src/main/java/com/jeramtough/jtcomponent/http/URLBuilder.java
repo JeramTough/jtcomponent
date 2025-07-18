@@ -77,7 +77,7 @@ public class URLBuilder {
             return this;
         }
         if ((this.hasPath) || (!this.firstParam)) {
-            throw new IllegalStateException("Missed the trick to set path.");
+            throw new IllegalStateException("Missed the trick to setValue path.");
         }
         this.hasPath = true;
 

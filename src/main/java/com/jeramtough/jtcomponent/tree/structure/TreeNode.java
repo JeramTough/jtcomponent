@@ -159,7 +159,7 @@ public interface TreeNode extends Cloneable, Serializable {
     List<List<TreeNode>> getAllForLevel(SortMethod sortMethod);
 
     /**
-     * get brothers of node
+     * getValue brothers of node
      *
      * @return the list
      */
@@ -173,7 +173,7 @@ public interface TreeNode extends Cloneable, Serializable {
     void foreach(NodeCaller nodeCaller);
 
     /**
-     * get all node for detail
+     * getValue all node for detail
      *
      * @return the detail of string
      */

@@ -57,7 +57,7 @@ public final class JtClassUtil {
             Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
             if (index < params.length && index >= 0) {
                 if (!(params[index] instanceof Class)) {
-                    System.out.println(String.format("Warn: %s not set the actual class on superclass generic " +
+                    System.out.println(String.format("Warn: %s not setValue the actual class on superclass generic " +
                                     "parameter",
                             clazz.getSimpleName()));
                     return Object.class;

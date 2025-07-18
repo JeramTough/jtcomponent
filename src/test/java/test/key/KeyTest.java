@@ -71,7 +71,7 @@ public class KeyTest {
             Map<String, Claim> claims = jwt.getClaims();    //Key is the Claim name
             Claim claim = claims.get("uid");
 
-            L.debugs("get uid by token:" + claim.asString());
+            L.debugs("getValue uid by token:" + claim.asString());
         }
         catch (JWTVerificationException exception) {
             L.info("verify unsuccessfully");

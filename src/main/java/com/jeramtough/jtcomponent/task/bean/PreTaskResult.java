@@ -497,7 +497,7 @@ public class PreTaskResult implements Serializable {
     }
 
     /**
-     * get task detail and what same as toString();
+     * getValue task detail and what same as toString();
      *
      * @return task detail
      */

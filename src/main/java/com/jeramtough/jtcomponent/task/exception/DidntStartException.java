@@ -7,7 +7,7 @@ package com.jeramtough.jtcomponent.task.exception;
 public class DidntStartException extends RuntimeException {
 
     public DidntStartException() {
-        super("Can't get the taskResult before invoking the start method of instance of " +
+        super("Can't getValue the taskResult before invoking the start method of instance of " +
                 "TaskResponse");
     }
 }

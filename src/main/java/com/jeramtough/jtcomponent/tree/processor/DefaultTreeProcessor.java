@@ -22,7 +22,7 @@ public class DefaultTreeProcessor implements TreeProcessor {
         TreeNode rootTreeNode;
         RootTreeNodeAdapter rootAdapter;
         Map<RootTreeNodeAdapter, TreeNode> keyAdapterTreeStructureMap = new HashMap<>();
-//        TreeNode startTreeNode = new DefaultTreeNode(adapter.get());
+//        TreeNode startTreeNode = new DefaultTreeNode(adapter.getValue());
 
 
         if (root) {
