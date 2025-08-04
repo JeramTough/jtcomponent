@@ -1,5 +1,6 @@
 package test.tree2;
 
+import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson2.JSON;
 import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
 import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
@@ -19,6 +20,7 @@ import com.jeramtough.jtcomponent.tree2.filter.TreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.sort.TreeNode2SortMethod;
 import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
+import test.common.ExcelUtil;
 import test.common.MyKryoUtil;
 import test.tree2.channel.Channel;
 import test.tree2.channel.ChannelOneTreeNodeAdapter;
@@ -30,10 +32,8 @@ import test.tree2.dingtalk.net.MyDingTalkHttpClient;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -164,9 +164,9 @@ public class Tree2AdapterTest {
                 .setMaxRetainSubNodeLevel(1)
                 .rebuild();
 
-        Tree2<Channel> newTree3=new FilterTree2Rebuilder<>(newTree2)
+        Tree2<Channel> newTree3 = new FilterTree2Rebuilder<>(newTree2)
                 .setFilterList(filterList)
-                        .rebuild();
+                .rebuild();
 
         L.arrive();
     }
@@ -210,6 +210,93 @@ public class Tree2AdapterTest {
 
         L.info(1944680690084589570L - 1944680689698713602L);
         L.info(1944680690084589570L - 1944680671185055746L);
+        L.arrive();
+    }
+
+    @Test
+    public void test6() {
+        String json = null;
+        try {
+            json = cn.hutool.core.io.IoUtil.readUtf8(
+                    new FileInputStream(
+                            "/developer/Codes/IdeaCodes/jtcomponent/DOC/channel.json"));
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        List<Channel> channelList = JSON.parseArray(json, Channel.class);
+        List<OneTreeNode2Adapter<Channel>> adapterList = new ArrayList<>();
+        for (Channel channel : channelList) {
+            ChannelOneTreeNodeAdapter adapter = new ChannelOneTreeNodeAdapter();
+            adapter.setSource(channel);
+            adapterList.add(adapter);
+        }
+
+
+        EveryoneTree2Builder<Channel> everyoneTree2Builder = new EveryoneTree2Builder<>();
+        Tree2<Channel> tree2 = everyoneTree2Builder
+                .setAdapterList(adapterList)
+                .setTreeNode2SortMethod(
+                        TreeNode2SortMethod.ASCENDING)
+                .setNoParentStrategy(
+                        EveryoneTree2Builder.NO_PARENT_STRATEGY_NODE)
+                .build();
+
+
+        List<TreeNode2Filter> filterList = new ArrayList<>();
+        ExcludeCodeTreeNode2Filter excludeCodeTreeNode2Filter = new ExcludeCodeTreeNode2Filter(
+                null, null, "dxal[A-Za-z0-9]+");
+        filterList.add(excludeCodeTreeNode2Filter);
+
+
+        String subTreeNodeKey = "1927363713284534273";
+        Tree2<Channel> newTree2 = new FromSubTree2Rebuilder<>(tree2)
+                .setSubTreeNodeKey(subTreeNodeKey)
+                .rebuild();
+
+        Tree2<Channel> newTree3 = new FilterTree2Rebuilder<>(newTree2)
+                .setFilterList(filterList)
+                .rebuild();
+
+
+        List<List<TreeNode2<Channel>>> allTreeNodeList =
+                newTree3.getAllForLevel();
+
+        List<Map<String, Object>> dataList = new ArrayList<>();
+        for (List<TreeNode2<Channel>> treeNode2s : allTreeNodeList) {
+            for (TreeNode2<Channel> treeNode2 : treeNode2s) {
+                Map<String, Object> data = new HashMap<>();
+                String name = treeNode2.getValue().getName();
+                data.put("name", name);
+                int count = RandomUtil.randomInt(500, 1000);
+                int count2 = RandomUtil.randomInt(500, 1000);
+                int sum = count;
+                if (name.contains("市")) {
+                    sum += count2;
+                }
+                data.put("count", sum);
+                dataList.add(data);
+            }
+
+
+        }
+
+        // 定义表头：Map键 -> Excel列名
+        Map<String, String> headers = new LinkedHashMap<>();
+        headers.put("name", "院名");
+        headers.put("count", "登录量");
+
+        // 导出文件路径
+        String filePath = "/home/jeramtough/Temp/abc/data_export.xlsx"; // Windows 示例
+
+        // 执行导出
+        try {
+            ExcelUtil.exportToExcel(dataList, headers, filePath);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         L.arrive();
     }
 
