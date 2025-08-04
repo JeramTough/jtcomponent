@@ -34,6 +34,8 @@ public interface TreeNode2<T> extends Cloneable, Serializable {
 
     /**
      * 仅仅是过滤子节点，孙节点不进行过滤
+     * @param filterList 过滤器
+     * @return 过滤后的子节点
      */
     List<TreeNode2<T>> getSubs(List<TreeNode2Filter> filterList);
 

@@ -19,11 +19,12 @@ public class TreeNode2Utils {
 
 
     /**
-     * 将树结构（包含子节点）转换为 Map<String, TreeNode2<T>>
+     * 将树结构（包含子节点）转换为 Map（String, TreeNode2（T））
      *
      * @param rootNodes 根节点列表
      * @param callback  回调函数
-     * @return Map<key, node>
+     * @param <T> 节点数据类型
+     * @return Map
      */
     public static <T> Map<String, TreeNode2<T>> toMapWithSubsParallel(
             List<TreeNode2<T>> rootNodes,

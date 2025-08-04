@@ -2,7 +2,7 @@ package com.jeramtough.jtcomponent.tree2.filter;
 
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
 import com.jeramtough.jtcomponent.utils.JtStrUtil;
-import com.sun.istack.internal.Nullable;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,9 +29,9 @@ public class ExcludeCodeTreeNode2Filter implements TreeNode2Filter {
     //黑名单code正则表达式对象
     private Pattern blackCodeRegexp = null;
 
-    public ExcludeCodeTreeNode2Filter(@Nullable String excludeCode,
-                                      @Nullable String excludeCodes,
-                                      @Nullable String excludeCodeRegexp) {
+    public ExcludeCodeTreeNode2Filter( String excludeCode,
+                                       String excludeCodes,
+                                       String excludeCodeRegexp) {
         this.excludeCode = excludeCode;
         this.excludeCodes = excludeCodes;
         this.excludeCodeRegexp = excludeCodeRegexp;

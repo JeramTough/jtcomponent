@@ -27,10 +27,6 @@ public abstract class BaseTree2Rebuilder<T> implements Tree2Rebuilder<T> {
         this.tree2 = tree2;
     }
 
-    /**
-     * @param treeNode2List 每一个节点的数据
-     * @return Tree2
-     */
     public Tree2<T> rebuildByEveryOneTreeNodeList(List<TreeNode2<T>> treeNode2List,
                                                   int noParentStrategy,
                                                   TreeNode2SortMethod treeNode2SortMethod) {

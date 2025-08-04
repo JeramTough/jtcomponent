@@ -2,7 +2,7 @@ package com.jeramtough.jtcomponent.tree2.filter;
 
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
 import com.jeramtough.jtcomponent.utils.JtStrUtil;
-import com.sun.istack.internal.Nullable;
+
 import sun.dc.pr.PRError;
 
 import java.util.ArrayList;
@@ -31,8 +31,8 @@ public class CodeTreeNode2Filter implements TreeNode2Filter {
     private Pattern whiteCodeRegexp = null;
 
 
-    public CodeTreeNode2Filter(@Nullable String code, @Nullable String codes,
-                               @Nullable String codeRegexp) {
+    public CodeTreeNode2Filter( String code,  String codes,
+                                String codeRegexp) {
         this.code = code;
         this.codes = codes;
         this.codeRegexp = codeRegexp;
