@@ -24,6 +24,13 @@ public interface Tree2<T> extends Serializable {
 
     List<TreeNode2<T>> getRootTreeNodeList();
 
+    /**
+     * 仅仅是过滤子节点，孙节点不进行过滤
+     * @param filterList 过滤器
+     * @return 过滤后的子节点
+     */
+    List<TreeNode2<T>> getRootTreeNodeList(List<TreeNode2Filter> filterList);
+
     void put(TreeNode2<T> treeNode);
 
     TreeNode2<T> getTreeNode(String key);

@@ -2,8 +2,10 @@ package com.jeramtough.jtcomponent.tree2.core;
 
 import com.jeramtough.jtcomponent.callback.CommonCallback;
 import com.jeramtough.jtcomponent.tree2.builder.mapbuilder.DefaultTree2MapBuilder;
+import com.jeramtough.jtcomponent.tree2.filter.TreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.sort.TreeNode2Comparator;
 import com.jeramtough.jtcomponent.tree2.sort.TreeNode2SortMethod;
+import com.jeramtough.jtcomponent.tree2.util.TreeNode2Utils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +36,14 @@ public class DefaultTree2<T> implements Tree2<T> {
     @Override
     public List<TreeNode2<T>> getRootTreeNodeList() {
         return rootTreeNodeList;
+    }
+
+    @Override
+    public List<TreeNode2<T>> getRootTreeNodeList(List<TreeNode2Filter> filterList) {
+        //进行过滤
+        List<TreeNode2<T>> treeNode2List = TreeNode2Utils.doFilters(filterList,
+                this.rootTreeNodeList);
+        return treeNode2List;
     }
 
     @Override
