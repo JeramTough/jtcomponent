@@ -70,9 +70,10 @@ public class FilterTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
 
 
         //进行过滤
-        treeNode2List = TreeNode2Utils.doFilters(filterList, treeNode2List);
+       List<TreeNode2<T>> newTreeNode2List = TreeNode2Utils.doFilters(filterList,
+               treeNode2List);
 
-        Tree2<T> tree2 = super.rebuildByEveryOneTreeNodeList(treeNode2List, noParentStrategy,
+        Tree2<T> tree2 = super.rebuildByEveryOneTreeNodeList(newTreeNode2List, noParentStrategy,
                 sortMethod);
         return tree2;
     }

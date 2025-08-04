@@ -24,7 +24,8 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
         implements Tree2Rebuilder<T> {
 
     private String subTreeNodeKey;
-    private List<TreeNode2Filter> filterList = new ArrayList<>();
+    //最大保留子节点的层级树,-1是全保留
+    private Integer maxRetainSubNodeLevel = -1;
 
 
     public FromSubTree2Rebuilder(Tree2<T> tree2) {
@@ -37,11 +38,10 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
         return this;
     }
 
-    public FromSubTree2Rebuilder<T> setFilterList(List<TreeNode2Filter> filterList) {
-        this.filterList = filterList;
+    public FromSubTree2Rebuilder<T> setMaxRetainSubNodeLevel(Integer maxRetainSubNodeLevel) {
+        this.maxRetainSubNodeLevel = maxRetainSubNodeLevel;
         return this;
     }
-
 
     @Override
     public Tree2<T> rebuild() {
@@ -60,10 +60,35 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
         System.out.println(
                 "开始使用subTreeNodeKey重构Tree2...,旧树共" + getTree2().getAllTreeNodeMap().size() + "个节点");
 
-        //对过滤器进行排序
-        filterList.sort(Comparator.comparingInt(TreeNode2Filter::getOrderNumber));
 
         List<TreeNode2<T>> treeNode2List = subTreeNode.getSubs();
+
+        //从此，这些子节点没有了父节点
+        treeNode2List.parallelStream().forEach(tTreeNode2 -> {
+            tTreeNode2.setParentKey(null);
+        });
+
+        //如果不保留孙树节点
+        if (maxRetainSubNodeLevel > -1) {
+
+            List<TreeNode2<T>> tempTreeNode2List = new ArrayList<>(treeNode2List);
+
+            for (int i = 0; i < maxRetainSubNodeLevel; i++) {
+                List<TreeNode2<T>> myTreeNode2List2 = new ArrayList<>();
+                for (TreeNode2<T> tTreeNode2 : tempTreeNode2List) {
+                    myTreeNode2List2.addAll(tTreeNode2.getSubs());
+                }
+                tempTreeNode2List = myTreeNode2List2;
+            }
+
+
+            //到了指定的层级，则清空子树节点
+            tempTreeNode2List
+                    .parallelStream()
+                    .forEach(tTreeNode2 -> {
+                        tTreeNode2.getSubs().clear();
+                    });
+        }
 
         Map<String, TreeNode2<T>> allTreeNodeMap = TreeNode2Utils.toMapWithSubsParallel(
                 treeNode2List, new CommonCallback<TreeNode2<T>>() {
@@ -84,7 +109,9 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
 
         long hTime = (System.currentTimeMillis() - startTime);
         System.out.println(
-                "使用subTreeNodeKey重构Tree2结束,新树共" + newTree2.getAllTreeNodeMap().size() + "个节点，耗时：" + hTime + "毫秒");
+                "使用subTreeNodeKey重构Tree2结束,新树共" + newTree2.getAllTreeNodeMap().
+
+                                                                   size() + "个节点，耗时：" + hTime + "毫秒");
 
         return newTree2;
 

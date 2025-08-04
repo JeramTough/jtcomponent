@@ -8,11 +8,13 @@ import com.jeramtough.jtcomponent.tree2.adpater.OneTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.adpater.RootTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.builder.EveryoneTree2Builder;
 import com.jeramtough.jtcomponent.tree2.builder.RootTree2Builder;
+import com.jeramtough.jtcomponent.tree2.builder.rebuilder.FilterTree2Rebuilder;
 import com.jeramtough.jtcomponent.tree2.builder.rebuilder.FromSubTree2Rebuilder;
 import com.jeramtough.jtcomponent.tree2.core.Tree2;
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
 import com.jeramtough.jtcomponent.tree2.filter.CodeTreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.filter.ExcludeCodeTreeNode2Filter;
+import com.jeramtough.jtcomponent.tree2.filter.MaxLevelTreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.filter.TreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.sort.TreeNode2SortMethod;
 import com.jeramtough.jtlog.facade.L;
@@ -125,8 +127,8 @@ public class Tree2AdapterTest {
         String json = null;
         try {
             json = cn.hutool.core.io.IoUtil.readUtf8(
-                    new FileInputStream("/home/jeramtough/Temp/channel" +
-                            ".json"));
+                    new FileInputStream(
+                            "/developer/Codes/IdeaCodes/jtcomponent/DOC/channel.json"));
         }
         catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -144,16 +146,27 @@ public class Tree2AdapterTest {
         Tree2<Channel> tree2 = everyoneTree2Builder
                 .setAdapterList(adapterList)
                 .setTreeNode2SortMethod(
-                        TreeNode2SortMethod.DESCENDING)
+                        TreeNode2SortMethod.ASCENDING)
                 .setNoParentStrategy(
                         EveryoneTree2Builder.NO_PARENT_STRATEGY_NODE)
                 .build();
 
 
-        String subTreeNodeKey = "1858436684991991809";
-        Tree2<Channel> newTree2 = new FromSubTree2Rebuilder<Channel>(tree2)
+        List<TreeNode2Filter> filterList = new ArrayList<>();
+        ExcludeCodeTreeNode2Filter excludeCodeTreeNode2Filter = new ExcludeCodeTreeNode2Filter(
+                null, null, "dxal[A-Za-z0-9]+");
+        filterList.add(excludeCodeTreeNode2Filter);
+
+
+        String subTreeNodeKey = "1854819255244505110";
+        Tree2<Channel> newTree2 = new FromSubTree2Rebuilder<>(tree2)
                 .setSubTreeNodeKey(subTreeNodeKey)
+                .setMaxRetainSubNodeLevel(1)
                 .rebuild();
+
+        Tree2<Channel> newTree3=new FilterTree2Rebuilder<>(newTree2)
+                .setFilterList(filterList)
+                        .rebuild();
 
         L.arrive();
     }

@@ -70,7 +70,11 @@ public class ExcludeCodeTreeNode2Filter implements TreeNode2Filter {
         }
 
         if (blackCodeRegexp != null) {
-            return !blackCodeRegexp.matcher(code).matches();
+            boolean isOk= !blackCodeRegexp.matcher(code).matches();
+            if (!isOk){
+                System.out.println("排除了" + code);
+            }
+            return isOk;
         }
 
         return true;
