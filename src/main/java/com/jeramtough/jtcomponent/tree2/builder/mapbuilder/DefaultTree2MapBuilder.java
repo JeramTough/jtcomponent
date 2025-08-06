@@ -40,7 +40,7 @@ public class DefaultTree2MapBuilder implements Tree2MapBuilder {
         }
 
         List<? extends TreeNode2<?>> rootTreeNodeList = tree2.getRootTreeNodeList();
-        Map<String, ? extends TreeNode2<?>> allTreeNodeMap = tree2.getAllTreeNodeMap();
+        Map<String, ? extends TreeNode2<?>> allTreeNodeMap = tree2.getAllIdKeyTreeNodeMap();
 
         return processing(allTreeNodeMap, rootTreeNodeList, commonCallback);
 

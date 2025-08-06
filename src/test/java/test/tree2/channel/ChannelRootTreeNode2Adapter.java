@@ -41,14 +41,14 @@ public class ChannelRootTreeNode2Adapter implements RootTreeNode2Adapter<Channel
 
     @Override
     public Channel getParent() {
-        TreeNode2<Channel> parentTreeNode = tree2.getTreeNode(
+        TreeNode2<Channel> parentTreeNode = tree2.getTreeNodeByIdKey(
                 channel.getParentId().toString());
         return parentTreeNode.getValue();
     }
 
     @Override
     public List<Channel> getSubs() {
-        TreeNode2<Channel> treeNode2 = tree2.getTreeNode(channel.getId().toString());
+        TreeNode2<Channel> treeNode2 = tree2.getTreeNodeByIdKey(channel.getId().toString());
         Objects.requireNonNull(treeNode2);
         if (treeNode2.hasSubs()) {
             return treeNode2
@@ -64,7 +64,7 @@ public class ChannelRootTreeNode2Adapter implements RootTreeNode2Adapter<Channel
 
     @Override
     public boolean hasSubs() {
-        TreeNode2 treeNode2 = tree2.getTreeNode(channel.getId().toString());
+        TreeNode2 treeNode2 = tree2.getTreeNodeByIdKey(channel.getId().toString());
         Objects.requireNonNull(treeNode2);
         return treeNode2.hasSubs();
     }

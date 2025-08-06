@@ -1,6 +1,5 @@
 package com.jeramtough.jtcomponent.tree2.builder;
 
-import com.jeramtough.jtcomponent.tree2.adpater.FileRootTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.adpater.RootTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.core.DefaultTree2;
 import com.jeramtough.jtcomponent.tree2.core.DefaultTreeNode2;
@@ -130,7 +129,7 @@ public class RootTree2Builder<T> extends BaseTree2Builder<T> implements Tree2Bui
                 RootTreeNode2Adapter<T> tempAdapter;
                 while (!tempTreeAdapterLinkedList.isEmpty()) {
                     tempAdapter = tempTreeAdapterLinkedList.removeFirst();
-                    TreeNode2<T> treeNode = tree2.getTreeNode(tempAdapter.getKey());
+                    TreeNode2<T> treeNode = tree2.getTreeNodeByIdKey(tempAdapter.getKey());
 
                     if (tempAdapter.hasSubs()) {
                         List<T> subList1 = tempAdapter.getSubs();

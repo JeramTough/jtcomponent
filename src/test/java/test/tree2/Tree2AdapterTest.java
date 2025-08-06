@@ -2,8 +2,6 @@ package test.tree2;
 
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson2.JSON;
-import com.jeramtough.jtcomponent.tree.processor.DefaultTreeProcessor;
-import com.jeramtough.jtcomponent.tree.processor.TreeProcessor;
 import com.jeramtough.jtcomponent.tree2.adpater.FileRootTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.adpater.OneTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.adpater.RootTreeNode2Adapter;
@@ -13,9 +11,7 @@ import com.jeramtough.jtcomponent.tree2.builder.rebuilder.FilterTree2Rebuilder;
 import com.jeramtough.jtcomponent.tree2.builder.rebuilder.FromSubTree2Rebuilder;
 import com.jeramtough.jtcomponent.tree2.core.Tree2;
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
-import com.jeramtough.jtcomponent.tree2.filter.CodeTreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.filter.ExcludeCodeTreeNode2Filter;
-import com.jeramtough.jtcomponent.tree2.filter.MaxLevelTreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.filter.TreeNode2Filter;
 import com.jeramtough.jtcomponent.tree2.sort.TreeNode2SortMethod;
 import com.jeramtough.jtlog.facade.L;
@@ -24,17 +20,12 @@ import test.common.ExcelUtil;
 import test.common.MyKryoUtil;
 import test.tree2.channel.Channel;
 import test.tree2.channel.ChannelOneTreeNodeAdapter;
-import test.tree2.channel.ChannelRootTreeNode2Adapter;
-import test.tree2.dingtalk.DepartmentRootTreeNode2Adapter;
-import test.tree2.dingtalk.net.DingTalkHttpClient;
-import test.tree2.dingtalk.net.MyDingTalkHttpClient;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created on 2019/7/11 16:31
@@ -91,8 +82,7 @@ public class Tree2AdapterTest {
         String json = null;
         try {
             json = cn.hutool.core.io.IoUtil.readUtf8(
-                    new FileInputStream("/home/jeramtough/Temp/channel" +
-                            ".json"));
+                    new FileInputStream("/developer/Codes/IdeaCodes/jtcomponent/DOC/channel.json"));
         }
         catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -115,9 +105,9 @@ public class Tree2AdapterTest {
                         EveryoneTree2Builder.NO_PARENT_STRATEGY_NODE)
                 .build();
 
-        byte[] bytes = MyKryoUtil.serialize(tree2, true);
+        byte[] bytes = MyKryoUtil.serialize(tree2, true,true);
 
-        Tree2<Channel> tree21 = MyKryoUtil.deserializeObject(bytes, Tree2.class);
+        Tree2<Channel> tree21 = MyKryoUtil.deserializeObject(bytes, Tree2.class,true);
 
         L.arrive();
     }
@@ -200,7 +190,7 @@ public class Tree2AdapterTest {
                         EveryoneTree2Builder.NO_PARENT_STRATEGY_NODE)
                 .build();
 
-        TreeNode2<Channel> treeNode2 = tree2.getTreeNode("1944680670526550018");
+        TreeNode2<Channel> treeNode2 = tree2.getTreeNodeByIdKey("1944680670526550018");
         List<TreeNode2Filter> treeNode2FilterList = new ArrayList<>();
         treeNode2FilterList.add(
                 new ExcludeCodeTreeNode2Filter(null, null, "[A-Za-z0-9]+_100000[A-Za-z0-9]+"));

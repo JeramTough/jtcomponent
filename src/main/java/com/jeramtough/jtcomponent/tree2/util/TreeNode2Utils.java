@@ -3,6 +3,7 @@ package com.jeramtough.jtcomponent.tree2.util;
 import com.jeramtough.jtcomponent.callback.CommonCallback;
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
 import com.jeramtough.jtcomponent.tree2.filter.TreeNode2Filter;
+import com.jeramtough.jtcomponent.utils.JtStrUtil;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,24 +24,26 @@ public class TreeNode2Utils {
      *
      * @param rootNodes 根节点列表
      * @param callback  回调函数
-     * @param <T> 节点数据类型
+     * @param <T>       节点数据类型
      * @return Map
      */
-    public static <T> Map<String, TreeNode2<T>> toMapWithSubsParallel(
+    public static <T> List<Map<String, TreeNode2<T>>> toMapWithSubsParallel(
             List<TreeNode2<T>> rootNodes,
             CommonCallback<TreeNode2<T>> callback) {
 
         if (rootNodes == null || rootNodes.isEmpty()) {
-            return Collections.emptyMap();
+            return new ArrayList<>();
         }
 
         // 使用 ConcurrentHashMap 确保线程安全
-        Map<String, TreeNode2<T>> resultMap = new ConcurrentHashMap<>();
+        Map<String, TreeNode2<T>> resultMapForId = new ConcurrentHashMap<>();
+        Map<String, TreeNode2<T>> resultMapForCode = new ConcurrentHashMap<>();
 
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         try {
             forkJoinPool.submit(() -> rootNodes.parallelStream().forEach(
-                    node -> processNode(node, resultMap, callback))).join();
+                    node -> processNode(node, resultMapForId, resultMapForCode,
+                            callback))).join();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -50,12 +53,15 @@ public class TreeNode2Utils {
             // 如果不再复用线程池，应关闭它
             forkJoinPool.shutdown();
         }
-        return resultMap;
+        List<Map<String, TreeNode2<T>>> result = new ArrayList<>();
+        result.add(resultMapForId);
+        result.add(resultMapForCode);
+        return result;
 
     }
 
     public static <T> List<TreeNode2<T>> doFilters(List<TreeNode2Filter> filterList,
-                                                    List<TreeNode2<T>> treeNode2List) {
+                                                   List<TreeNode2<T>> treeNode2List) {
 
         //对过滤器进行排序
         filterList.sort(Comparator.comparingInt(TreeNode2Filter::getOrderNumber));
@@ -86,14 +92,21 @@ public class TreeNode2Utils {
     /**
      * 递归处理每个节点
      */
-    private static <T> void processNode(TreeNode2<T> node, Map<String, TreeNode2<T>> resultMap,
+    private static <T> void processNode(TreeNode2<T> node,
+                                        Map<String, TreeNode2<T>> resultMapForId,
+                                        Map<String, TreeNode2<T>> resultMapForCode,
                                         CommonCallback<TreeNode2<T>> callback) {
         if (node == null || node.getKey() == null) {
             return;
         }
 
         // 添加当前节点到 Map
-        resultMap.put(node.getKey(), node);
+        if (!JtStrUtil.isEmpty(node.getKey())) {
+            resultMapForId.put(node.getKey(), node);
+        }
+        if (!JtStrUtil.isEmpty(node.getCode())) {
+            resultMapForCode.put(node.getCode(), node);
+        }
 
         // 触发回调
         if (callback != null) {
@@ -102,10 +115,10 @@ public class TreeNode2Utils {
 
         // 递归处理子节点
         if (node.hasSubs()) {
-            node.getSubs().forEach(sub -> processNode(sub, resultMap, callback));
+            node.getSubs().forEach(
+                    sub -> processNode(sub, resultMapForId, resultMapForCode, callback));
         }
     }
-
 
 
 }

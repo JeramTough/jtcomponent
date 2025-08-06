@@ -90,13 +90,13 @@ public class EveryoneTree2Builder<T> extends BaseTree2Builder<T> implements Tree
         List<TreeNode2<T>> rootTreeNodeList = new ArrayList<>();
 
         for (OneTreeNode2Adapter<T> adapter : oneTreeNodeAdapterList) {
-            TreeNode2<T> thisTreeNode = tree2.getTreeNode(adapter.getKey());
+            TreeNode2<T> thisTreeNode = tree2.getTreeNodeByIdKey(adapter.getKey());
             String parentKey = adapter.getParentKey();
             if (parentKey == null) {
                 rootTreeNodeList.add(thisTreeNode);
             }
             else {
-                TreeNode2<T> parentTreeNode = tree2.getTreeNode(adapter.getParentKey());
+                TreeNode2<T> parentTreeNode = tree2.getTreeNodeByIdKey(adapter.getParentKey());
                 if (parentTreeNode == null) {
                     if (noParentStrategy == 1) {
                         rootTreeNodeList.add(thisTreeNode);
@@ -124,7 +124,7 @@ public class EveryoneTree2Builder<T> extends BaseTree2Builder<T> implements Tree
 
         long hTime = (System.currentTimeMillis() - startTime);
         System.out.println(
-                "使用oneTreeNodeAdapterList构建Tree2结束,树共" + tree2.getAllTreeNodeMap().size() +
+                "使用oneTreeNodeAdapterList构建Tree2结束,树共" + tree2.getAllIdKeyTreeNodeMap().size() +
                         "个节点，耗时：" + hTime + "毫秒");
 
         return tree2;

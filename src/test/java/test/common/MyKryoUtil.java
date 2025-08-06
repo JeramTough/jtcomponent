@@ -6,6 +6,9 @@ import com.esotericsoftware.kryo.io.Output;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * <pre>
@@ -23,10 +26,33 @@ public class MyKryoUtil {
     });
 
     /**
+     * 序列化 + GZIP 压缩
+     */
+    public static byte[] serialize(Object obj, boolean references, boolean compress) {
+        Kryo kryo = kryoThreadLocal.get();
+        kryo.setReferences(references);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try (GZIPOutputStream gos = compress ? new GZIPOutputStream(bos) : null;
+             Output output = new Output(compress ? gos : bos)) {
+
+            kryo.writeClassAndObject(output, obj);
+            output.flush();
+
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Kryo serialization failed", e);
+        }
+
+        return bos.toByteArray();
+    }
+
+
+    /**
      * 序列化任意对象为 byte[]
      */
     public static byte[] serialize(Object obj, boolean references) {
-        Kryo kryo = kryoThreadLocal.get();
+      /*  Kryo kryo = kryoThreadLocal.get();
         // 关键：启用对象引用追踪
         kryo.setReferences(references);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -34,8 +60,10 @@ public class MyKryoUtil {
         // 支持任意对象
         kryo.writeClassAndObject(output, obj);
         output.close();
-        return byteArrayOutputStream.toByteArray();
+        return byteArrayOutputStream.toByteArray();*/
+        return serialize(obj, references, false);
     }
+
 
     /**
      * 序列化任意对象为 byte[]
@@ -44,16 +72,39 @@ public class MyKryoUtil {
         return serialize(obj, false);
     }
 
+
     /**
      * 反序列化 byte[] 为任意类型对象（无需指定类型，但需确保类型一致）
      */
     public static <T> T deserializeObject(byte[] bytes, Class<T> clazz) {
-        Kryo kryo = kryoThreadLocal.get();
+       /* Kryo kryo = kryoThreadLocal.get();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         Input input = new Input(byteArrayInputStream);
         Object obj = kryo.readClassAndObject(input);
         input.close();
-        return (T) obj;
+        return (T) obj;*/
+        return deserializeObject(bytes, clazz, false);
+    }
+
+    /**
+     * 反序列化（支持 GZIP 解压）
+     */
+    public static <T> T deserializeObject(byte[] bytes, Class<T> clazz, boolean compress) {
+        if (bytes == null || bytes.length == 0) return null;
+
+        Kryo kryo = kryoThreadLocal.get();
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+
+        try (GZIPInputStream gis = compress ? new GZIPInputStream(bis) : null;
+             Input input = new Input(compress ? gis : bis)) {
+
+            Object obj = kryo.readClassAndObject(input);
+            return (T) obj;
+
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Kryo deserialization failed", e);
+        }
     }
 
 }

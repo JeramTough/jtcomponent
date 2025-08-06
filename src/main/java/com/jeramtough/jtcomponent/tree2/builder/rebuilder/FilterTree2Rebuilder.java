@@ -1,7 +1,5 @@
 package com.jeramtough.jtcomponent.tree2.builder.rebuilder;
 
-import com.jeramtough.jtcomponent.tree2.adpater.OneTreeNode2Adapter;
-import com.jeramtough.jtcomponent.tree2.adpater.RebuildOneTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.builder.Tree2Builder;
 import com.jeramtough.jtcomponent.tree2.core.Tree2;
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
@@ -10,9 +8,7 @@ import com.jeramtough.jtcomponent.tree2.sort.TreeNode2SortMethod;
 import com.jeramtough.jtcomponent.tree2.util.TreeNode2Utils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -62,11 +58,11 @@ public class FilterTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
         }
 
         System.out.println(
-                "进行Tree2重构,共" + filterList.size() + "个过滤器，数据源共" + getTree2().getAllTreeNodeMap().size() + "个数据");
+                "进行Tree2重构,共" + filterList.size() + "个过滤器，数据源共" + getTree2().getAllIdKeyTreeNodeMap().size() + "个数据");
 
 
         List<TreeNode2<T>> treeNode2List = new ArrayList<>(
-                getTree2().getAllTreeNodeMap().values());
+                getTree2().getAllIdKeyTreeNodeMap().values());
 
 
         //进行过滤

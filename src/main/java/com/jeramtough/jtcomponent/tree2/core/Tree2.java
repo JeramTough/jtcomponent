@@ -19,8 +19,11 @@ import java.util.Map;
  */
 public interface Tree2<T> extends Serializable {
 
-    void setAllTreeNodeMap(
-            Map<String, TreeNode2<T>> allTreeNodeMap);
+    void setAllIdKeyTreeNodeMap(
+            Map<String, TreeNode2<T>> allIdKeyTreeNodeMap);
+
+    void setCodeKeyTreeNodeMap(
+            Map<String, TreeNode2<T>> allIdKeyTreeNodeMap);
 
     List<TreeNode2<T>> getRootTreeNodeList();
 
@@ -33,9 +36,11 @@ public interface Tree2<T> extends Serializable {
 
     void put(TreeNode2<T> treeNode);
 
-    TreeNode2<T> getTreeNode(String key);
+    TreeNode2<T> getTreeNodeByIdKey(String key);
+    TreeNode2<T> getTreeNodeByCodeKey(String key);
 
-    Map<String, TreeNode2<T>> getAllTreeNodeMap();
+    Map<String, TreeNode2<T>> getAllIdKeyTreeNodeMap();
+    Map<String, TreeNode2<T>> getAllCodeKeyTreeNodeMap();
 
     /**
      * @return 全部节点的集合类
