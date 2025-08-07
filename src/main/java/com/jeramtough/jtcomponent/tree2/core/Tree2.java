@@ -22,7 +22,7 @@ public interface Tree2<T> extends Serializable {
     void setAllIdKeyTreeNodeMap(
             Map<String, TreeNode2<T>> allIdKeyTreeNodeMap);
 
-    void setCodeKeyTreeNodeMap(
+    void setAllCodeKeyTreeNodeMap(
             Map<String, TreeNode2<T>> allIdKeyTreeNodeMap);
 
     List<TreeNode2<T>> getRootTreeNodeList();

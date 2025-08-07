@@ -43,4 +43,9 @@ public class RebuildOneTreeNode2Adapter<T> implements OneTreeNode2Adapter<T> {
     public int getOrder() {
         return treeNode2.getOrder();
     }
+
+    @Override
+    public String getCode() {
+        return treeNode2.getCode();
+    }
 }

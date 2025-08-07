@@ -108,7 +108,7 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
         List<TreeNode2<T>> newRootTreeNodeList = new ArrayList<>(treeNode2List);
         newTree2.setRootTreeNodeList(newRootTreeNodeList);
         newTree2.setAllIdKeyTreeNodeMap(allIdKeyTreeNodeMap);
-        newTree2.setCodeKeyTreeNodeMap(allCodeKeyTreeNodeMap);
+        newTree2.setAllCodeKeyTreeNodeMap(allCodeKeyTreeNodeMap);
 
         long hTime = (System.currentTimeMillis() - startTime);
         System.out.println(

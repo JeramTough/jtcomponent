@@ -39,7 +39,7 @@ public class DefaultTree2<T> implements Tree2<T> {
     }
 
     @Override
-    public void setCodeKeyTreeNodeMap(Map<String, TreeNode2<T>> allIdKeyTreeNodeMap) {
+    public void setAllCodeKeyTreeNodeMap(Map<String, TreeNode2<T>> allCodeKeyTreeNodeMap) {
         this.allCodeKeyTreeNodeMap = allCodeKeyTreeNodeMap;
     }
 
