@@ -9,6 +9,7 @@ import com.jeramtough.jtcomponent.utils.JtCollectionUtil;
 import com.jeramtough.jtcomponent.utils.JtStrUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,8 +101,16 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
                     }
                 });
 
-        Map<String, TreeNode2<T>> allIdKeyTreeNodeMap = result.get(0);
-        Map<String, TreeNode2<T>> allCodeKeyTreeNodeMap = result.get(1);
+        Map<String, TreeNode2<T>> allIdKeyTreeNodeMap =null;
+        Map<String, TreeNode2<T>> allCodeKeyTreeNodeMap=null;
+        if (result.size() >= 2){
+            allIdKeyTreeNodeMap=result.get(0);
+            allCodeKeyTreeNodeMap = result.get(1);
+        }
+        else{
+            allIdKeyTreeNodeMap=new HashMap<>();
+            allCodeKeyTreeNodeMap=new HashMap<>();
+        }
 
 
         DefaultTree2<T> newTree2 = new DefaultTree2<>();
