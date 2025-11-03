@@ -67,7 +67,7 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
             tTreeNode2.setParentKey(null);
         });
 
-        //如果不保留孙树节点
+        //如果设置了保留孙树节点的级别，是相对该root节点的层级数
         if (maxRetainSubNodeLevel > -1) {
 
             List<TreeNode2<T>> tempTreeNode2List = new ArrayList<>(treeNode2List);
