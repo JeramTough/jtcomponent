@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 11718
@@ -166,10 +167,10 @@ public class JtDateTimeUtil {
 
     /**
      * @param startDate startDate
-     * @param endDate endDate
-     * @param type 天，其他
-     * @deprecated deprecatedsee JtTimeFormatUtil.getPastTime()
+     * @param endDate   endDate
+     * @param type      天，其他
      * @return 格式化后的时间间距
+     * @deprecated deprecatedsee JtTimeFormatUtil.getPastTime()
      */
     @Deprecated
     public static String getDistanceTimeStr(Date startDate, Date endDate, String type) {
@@ -229,15 +230,21 @@ public class JtDateTimeUtil {
      * @return 格式化后的字符串
      */
     public static Date formatDate(String date, String dateFormat) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        if (date == null || dateFormat == null) {
+            throw new IllegalArgumentException("Date and dateFormat cannot be null");
+        }
+
+        ThreadLocal<SimpleDateFormat> formatter = ThreadLocal.withInitial(
+                () -> new SimpleDateFormat(dateFormat));
         try {
-            return simpleDateFormat.parse(date);
+            return formatter.get().parse(date);
         }
         catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(
+                    "Failed to parse date: " + date + " with format: " + dateFormat);
         }
-        return null;
     }
+
 
     /**
      * 格式化时间数字，转为字符串，并加0，比如8变08
@@ -270,6 +277,96 @@ public class JtDateTimeUtil {
         yearMonthDay.setSecond(second);
 
         return yearMonthDay;
+    }
+
+    public static Date[] getStartAndEndTime(String timeRange, String timeLimit) {
+
+        Date startDate = null;
+        Date endDate = null;
+        if (timeRange != null && !timeRange.trim().isEmpty()) {
+            String[] timeRanges = timeRange.split(",");
+            startDate = formatDate(timeRanges[0], "yyyy-MM-dd HH:mm:ss");
+            endDate = formatDate(timeRanges[1], "yyyy-MM-dd HH:mm:ss");
+
+            //比较时间，小的为开始时间，大的为结束时间
+            if (startDate.getTime() > endDate.getTime()) {
+                Date temp = startDate;
+                startDate = endDate;
+                endDate = temp;
+            }
+        }
+        else if (timeLimit != null && !timeLimit.trim().isEmpty()) {
+            List<String> timeLimits = JtStrUtil.splitByComma(timeLimit);
+            String timeType = timeLimits.get(0);
+            String timeNumber = timeLimits.get(1);
+            startDate = new Date();
+            if ("MONTH".equals(timeType)) {
+                startDate = JtDateTimeUtil.offsetMonth(startDate, -
+                        (Integer.parseInt(timeNumber) - 1));
+            }
+            else if ("DAY".equals(timeType)) {
+                startDate = JtDateTimeUtil.offsetDay(startDate, -
+                        (Integer.parseInt(timeNumber) - 1));
+            }
+            else if ("YEAR".equals(timeType)) {
+                startDate = JtDateTimeUtil.offsetYear(startDate, -
+                        (Integer.parseInt(timeNumber) - 1));
+            }
+            else {
+                throw new IllegalStateException("时间环参数异常");
+            }
+            startDate = JtDateTimeUtil.beginOfDay(startDate);
+            endDate = JtDateTimeUtil.endOfDay(new Date());
+        }
+        else {
+            startDate = JtDateTimeUtil.beginOfDay(new Date());
+            endDate = JtDateTimeUtil.endOfDay(new Date());
+        }
+
+        return new Date[]{startDate, endDate};
+
+    }
+
+    public static Date endOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
+
+    public static Date beginOfDay(Date startDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+
+    public static Date offsetYear(Date startDate, int offset) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.add(Calendar.YEAR, offset);
+        return calendar.getTime();
+    }
+
+    public static Date offsetDay(Date startDate, int offset) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.add(Calendar.DAY_OF_MONTH, offset);
+        return calendar.getTime();
+    }
+
+    public static Date offsetMonth(Date startDate, int offset) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.add(Calendar.MONTH, offset);
+        return calendar.getTime();
     }
 
 

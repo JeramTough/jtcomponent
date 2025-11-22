@@ -23,7 +23,7 @@ public class DefaultTreeNode2<T> implements TreeNode2<T> {
     private String key;
     private T value;
     private String code;
-    private final List<TreeNode2<T>> subTreeNodes = new ArrayList<>();
+    private List<TreeNode2<T>> subTreeNodes = new ArrayList<>();
     private String parentTreeNodeKey;
     private int level = 0;
     private Integer order = 0;
@@ -66,6 +66,10 @@ public class DefaultTreeNode2<T> implements TreeNode2<T> {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setSubTreeNodes(List<TreeNode2<T>> subTreeNodes) {
+        this.subTreeNodes = subTreeNodes;
     }
 
     @Override

@@ -290,6 +290,50 @@ public class Tree2AdapterTest {
         L.arrive();
     }
 
+    @Test
+    public void test7(){
+        String json = null;
+        try {
+            json = cn.hutool.core.io.IoUtil.readUtf8(
+                    new FileInputStream(
+                            "/developer/Codes/IdeaCodes/jtcomponent/DOC/channel.json"));
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        List<Channel> channelList = JSON.parseArray(json, Channel.class);
+        List<OneTreeNode2Adapter<Channel>> adapterList = new ArrayList<>();
+        for (Channel channel : channelList) {
+            ChannelOneTreeNodeAdapter adapter = new ChannelOneTreeNodeAdapter();
+            adapter.setSource(channel);
+            adapterList.add(adapter);
+        }
+
+
+        EveryoneTree2Builder<Channel> everyoneTree2Builder = new EveryoneTree2Builder<>();
+        Tree2<Channel> tree2 = everyoneTree2Builder
+                .setAdapterList(adapterList)
+                .setTreeNode2SortMethod(
+                        TreeNode2SortMethod.ASCENDING)
+                .setNoParentStrategy(
+                        EveryoneTree2Builder.NO_PARENT_STRATEGY_NODE)
+                .build();
+
+
+
+        String subTreeNodeKey = "1854819255244505110";
+        Tree2<Channel> newTree2 = new FromSubTree2Rebuilder<>(tree2)
+                .setSubTreeNodeKey(subTreeNodeKey)
+                .setMaxRetainSubNodeLevel(1)
+                .rebuild();
+
+        Tree2<Channel> newTree3 = new FromSubTree2Rebuilder<>(tree2)
+                .setMaxRetainSubNodeLevel(1)
+                .rebuild();
+
+        L.arrive();
+    }
+
     //**********
     private boolean hasSubs(File file) {
         if (file.isFile()) {

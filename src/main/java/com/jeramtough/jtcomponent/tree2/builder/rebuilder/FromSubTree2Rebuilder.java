@@ -2,6 +2,7 @@ package com.jeramtough.jtcomponent.tree2.builder.rebuilder;
 
 import com.jeramtough.jtcomponent.callback.CommonCallback;
 import com.jeramtough.jtcomponent.tree2.core.DefaultTree2;
+import com.jeramtough.jtcomponent.tree2.core.DefaultTreeNode2;
 import com.jeramtough.jtcomponent.tree2.core.Tree2;
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
 import com.jeramtough.jtcomponent.tree2.util.TreeNode2Utils;
@@ -45,14 +46,29 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
     @Override
     public Tree2<T> rebuild() {
 
+
+        List<TreeNode2<T>> treeNode2List = new ArrayList<>();
+        int baseLevel;
         if (JtStrUtil.isEmpty(subTreeNodeKey)) {
-            throw new RuntimeException("请设置子树节点的key");
+            List<TreeNode2<T>> treeNode2List2 = getTree2().getRootTreeNodeList();
+            for (TreeNode2<T> tTreeNode2 : treeNode2List2) {
+                treeNode2List.add(cloneTreeNode(tTreeNode2));
+            }
+            baseLevel=-1;
+        }
+        else {
+            final TreeNode2<T> subTreeNode = getTree2().getTreeNodeByIdKey(subTreeNodeKey);
+            if (subTreeNode == null) {
+                throw new RuntimeException(
+                        "请设置正确的子树节点的key,该key没有找到对应的子节点");
+            }
+            List<TreeNode2<T>> treeNode2List2  = subTreeNode.getSubs();
+            for (TreeNode2<T> tTreeNode2 : treeNode2List2) {
+                treeNode2List.add(cloneTreeNode(tTreeNode2));
+            }
+            baseLevel = subTreeNode.getLevel();
         }
 
-        final TreeNode2<T> subTreeNode = getTree2().getTreeNodeByIdKey(subTreeNodeKey);
-        if (subTreeNode == null) {
-            throw new RuntimeException("请设置正确的子树节点的key,该key没有找到对应的子节点");
-        }
 
         //计算耗时
         long startTime = System.currentTimeMillis();
@@ -60,9 +76,12 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
                 "开始使用subTreeNodeKey重构Tree2...,旧树共" + getTree2().getAllIdKeyTreeNodeMap().size() + "个节点");
 
 
-        List<TreeNode2<T>> treeNode2List = subTreeNode.getSubs();
-
         //从此，这些子节点没有了父节点
+        List<TreeNode2<T>> treeNode2ListTemp  = new ArrayList<>();
+        for (TreeNode2<T> tTreeNode2 : treeNode2List) {
+            treeNode2ListTemp.add(cloneTreeNode(tTreeNode2));
+        }
+        treeNode2List=treeNode2ListTemp;
         treeNode2List.parallelStream().forEach(tTreeNode2 -> {
             tTreeNode2.setParentKey(null);
         });
@@ -93,7 +112,7 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
                 treeNode2List, new CommonCallback<TreeNode2<T>>() {
                     @Override
                     public void callback(TreeNode2<T> tTreeNode2) {
-                        int baseXs = subTreeNode.getLevel() + 1;
+                        int baseXs = baseLevel + 1;
                         tTreeNode2.setLevel(tTreeNode2.getLevel() - baseXs);
                         List<String> paths = tTreeNode2.getPaths();
                         List<String> pewPaths = JtCollectionUtil.truncateList(paths, baseXs);
@@ -101,15 +120,15 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
                     }
                 });
 
-        Map<String, TreeNode2<T>> allIdKeyTreeNodeMap =null;
-        Map<String, TreeNode2<T>> allCodeKeyTreeNodeMap=null;
-        if (result.size() >= 2){
-            allIdKeyTreeNodeMap=result.get(0);
+        Map<String, TreeNode2<T>> allIdKeyTreeNodeMap = null;
+        Map<String, TreeNode2<T>> allCodeKeyTreeNodeMap = null;
+        if (result.size() >= 2) {
+            allIdKeyTreeNodeMap = result.get(0);
             allCodeKeyTreeNodeMap = result.get(1);
         }
-        else{
-            allIdKeyTreeNodeMap=new HashMap<>();
-            allCodeKeyTreeNodeMap=new HashMap<>();
+        else {
+            allIdKeyTreeNodeMap = new HashMap<>();
+            allCodeKeyTreeNodeMap = new HashMap<>();
         }
 
 
@@ -129,4 +148,19 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
 
 //       return super.rebuildByRootTreeNodeList(rootTreeNodeAdapterClass, getTree2(), valueList);
     }
+
+    //***************************
+
+    private TreeNode2<T> cloneTreeNode(TreeNode2<T> treeNode2) {
+        DefaultTreeNode2<T> newTreeNode2 = new DefaultTreeNode2<>();
+        newTreeNode2.setKey(treeNode2.getKey());
+        newTreeNode2.setCode(treeNode2.getCode());
+        newTreeNode2.setOrder(treeNode2.getOrder());
+        newTreeNode2.setLevel(treeNode2.getLevel());
+        newTreeNode2.setPaths(treeNode2.getPaths());
+        newTreeNode2.setValue(treeNode2.getValue());
+        newTreeNode2.setSubTreeNodes(treeNode2.getSubs());
+        return newTreeNode2;
+    }
+
 }
