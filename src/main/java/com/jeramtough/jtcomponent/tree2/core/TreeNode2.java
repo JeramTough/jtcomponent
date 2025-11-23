@@ -17,7 +17,7 @@ public interface TreeNode2<T> extends Cloneable, Serializable {
 
     String getCode();
 
-    Object clone();
+    TreeNode2<T> clone();
 
     /**
      * 返回排序顺序，0最大，1次之
@@ -25,6 +25,10 @@ public interface TreeNode2<T> extends Cloneable, Serializable {
      * @return 默认值是0
      */
     Integer getOrder();
+
+    Integer getOrderWithLevel();
+
+    void setOrderWithLevel(Integer orderWithLevel);
 
     List<String> getPaths();
 

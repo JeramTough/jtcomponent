@@ -153,8 +153,9 @@ public class RootTree2Builder<T> extends BaseTree2Builder<T> implements Tree2Bui
             }
 
             //排序
-            TreeNode2Comparator comparator = new TreeNode2Comparator();
+            TreeNode2Comparator comparator = new TreeNode2Comparator(treeNode2SortMethod);
             tree2.getRootTreeNodeList().sort(comparator);
+            tree2.setTreeNode2SortMethod(treeNode2SortMethod);
         }
 
 

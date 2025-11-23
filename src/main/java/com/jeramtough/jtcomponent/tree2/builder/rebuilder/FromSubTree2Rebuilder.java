@@ -1,6 +1,7 @@
 package com.jeramtough.jtcomponent.tree2.builder.rebuilder;
 
 import com.jeramtough.jtcomponent.callback.CommonCallback;
+import com.jeramtough.jtcomponent.tree2.builder.Tree2Builder;
 import com.jeramtough.jtcomponent.tree2.core.DefaultTree2;
 import com.jeramtough.jtcomponent.tree2.core.DefaultTreeNode2;
 import com.jeramtough.jtcomponent.tree2.core.Tree2;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -24,8 +26,6 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
         implements Tree2Rebuilder<T> {
 
     private String subTreeNodeKey;
-    //最大保留子节点的层级树,-1是全保留
-    private Integer maxRetainSubNodeLevel = -1;
 
 
     public FromSubTree2Rebuilder(Tree2<T> tree2) {
@@ -38,23 +38,19 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
         return this;
     }
 
-    public FromSubTree2Rebuilder<T> setMaxRetainSubNodeLevel(Integer maxRetainSubNodeLevel) {
-        this.maxRetainSubNodeLevel = maxRetainSubNodeLevel;
-        return this;
-    }
-
     @Override
     public Tree2<T> rebuild() {
 
+        //计算耗时
+        long startTime = System.currentTimeMillis();
+        System.out.println(
+                "开始使用subTreeNodeKey重构Tree2...,旧树共" + getTree2().getAllIdKeyTreeNodeMap().size() + "个节点");
 
-        List<TreeNode2<T>> treeNode2List = new ArrayList<>();
-        int baseLevel;
+        //先找到需要的子节点的层级的节点
+        List<TreeNode2<T>> selectedTreeNode2List = new ArrayList<>();
         if (JtStrUtil.isEmpty(subTreeNodeKey)) {
             List<TreeNode2<T>> treeNode2List2 = getTree2().getRootTreeNodeList();
-            for (TreeNode2<T> tTreeNode2 : treeNode2List2) {
-                treeNode2List.add(cloneTreeNode(tTreeNode2));
-            }
-            baseLevel=-1;
+            selectedTreeNode2List.addAll(treeNode2List2);
         }
         else {
             final TreeNode2<T> subTreeNode = getTree2().getTreeNodeByIdKey(subTreeNodeKey);
@@ -62,81 +58,34 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
                 throw new RuntimeException(
                         "请设置正确的子树节点的key,该key没有找到对应的子节点");
             }
-            List<TreeNode2<T>> treeNode2List2  = subTreeNode.getSubs();
-            for (TreeNode2<T> tTreeNode2 : treeNode2List2) {
-                treeNode2List.add(cloneTreeNode(tTreeNode2));
-            }
-            baseLevel = subTreeNode.getLevel();
+            List<TreeNode2<T>> treeNode2List2 = subTreeNode.getSubs();
+            selectedTreeNode2List.addAll(treeNode2List2);
         }
 
-
-        //计算耗时
-        long startTime = System.currentTimeMillis();
-        System.out.println(
-                "开始使用subTreeNodeKey重构Tree2...,旧树共" + getTree2().getAllIdKeyTreeNodeMap().size() + "个节点");
-
-
-        //从此，这些子节点没有了父节点
-        List<TreeNode2<T>> treeNode2ListTemp  = new ArrayList<>();
-        for (TreeNode2<T> tTreeNode2 : treeNode2List) {
-            treeNode2ListTemp.add(cloneTreeNode(tTreeNode2));
-        }
-        treeNode2List=treeNode2ListTemp;
-        treeNode2List.parallelStream().forEach(tTreeNode2 -> {
+        //从此，这些子节点没有了父节点,敏感操作，需要克隆后再进行节点删改
+        selectedTreeNode2List = selectedTreeNode2List
+                .parallelStream()
+                .map(TreeNode2::clone)
+                .collect(Collectors.toList());
+        selectedTreeNode2List.parallelStream().forEach(tTreeNode2 -> {
             tTreeNode2.setParentKey(null);
         });
 
-        //如果设置了保留孙树节点的级别，是相对该root节点的层级数
-        if (maxRetainSubNodeLevel > -1) {
+        //然后收集所有子节点
+        List<TreeNode2<T>> allTreeNode2List =
+                selectedTreeNode2List
+                        .parallelStream()
+                        .map(TreeNode2::getAllSubs)
+                        .flatMap(List::stream)
+                        .collect(Collectors.toList());
 
-            List<TreeNode2<T>> tempTreeNode2List = new ArrayList<>(treeNode2List);
+        //包括自己在内
+        allTreeNode2List.addAll(selectedTreeNode2List);
 
-            for (int i = 0; i < maxRetainSubNodeLevel; i++) {
-                List<TreeNode2<T>> myTreeNode2List2 = new ArrayList<>();
-                for (TreeNode2<T> tTreeNode2 : tempTreeNode2List) {
-                    myTreeNode2List2.addAll(tTreeNode2.getSubs());
-                }
-                tempTreeNode2List = myTreeNode2List2;
-            }
+        Tree2<T> newTree2 = super.rebuildByEveryOneTreeNodeList(allTreeNode2List,
+                Tree2Builder.NO_PARENT_STRATEGY_NODE,
+                getTree2().getSortMethod());
 
-
-            //到了指定的层级，则清空子树节点
-            tempTreeNode2List
-                    .parallelStream()
-                    .forEach(tTreeNode2 -> {
-                        tTreeNode2.getSubs().clear();
-                    });
-        }
-
-        List<Map<String, TreeNode2<T>>> result = TreeNode2Utils.toMapWithSubsParallel(
-                treeNode2List, new CommonCallback<TreeNode2<T>>() {
-                    @Override
-                    public void callback(TreeNode2<T> tTreeNode2) {
-                        int baseXs = baseLevel + 1;
-                        tTreeNode2.setLevel(tTreeNode2.getLevel() - baseXs);
-                        List<String> paths = tTreeNode2.getPaths();
-                        List<String> pewPaths = JtCollectionUtil.truncateList(paths, baseXs);
-                        tTreeNode2.setPaths(pewPaths);
-                    }
-                });
-
-        Map<String, TreeNode2<T>> allIdKeyTreeNodeMap = null;
-        Map<String, TreeNode2<T>> allCodeKeyTreeNodeMap = null;
-        if (result.size() >= 2) {
-            allIdKeyTreeNodeMap = result.get(0);
-            allCodeKeyTreeNodeMap = result.get(1);
-        }
-        else {
-            allIdKeyTreeNodeMap = new HashMap<>();
-            allCodeKeyTreeNodeMap = new HashMap<>();
-        }
-
-
-        DefaultTree2<T> newTree2 = new DefaultTree2<>();
-        List<TreeNode2<T>> newRootTreeNodeList = new ArrayList<>(treeNode2List);
-        newTree2.setRootTreeNodeList(newRootTreeNodeList);
-        newTree2.setAllIdKeyTreeNodeMap(allIdKeyTreeNodeMap);
-        newTree2.setAllCodeKeyTreeNodeMap(allCodeKeyTreeNodeMap);
 
         long hTime = (System.currentTimeMillis() - startTime);
         System.out.println(
@@ -151,16 +100,5 @@ public class FromSubTree2Rebuilder<T> extends BaseTree2Rebuilder<T>
 
     //***************************
 
-    private TreeNode2<T> cloneTreeNode(TreeNode2<T> treeNode2) {
-        DefaultTreeNode2<T> newTreeNode2 = new DefaultTreeNode2<>();
-        newTreeNode2.setKey(treeNode2.getKey());
-        newTreeNode2.setCode(treeNode2.getCode());
-        newTreeNode2.setOrder(treeNode2.getOrder());
-        newTreeNode2.setLevel(treeNode2.getLevel());
-        newTreeNode2.setPaths(treeNode2.getPaths());
-        newTreeNode2.setValue(treeNode2.getValue());
-        newTreeNode2.setSubTreeNodes(treeNode2.getSubs());
-        return newTreeNode2;
-    }
 
 }

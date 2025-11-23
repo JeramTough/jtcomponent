@@ -6,10 +6,12 @@ import com.jeramtough.jtcomponent.tree2.adpater.RootTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree2.builder.EveryoneTree2Builder;
 import com.jeramtough.jtcomponent.tree2.builder.RootTree2Builder;
 import com.jeramtough.jtcomponent.tree2.builder.Tree2Builder;
+import com.jeramtough.jtcomponent.tree2.core.DefaultTreeNode2;
 import com.jeramtough.jtcomponent.tree2.core.Tree2;
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
 import com.jeramtough.jtcomponent.tree2.sort.TreeNode2SortMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,6 +89,19 @@ public abstract class BaseTree2Rebuilder<T> implements Tree2Rebuilder<T> {
     public Tree2<T> getTree2() {
         return tree2;
     }
+
+    /*protected TreeNode2<T> cloneTreeNode(TreeNode2<T> treeNode2) {
+        DefaultTreeNode2<T> newTreeNode2 = new DefaultTreeNode2<>();
+        newTreeNode2.setKey(treeNode2.getKey());
+        newTreeNode2.setCode(treeNode2.getCode());
+        newTreeNode2.setOrder(treeNode2.getOrder());
+        newTreeNode2.setLevel(treeNode2.getLevel());
+        newTreeNode2.setPaths(treeNode2.getPaths());
+        newTreeNode2.setValue(treeNode2.getValue());
+        newTreeNode2.setSubTreeNodes(treeNode2.getAllSubs());
+
+        return newTreeNode2;
+    }*/
 
 
 }

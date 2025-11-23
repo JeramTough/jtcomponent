@@ -24,6 +24,7 @@ public class DefaultTree2<T> implements Tree2<T> {
     private Map<String, TreeNode2<T>> allIdKeyTreeNodeMap = new ConcurrentHashMap<>();
     private Map<String, TreeNode2<T>> allCodeKeyTreeNodeMap = new ConcurrentHashMap<>();
     private List<TreeNode2<T>> rootTreeNodeList = new ArrayList<>();
+    private TreeNode2SortMethod treeNode2SortMethod;
 
     public DefaultTree2() {
     }
@@ -161,6 +162,15 @@ public class DefaultTree2<T> implements Tree2<T> {
         tree2MapBuilder.setCommonCallback(commonCallback);
         Tree2Map tree2Map = tree2MapBuilder.build();
         return tree2Map.getRootMapList();
+    }
+
+    @Override
+    public TreeNode2SortMethod getSortMethod() {
+        return this.treeNode2SortMethod;
+    }
+
+    public void setTreeNode2SortMethod(TreeNode2SortMethod treeNode2SortMethod) {
+        this.treeNode2SortMethod = treeNode2SortMethod;
     }
 
 }

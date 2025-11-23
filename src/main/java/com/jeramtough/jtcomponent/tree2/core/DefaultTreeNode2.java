@@ -27,6 +27,7 @@ public class DefaultTreeNode2<T> implements TreeNode2<T> {
     private String parentTreeNodeKey;
     private int level = 0;
     private Integer order = 0;
+    private Integer orderWithLevel = 0;
     private List<String> paths = new ArrayList<>();
 
     public DefaultTreeNode2() {
@@ -73,17 +74,33 @@ public class DefaultTreeNode2<T> implements TreeNode2<T> {
     }
 
     @Override
-    public Object clone() {
-        DefaultTreeNode2<T> newTreeNode = new DefaultTreeNode2<T>(getKey(), getValue());
-        newTreeNode.setOrder(getOrder());
-        newTreeNode.setLevel(getLevel());
-        newTreeNode.setPaths(new ArrayList<>(getPaths()));
-        return newTreeNode;
+    public TreeNode2<T> clone() {
+        DefaultTreeNode2<T> newTreeNode2 = new DefaultTreeNode2<T>(getKey(), getValue());
+
+        newTreeNode2.setKey(getKey());
+        newTreeNode2.setCode(getCode());
+        newTreeNode2.setOrder(getOrder());
+        newTreeNode2.setLevel(getLevel());
+        newTreeNode2.setPaths(getPaths());
+        newTreeNode2.setValue(getValue());
+        newTreeNode2.setSubTreeNodes(getAllSubs());
+
+        return newTreeNode2;
     }
 
     @Override
     public Integer getOrder() {
         return this.order;
+    }
+
+    @Override
+    public Integer getOrderWithLevel() {
+        return this.orderWithLevel;
+    }
+
+    @Override
+    public void setOrderWithLevel(Integer orderWithLevel) {
+        this.orderWithLevel = orderWithLevel;
     }
 
     @Override
@@ -189,11 +206,14 @@ public class DefaultTreeNode2<T> implements TreeNode2<T> {
         Objects.requireNonNull(treeNode);
         subTreeNodes.add(treeNode);
         treeNode.setParentKey(this.getKey());
-        treeNode.setLevel(this.level + 1);
 
+        treeNode.setLevel(this.level + 1);
         List<String> subPaths = new ArrayList<>(this.paths);
         subPaths.add(treeNode.getKey());
         treeNode.setPaths(subPaths);
+
+        int orderWithLevel = (treeNode.getLevel() * 100 + treeNode.getOrder());
+        treeNode.setOrderWithLevel(orderWithLevel);
     }
 
 }

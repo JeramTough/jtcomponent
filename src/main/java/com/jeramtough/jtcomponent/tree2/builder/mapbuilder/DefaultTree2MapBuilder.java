@@ -139,6 +139,9 @@ public class DefaultTree2MapBuilder implements Tree2MapBuilder {
         if (!nodeMap.containsKey("order")) {
             nodeMap.put("order", treeNode.getOrder());
         }
+        if (!nodeMap.containsKey("orderWithLevel")) {
+            nodeMap.put("orderWithLevel", treeNode.getOrderWithLevel());
+        }
         if (!nodeMap.containsKey("hasSubs")) {
             nodeMap.put("hasSubs", treeNode.hasSubs());
         }

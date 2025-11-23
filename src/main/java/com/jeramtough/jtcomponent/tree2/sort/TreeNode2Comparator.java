@@ -11,7 +11,7 @@ import java.util.Comparator;
  * by @author WeiBoWen
  * </pre>
  */
-public class TreeNode2Comparator implements Comparator<TreeNode2> {
+public class TreeNode2Comparator implements Comparator<TreeNode2<?>> {
 
     private TreeNode2SortMethod sortMethod = TreeNode2SortMethod.ASCENDING;
 
@@ -24,20 +24,23 @@ public class TreeNode2Comparator implements Comparator<TreeNode2> {
 
     @Override
     public int compare(TreeNode2 o1, TreeNode2 o2) {
-        Integer order1 = o1.getOrder();
+
+        /*Integer order1 = o1.getOrder();
         if (order1 == null) {
             order1 = 0;
         }
-        if (o1.getLevel() != null) {
+        if (o1.getLevel() != null && o1.getLevel() > 0) {
             order1 = order1 + o1.getLevel() * 100;
         }
         Integer order2 = o2.getOrder();
         if (order2 == null) {
             order2 = 0;
         }
-        if (o2.getLevel() != null) {
+        if (o2.getLevel() != null && o2.getLevel() > 0) {
             order2 = order2 + o2.getLevel() * 100;
-        }
+        }*/
+        Integer orderWithLevel1 = o1.getOrderWithLevel();
+        Integer orderWithLevel2 = o2.getOrderWithLevel();
 
         Long id1 = 0L;
         Long id2 = 0L;
@@ -49,7 +52,7 @@ public class TreeNode2Comparator implements Comparator<TreeNode2> {
 
         }
         //在order相同的情况下，比较id
-        if (order1.equals(order2)) {
+        if (orderWithLevel1.equals(orderWithLevel2)) {
             if (sortMethod == TreeNode2SortMethod.ASCENDING) {
 //                return id2.compareTo(id1);
                 return id1.compareTo(id2);
@@ -64,10 +67,10 @@ public class TreeNode2Comparator implements Comparator<TreeNode2> {
         }
         else {
             if (sortMethod == TreeNode2SortMethod.ASCENDING) {
-                return order1 - order2;
+                return orderWithLevel1 - orderWithLevel2;
             }
             else if (sortMethod == TreeNode2SortMethod.DESCENDING) {
-                return order2 - order1;
+                return orderWithLevel2 - orderWithLevel1;
             }
             else {
                 return 0;

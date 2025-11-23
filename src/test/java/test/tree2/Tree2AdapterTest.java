@@ -9,6 +9,7 @@ import com.jeramtough.jtcomponent.tree2.builder.EveryoneTree2Builder;
 import com.jeramtough.jtcomponent.tree2.builder.RootTree2Builder;
 import com.jeramtough.jtcomponent.tree2.builder.rebuilder.FilterTree2Rebuilder;
 import com.jeramtough.jtcomponent.tree2.builder.rebuilder.FromSubTree2Rebuilder;
+import com.jeramtough.jtcomponent.tree2.builder.rebuilder.MaxRetainSubTree2Rebuilder;
 import com.jeramtough.jtcomponent.tree2.core.Tree2;
 import com.jeramtough.jtcomponent.tree2.core.TreeNode2;
 import com.jeramtough.jtcomponent.tree2.filter.ExcludeCodeTreeNode2Filter;
@@ -151,7 +152,6 @@ public class Tree2AdapterTest {
         String subTreeNodeKey = "1854819255244505110";
         Tree2<Channel> newTree2 = new FromSubTree2Rebuilder<>(tree2)
                 .setSubTreeNodeKey(subTreeNodeKey)
-                .setMaxRetainSubNodeLevel(1)
                 .rebuild();
 
         Tree2<Channel> newTree3 = new FilterTree2Rebuilder<>(newTree2)
@@ -321,14 +321,13 @@ public class Tree2AdapterTest {
 
 
 
-        String subTreeNodeKey = "1854819255244505110";
+        String subTreeNodeKey = "51690614767000186";
         Tree2<Channel> newTree2 = new FromSubTree2Rebuilder<>(tree2)
                 .setSubTreeNodeKey(subTreeNodeKey)
-                .setMaxRetainSubNodeLevel(1)
                 .rebuild();
 
-        Tree2<Channel> newTree3 = new FromSubTree2Rebuilder<>(tree2)
-                .setMaxRetainSubNodeLevel(1)
+        Tree2<Channel> newTree3 = new MaxRetainSubTree2Rebuilder<>(newTree2)
+                .setMaxRetainSubNodeLevel(3)
                 .rebuild();
 
         L.arrive();

@@ -29,6 +29,7 @@ public interface Tree2<T> extends Serializable {
 
     /**
      * 仅仅是过滤子节点，孙节点不进行过滤
+     *
      * @param filterList 过滤器
      * @return 过滤后的子节点
      */
@@ -37,9 +38,11 @@ public interface Tree2<T> extends Serializable {
     void put(TreeNode2<T> treeNode);
 
     TreeNode2<T> getTreeNodeByIdKey(String key);
+
     TreeNode2<T> getTreeNodeByCodeKey(String key);
 
     Map<String, TreeNode2<T>> getAllIdKeyTreeNodeMap();
+
     Map<String, TreeNode2<T>> getAllCodeKeyTreeNodeMap();
 
     /**
@@ -70,5 +73,7 @@ public interface Tree2<T> extends Serializable {
 
     List<Map<String, Object>> toTreeNodeMapList(
             CommonCallback<Map<String, Object>> commonCallback);
+
+    TreeNode2SortMethod getSortMethod();
 
 }

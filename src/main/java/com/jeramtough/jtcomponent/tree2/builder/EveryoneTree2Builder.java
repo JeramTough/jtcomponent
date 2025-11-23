@@ -74,6 +74,8 @@ public class EveryoneTree2Builder<T> extends BaseTree2Builder<T> implements Tree
         System.out.println(
                 "开始使用oneTreeNodeAdapterList构建Tree2...,数据源共" + adapterList.size() + "个");
 
+        TreeNode2Comparator comparator = new TreeNode2Comparator(treeNode2SortMethod);
+
         DefaultTree2<T> tree2 = new DefaultTree2<T>();
 
         //所有节点创建映射的Map集合，存入Tree2对象
@@ -89,6 +91,8 @@ public class EveryoneTree2Builder<T> extends BaseTree2Builder<T> implements Tree
 
         List<TreeNode2<T>> rootTreeNodeList = new ArrayList<>();
 
+
+        //处理为树形结构，子子孙孙各个挂钩
         for (OneTreeNode2Adapter<T> adapter : oneTreeNodeAdapterList) {
             TreeNode2<T> thisTreeNode = tree2.getTreeNodeByIdKey(adapter.getKey());
             String parentKey = adapter.getParentKey();
@@ -113,14 +117,40 @@ public class EveryoneTree2Builder<T> extends BaseTree2Builder<T> implements Tree
                     parentTreeNode.addSubs(treeNode2SortMethod, thisTreeNode);
                 }
             }
-
         }
 
-        //排序
-        TreeNode2Comparator comparator = new TreeNode2Comparator(treeNode2SortMethod);
+        //重新设置所有节点的level属性和 path，重新排序，从根节点开始
+        for (TreeNode2<T> tTreeNode2 : tree2.getAll(TreeNode2SortMethod.ASCENDING)) {
+            if (tTreeNode2.getParentKey() == null) {
+                tTreeNode2.setLevel(0);
+                tTreeNode2.setPaths(new ArrayList<>());
+            }
+            else {
+                TreeNode2<T> parentTreeNode = tree2.getTreeNodeByIdKey(
+                        tTreeNode2.getParentKey());
+                if (parentTreeNode == null) {
+                    tTreeNode2.setLevel(0);
+                    tTreeNode2.setPaths(new ArrayList<>());
+                }
+                else {
+                    tTreeNode2.setLevel(parentTreeNode.getLevel() + 1);
+                    List<String> paths = new ArrayList<>(parentTreeNode.getPaths());
+                    paths.add(tTreeNode2.getKey());
+                    tTreeNode2.setPaths(paths);
+                    tTreeNode2.setOrderWithLevel(
+                            tTreeNode2.getLevel() * 100 + tTreeNode2.getOrder());
+                }
+            }
+
+            //重新排序
+            tTreeNode2.getSubs().sort(comparator);
+        }
+
+
         rootTreeNodeList.sort(comparator);
 
         tree2.setRootTreeNodeList(rootTreeNodeList);
+        tree2.setTreeNode2SortMethod(treeNode2SortMethod);
 
         long hTime = (System.currentTimeMillis() - startTime);
         System.out.println(
