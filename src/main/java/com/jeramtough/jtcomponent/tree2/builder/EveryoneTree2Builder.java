@@ -74,7 +74,7 @@ public class EveryoneTree2Builder<T> extends BaseTree2Builder<T> implements Tree
         System.out.println(
                 "开始使用oneTreeNodeAdapterList构建Tree2...,数据源共" + adapterList.size() + "个");
 
-        TreeNode2Comparator comparator = new TreeNode2Comparator(treeNode2SortMethod);
+//        TreeNode2Comparator comparator = new TreeNode2Comparator(treeNode2SortMethod);
 
         DefaultTree2<T> tree2 = new DefaultTree2<T>();
 
@@ -139,15 +139,21 @@ public class EveryoneTree2Builder<T> extends BaseTree2Builder<T> implements Tree
                     tTreeNode2.setPaths(paths);
                     tTreeNode2.setOrderWithLevel(
                             tTreeNode2.getLevel() * 100 + tTreeNode2.getOrder());
+                    //重新排序
+                    TreeNode2<T>[] subs = new TreeNode2[tTreeNode2.getSubs().size()];
+                    for (int i = 0; i < tTreeNode2.getSubs().size(); i++) {
+                        subs[i] = tTreeNode2.getSubs().get(i);
+                    }
+                    tTreeNode2.getSubs().clear();
+                    tTreeNode2.addSubs(treeNode2SortMethod, subs);
                 }
             }
 
-            //重新排序
-            tTreeNode2.getSubs().sort(comparator);
         }
 
 
-        rootTreeNodeList.sort(comparator);
+        //根目录也得重新排序
+        rootTreeNodeList.sort(new TreeNode2Comparator(treeNode2SortMethod));
 
         tree2.setRootTreeNodeList(rootTreeNodeList);
         tree2.setTreeNode2SortMethod(treeNode2SortMethod);
