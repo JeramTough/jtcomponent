@@ -191,6 +191,12 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
     }
 
     @Override
+    public int getSubsLength() {
+        loadChildrenIfNeeded();
+        return this.children.size();
+    }
+
+    @Override
     public List<TreeNode3<T>> getAllSubs() {
         List<TreeNode3<T>> result = new ArrayList<>();
         Deque<TreeNode3<T>> queue = new ArrayDeque<>();

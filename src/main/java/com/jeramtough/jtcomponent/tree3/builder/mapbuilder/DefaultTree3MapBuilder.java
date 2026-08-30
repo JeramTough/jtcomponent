@@ -66,7 +66,8 @@ public class DefaultTree3MapBuilder implements Tree3MapBuilder {
     private void buildChildren(TreeNode3<?> node, Map<String, Object> nodeMap,
                                Map<String, Map<String, Object>> keyNodeMap) {
         keyNodeMap.put(node.getKey(), nodeMap);
-        List<Map<String, Object>> children = (List<Map<String, Object>>) nodeMap.get("children");
+        List<Map<String, Object>> children = (List<Map<String, Object>>) nodeMap.get(
+                "children");
         for (TreeNode3<?> child : node.getSubs()) {
             Map<String, Object> childMap = toNodeMap(child);
             children.add(childMap);
@@ -106,6 +107,9 @@ public class DefaultTree3MapBuilder implements Tree3MapBuilder {
         }
         if (!nodeMap.containsKey("children")) {
             nodeMap.put("children", new ArrayList<Map<String, Object>>());
+        }
+        if (!nodeMap.containsKey("childrenSize")) {
+            nodeMap.put("childrenSize", node.getSubsLength());
         }
 
         if (commonCallback != null) {

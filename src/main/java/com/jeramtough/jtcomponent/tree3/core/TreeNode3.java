@@ -77,6 +77,11 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
     void setPaths(List<String> paths);
 
     /**
+     * 返回子节点数量，没有子节点返回 0。
+     */
+    int getSubsLength();
+
+    /**
      * 深拷贝当前节点（含子树结构）。
      */
     TreeNode3<T> clone();
