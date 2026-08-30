@@ -28,7 +28,7 @@ public class Tree3Map {
     }
 
     /**
-     * @return key -> 节点 Map 的扁平索引（不含嵌套 children）
+     * @return key {@code ->} 节点 Map 的扁平索引（不含嵌套 children）
      */
     public Map<String, Map<String, Object>> getKeyNodeMap() {
         return keyNodeMap;

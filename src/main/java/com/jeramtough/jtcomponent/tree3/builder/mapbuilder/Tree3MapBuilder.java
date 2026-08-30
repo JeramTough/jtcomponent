@@ -14,6 +14,8 @@ public interface Tree3MapBuilder {
 
     /**
      * 构建并返回 Tree3Map 结果。
+     *
+     * @return Tree3Map 结果
      */
     Tree3Map build();
 }

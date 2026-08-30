@@ -31,6 +31,9 @@ public class MaxRetainSubTree3Rebuilder<T> extends BaseTree3Rebuilder<T>
 
     /**
      * 设置最大保留子节点层级（从 0 开始，0 表示只保留根节点）。
+     *
+     * @param maxRetainSubNodeLevel 最大保留层级
+     * @return 当前实例
      */
     public MaxRetainSubTree3Rebuilder<T> setMaxRetainSubNodeLevel(int maxRetainSubNodeLevel) {
         if (maxRetainSubNodeLevel < 0) {

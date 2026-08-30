@@ -26,6 +26,9 @@ public class DefaultTree3MapBuilder implements Tree3MapBuilder {
 
     /**
      * 设置要转换的树对象。
+     *
+     * @param tree3 树对象
+     * @return 当前实例
      */
     public DefaultTree3MapBuilder setTree3(Tree3<?> tree3) {
         this.tree3 = tree3;
@@ -34,6 +37,9 @@ public class DefaultTree3MapBuilder implements Tree3MapBuilder {
 
     /**
      * 设置节点回调，可在每个节点 Map 中追加自定义字段。
+     *
+     * @param commonCallback 自定义字段回调
+     * @return 当前实例
      */
     public DefaultTree3MapBuilder setCommonCallback(
             CommonCallback<Map<String, Object>> commonCallback) {

@@ -43,6 +43,8 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
 
     /**
      * 排序顺序，数值越小越靠前。
+     *
+     * @return 排序权重
      */
     Integer getOrder();
 
@@ -57,6 +59,8 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
 
     /**
      * 层级，根节点为 0。
+     *
+     * @return 节点层级
      */
     Integer getLevel();
 
@@ -71,6 +75,8 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
 
     /**
      * 从根节点到当前节点的 key 路径。
+     *
+     * @return key 路径列表
      */
     List<String> getPaths();
 
@@ -78,22 +84,31 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
 
     /**
      * 返回子节点数量，没有子节点返回 0。
+     *
+     * @return 子节点数量
      */
     int getSubsLength();
 
     /**
      * 深拷贝当前节点（含子树结构）。
+     *
+     * @return 深拷贝后的节点
      */
     TreeNode3<T> clone();
 
     /**
      * 直接子节点。
      * 懒加载模式下，若子节点尚未加载，会触发 ChildrenLoader3 加载并缓存。
+     *
+     * @return 直接子节点列表
      */
     List<TreeNode3<T>> getSubs();
 
     /**
      * 仅过滤直接子节点，不递归过滤孙节点。
+     *
+     * @param filterList 过滤器列表
+     * @return 过滤后的直接子节点列表
      */
     List<TreeNode3<T>> getSubs(List<TreeNode3Filter> filterList);
 
@@ -101,16 +116,25 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
 
     /**
      * 返回除自身以外的全部后代节点（BFS 遍历，懒加载模式下会逐层触发加载）。
+     *
+     * @return 全部后代节点列表
      */
     List<TreeNode3<T>> getAllSubs();
 
     /**
      * 添加子节点（升序），自动设置 level / paths / orderWithLevel 并注册到树索引。
+     *
+     * @param treeNodes 要添加的子节点
+     * @return 当前节点
      */
     TreeNode3<T> addSubs(TreeNode3<T>... treeNodes);
 
     /**
      * 添加子节点，按指定排序方式。
+     *
+     * @param sortMethod 排序方式
+     * @param treeNodes  要添加的子节点
+     * @return 当前节点
      */
     TreeNode3<T> addSubs(TreeNode3SortMethod sortMethod, TreeNode3<T>... treeNodes);
 
@@ -120,6 +144,8 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
 
     /**
      * 直接子节点是否已经加载（懒加载模式下，未加载前为 false）。
+     *
+     * @return 是否已加载
      */
     boolean isChildrenLoaded();
 
@@ -143,6 +169,9 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
 
     /**
      * 在后代节点中按条件搜索。
+     *
+     * @param predicate 匹配条件
+     * @return 匹配的后代节点列表
      */
     List<TreeNode3<T>> searchDescendants(Predicate<TreeNode3<T>> predicate);
 }

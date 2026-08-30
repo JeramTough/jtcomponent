@@ -36,6 +36,9 @@ public class EveryoneTree3Builder<T> extends BaseTree3Builder<T> implements Tree
 
     /**
      * 找不到父节点时的处理策略，默认 {@link Tree3Builder#NO_PARENT_STRATEGY_NODE}（丢弃）。
+     *
+     * @param noParentStrategy 策略值
+     * @return 当前实例
      */
     public EveryoneTree3Builder<T> setNoParentStrategy(int noParentStrategy) {
         this.noParentStrategy = noParentStrategy;
@@ -44,6 +47,9 @@ public class EveryoneTree3Builder<T> extends BaseTree3Builder<T> implements Tree
 
     /**
      * 设置扁平数据源（每条记录通过 OneTreeNode3Adapter 提供 key / parentKey 等信息）。
+     *
+     * @param adapterList 适配器列表
+     * @return 当前实例
      */
     public EveryoneTree3Builder<T> setAdapterList(List<OneTreeNode3Adapter<T>> adapterList) {
         this.adapterList = adapterList;
@@ -52,6 +58,9 @@ public class EveryoneTree3Builder<T> extends BaseTree3Builder<T> implements Tree
 
     /**
      * 设置排序方式，默认 ASCENDING。
+     *
+     * @param sortMethod 排序方式
+     * @return 当前实例
      */
     public EveryoneTree3Builder<T> setSortMethod(TreeNode3SortMethod sortMethod) {
         this.sortMethod = sortMethod;

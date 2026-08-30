@@ -306,6 +306,8 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
     /**
      * 仅建立父子关系，不计算 level/paths/orderWithLevel，也不触发注册。
      * 供扁平数据源构建器使用，后续统一做 BFS 归一化。
+     *
+     * @param child 要添加的子节点
      */
     public void addSubRaw(TreeNode3<T> child) {
         Objects.requireNonNull(child);
@@ -318,6 +320,8 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
 
     /**
      * 对当前节点的直接子节点排序。
+     *
+     * @param sortMethod 排序方式
      */
     public void sortSubs(TreeNode3SortMethod sortMethod) {
         sortChildren(sortMethod);

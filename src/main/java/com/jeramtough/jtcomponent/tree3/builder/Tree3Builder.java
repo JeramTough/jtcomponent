@@ -24,6 +24,8 @@ public interface Tree3Builder<T> {
 
     /**
      * 以默认参数构建 Tree3（不打印耗时日志）。
+     *
+     * @return 构建好的 Tree3 对象
      */
     Tree3<T> build();
 

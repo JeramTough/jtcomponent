@@ -36,6 +36,9 @@ public class LazyTree3Builder<T> extends BaseTree3Builder<T> implements Tree3Bui
 
     /**
      * 设置根节点适配器列表（只需提供根节点数据）。
+     *
+     * @param rootAdapterList 根节点适配器列表
+     * @return 当前实例
      */
     public LazyTree3Builder<T> setRootAdapterList(List<OneTreeNode3Adapter<T>> rootAdapterList) {
         this.rootAdapterList = rootAdapterList;
@@ -44,6 +47,9 @@ public class LazyTree3Builder<T> extends BaseTree3Builder<T> implements Tree3Bui
 
     /**
      * 设置子节点懒加载器：首次访问节点的子节点时触发加载。
+     *
+     * @param childrenLoader 子节点加载器
+     * @return 当前实例
      */
     public LazyTree3Builder<T> setChildrenLoader(ChildrenLoader3<T> childrenLoader) {
         this.childrenLoader = childrenLoader;
@@ -52,6 +58,9 @@ public class LazyTree3Builder<T> extends BaseTree3Builder<T> implements Tree3Bui
 
     /**
      * 设置排序方式，默认 ASCENDING。
+     *
+     * @param sortMethod 排序方式
+     * @return 当前实例
      */
     public LazyTree3Builder<T> setSortMethod(TreeNode3SortMethod sortMethod) {
         this.sortMethod = sortMethod;

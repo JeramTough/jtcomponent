@@ -13,6 +13,8 @@ public interface OneTreeNode3Adapter<T> {
 
     /**
      * 设置原始数据源（数据库记录、JSON 对象等）。
+     *
+     * @param source 原始数据源
      */
     void setSource(Object source);
 

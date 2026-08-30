@@ -25,11 +25,15 @@ public interface Tree3<T> extends Serializable {
 
     /**
      * 设置 id-key 索引（反序列化或外部重建时使用）。
+     *
+     * @param allIdKeyTreeNodeMap id-key 索引 Map
      */
     void setAllIdKeyTreeNodeMap(Map<String, TreeNode3<T>> allIdKeyTreeNodeMap);
 
     /**
      * 设置 code-key 索引（反序列化或外部重建时使用）。
+     *
+     * @param allCodeKeyTreeNodeMap code-key 索引 Map
      */
     void setAllCodeKeyTreeNodeMap(Map<String, TreeNode3<T>> allCodeKeyTreeNodeMap);
 
@@ -48,26 +52,34 @@ public interface Tree3<T> extends Serializable {
 
     /**
      * 将节点注册到树的索引（key / code）中。
+     *
+     * @param treeNode 要注册的节点
      */
     void put(TreeNode3<T> treeNode);
 
     /**
      * 按 key 快速查找节点（O(1)）。
+     *
+     * @param key 节点唯一标识
+     * @return 对应的节点，未找到返回 null
      */
     TreeNode3<T> getTreeNodeByIdKey(String key);
 
     /**
      * 按 code 快速查找节点（O(1)）。
+     *
+     * @param key 节点的业务编码
+     * @return 对应的节点，未找到返回 null
      */
     TreeNode3<T> getTreeNodeByCodeKey(String key);
 
     /**
-     * @return id-key 索引（key -> node），包含全部已注册节点
+     * @return id-key 索引（key {@code ->} node），包含全部已注册节点
      */
     Map<String, TreeNode3<T>> getAllIdKeyTreeNodeMap();
 
     /**
-     * @return code-key 索引（code -> node），仅包含设置了 code 的节点
+     * @return code-key 索引（code {@code ->} node），仅包含设置了 code 的节点
      */
     Map<String, TreeNode3<T>> getAllCodeKeyTreeNodeMap();
 
@@ -84,11 +96,16 @@ public interface Tree3<T> extends Serializable {
 
     /**
      * 按层级分组返回，默认升序。
+     *
+     * @return 按层级分组的节点列表
      */
     List<List<TreeNode3<T>>> getAllForLevel();
 
     /**
      * 按层级分组返回。
+     *
+     * @param sortMethod 排序方式
+     * @return 按层级分组的节点列表
      */
     List<List<TreeNode3<T>>> getAllForLevel(TreeNode3SortMethod sortMethod);
 
@@ -102,11 +119,16 @@ public interface Tree3<T> extends Serializable {
 
     /**
      * 将树转为带 children 的嵌套 Map 列表（适用于 JSON 序列化）。
+     *
+     * @return 嵌套 Map 列表
      */
     List<Map<String, Object>> toTreeNodeMapList();
 
     /**
      * 将树转为带 children 的嵌套 Map 列表，每个节点回调 commonCallback 允许自定义字段。
+     *
+     * @param commonCallback 自定义字段回调
+     * @return 嵌套 Map 列表
      */
     List<Map<String, Object>> toTreeNodeMapList(
             CommonCallback<Map<String, Object>> commonCallback);

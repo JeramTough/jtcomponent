@@ -27,6 +27,9 @@ public class RootTree3Builder<T> extends BaseTree3Builder<T> implements Tree3Bui
 
     /**
      * 是否直接以传入的 adapterList 作为根节点（true = 直接用，false = 自动向上追溯真正的根）。
+     *
+     * @param isRoot 是否直接作为根节点
+     * @return 当前实例
      */
     public RootTree3Builder<T> setRoot(boolean isRoot) {
         this.isRoot = isRoot;
@@ -35,6 +38,9 @@ public class RootTree3Builder<T> extends BaseTree3Builder<T> implements Tree3Bui
 
     /**
      * 设置递归根节点适配器列表。
+     *
+     * @param rootAdapterList 根节点适配器列表
+     * @return 当前实例
      */
     public RootTree3Builder<T> setRootAdapterList(List<RootTreeNode3Adapter<T>> rootAdapterList) {
         this.rootAdapterList = rootAdapterList;
@@ -43,6 +49,9 @@ public class RootTree3Builder<T> extends BaseTree3Builder<T> implements Tree3Bui
 
     /**
      * 设置排序方式，默认 ASCENDING。
+     *
+     * @param sortMethod 排序方式
+     * @return 当前实例
      */
     public RootTree3Builder<T> setSortMethod(TreeNode3SortMethod sortMethod) {
         this.sortMethod = sortMethod;

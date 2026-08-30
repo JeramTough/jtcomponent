@@ -31,6 +31,9 @@ public class FilterTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements Tr
 
     /**
      * 设置是否打印每个过滤器的耗时日志，默认 false。
+     *
+     * @param isShowDetailLog 是否打印详细日志
+     * @return 当前实例
      */
     public FilterTree3Rebuilder<T> setIsShowDetailLog(boolean isShowDetailLog) {
         this.isShowDetailLog = isShowDetailLog;
@@ -39,6 +42,9 @@ public class FilterTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements Tr
 
     /**
      * 找不到父节点时的处理策略，默认 {@link Tree3Builder#NO_PARENT_STRATEGY_NODE}（丢弃）。
+     *
+     * @param noParentStrategy 策略值
+     * @return 当前实例
      */
     public FilterTree3Rebuilder<T> setNoParentStrategy(int noParentStrategy) {
         this.noParentStrategy = noParentStrategy;
@@ -47,6 +53,9 @@ public class FilterTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements Tr
 
     /**
      * 设置排序方式，默认 ASCENDING。
+     *
+     * @param sortMethod 排序方式
+     * @return 当前实例
      */
     public FilterTree3Rebuilder<T> setSortMethod(TreeNode3SortMethod sortMethod) {
         this.sortMethod = sortMethod;
@@ -55,6 +64,9 @@ public class FilterTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements Tr
 
     /**
      * 设置过滤器列表，多个过滤器之间为 AND 语义。
+     *
+     * @param filterList 过滤器列表
+     * @return 当前实例
      */
     public FilterTree3Rebuilder<T> setFilterList(List<TreeNode3Filter> filterList) {
         this.filterList = filterList;

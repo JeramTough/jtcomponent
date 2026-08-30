@@ -50,6 +50,11 @@ public final class TreeNode3Utils {
 
     /**
      * 对节点集合依次应用所有过滤器（AND 语义）。
+     *
+     * @param <T>          节点值类型
+     * @param filterList   过滤器列表
+     * @param treeNode3List 待过滤的节点集合
+     * @return 过滤后的节点集合
      */
     public static <T> List<TreeNode3<T>> doFilters(List<TreeNode3Filter> filterList,
                                                    List<TreeNode3<T>> treeNode3List) {
@@ -63,6 +68,12 @@ public final class TreeNode3Utils {
      * 1. 不原地修改 filterList（先拷贝再排序）。
      * 2. 逐个过滤器顺序执行，方便定位哪个过滤器耗时过多。
      * 3. isShowDetailLog 为 true 时打印每个过滤器的耗时。
+     *
+     * @param <T>              节点值类型
+     * @param filterList       过滤器列表
+     * @param treeNode3List    待过滤的节点集合
+     * @param isShowDetailLog  是否打印每个过滤器的耗时日志
+     * @return 过滤后的节点集合
      */
     public static <T> List<TreeNode3<T>> doFilters(List<TreeNode3Filter> filterList,
                                                    List<TreeNode3<T>> treeNode3List,

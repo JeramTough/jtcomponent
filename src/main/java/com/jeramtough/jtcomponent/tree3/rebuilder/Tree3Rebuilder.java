@@ -14,6 +14,8 @@ public interface Tree3Rebuilder<T> {
 
     /**
      * 重构并返回一棵新树，不修改原树。
+     *
+     * @return 重构后的新树
      */
     Tree3<T> rebuild();
 }

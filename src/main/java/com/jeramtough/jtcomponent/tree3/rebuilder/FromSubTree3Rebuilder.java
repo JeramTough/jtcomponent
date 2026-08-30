@@ -29,6 +29,9 @@ public class FromSubTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements T
 
     /**
      * 设置子树根节点的 key。为空时直接以原树根节点为根。
+     *
+     * @param subTreeNodeKey 子树根节点的 key
+     * @return 当前实例
      */
     public FromSubTree3Rebuilder<T> setSubTreeNodeKey(String subTreeNodeKey) {
         this.subTreeNodeKey = subTreeNodeKey;

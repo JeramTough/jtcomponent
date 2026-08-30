@@ -21,6 +21,7 @@ public interface TreeNode3Filter {
     /**
      * 判断节点是否保留。
      *
+     * @param <T>      节点值类型
      * @param treeNode 待判断的节点
      * @return true 保留，false 排除
      */
