@@ -19,9 +19,11 @@ import java.util.List;
  * by @author WeiBoWen
  * </pre>
  */
-public class FromSubTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements Tree3Rebuilder<T> {
+public class FromSubTree3Rebuilder<T> extends BaseTree3Rebuilder<T>
+        implements Tree3Rebuilder<T> {
 
     private String subTreeNodeKey;
+    private boolean isLazyLoad = false;
 
     public FromSubTree3Rebuilder(Tree3<T> tree) {
         super(tree);
@@ -36,6 +38,10 @@ public class FromSubTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements T
     public FromSubTree3Rebuilder<T> setSubTreeNodeKey(String subTreeNodeKey) {
         this.subTreeNodeKey = subTreeNodeKey;
         return this;
+    }
+
+    public void setIsLazyLoad(boolean lazyLoad) {
+        this.isLazyLoad = lazyLoad;
     }
 
     @Override
@@ -55,7 +61,15 @@ public class FromSubTree3Rebuilder<T> extends BaseTree3Rebuilder<T> implements T
         // 深拷贝选中子树，避免修改原树；拷贝后根节点父节点置空
         List<TreeNode3<T>> clonedRoots = new ArrayList<>(selectedRoots.size());
         for (TreeNode3<T> node : selectedRoots) {
-            TreeNode3<T> clone = node.clone();
+            TreeNode3<T> clone = null;
+            //判断是不是懒加载，懒加载子节点的子节点就不要了；
+            if (!isLazyLoad) {
+                clone = node.clone();
+            }
+            else{
+                clone= node.cloneNotSubs();
+            }
+
             clone.setParentKey(null);
             clonedRoots.add(clone);
         }

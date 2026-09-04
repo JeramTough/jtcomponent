@@ -41,6 +41,13 @@ public interface OneTreeNode3Adapter<T> {
     }
 
     /**
+     * 得到节点的名称
+     */
+    default String getName() {
+        return getKey();
+    }
+
+    /**
      * @return 同层级内的排序权重，数值越小越靠前，默认 0
      */
     default int getOrder() {

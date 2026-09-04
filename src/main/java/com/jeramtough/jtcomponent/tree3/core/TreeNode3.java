@@ -34,6 +34,8 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
      */
     String getCode();
 
+    String getName();
+
     /**
      * @return 节点承载的业务对象
      */
@@ -80,7 +82,17 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
      */
     List<String> getPaths();
 
+    /**
+     * 从根节点到当前节点的 key 路径。
+     *
+     * @return key 路径名称列表
+     */
+    List<String> getPathNames();
+
     void setPaths(List<String> paths);
+
+
+    void setPathNames(List<String> pathNames);
 
     /**
      * 返回子节点数量，没有子节点返回 0。
@@ -95,6 +107,16 @@ public interface TreeNode3<T> extends Cloneable, Serializable {
      * @return 深拷贝后的节点
      */
     TreeNode3<T> clone();
+
+    /**
+     * 深拷贝当前节点（不含子树结构）
+     */
+    TreeNode3<T> cloneNotSubs();
+
+    /**
+     * 深拷贝当前节点和其下的一层子节点（只包含一个子节点，用于懒加载）
+     */
+    TreeNode3<T> cloneOnlyOne();
 
     /**
      * 直接子节点。

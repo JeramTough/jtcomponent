@@ -1,9 +1,7 @@
 package test.tree3.channel;
 
 
-import com.jeramtough.jtcomponent.tree2.adpater.OneTreeNode2Adapter;
 import com.jeramtough.jtcomponent.tree3.adapter.OneTreeNode3Adapter;
-import test.tree2.channel.Channel;
 
 /**
  * <pre>
@@ -19,6 +17,11 @@ public class ChannelOneTreeNode3Adapter implements OneTreeNode3Adapter<Channel> 
     @Override
     public String getCode() {
         return channel.getCode();
+    }
+
+    @Override
+    public String getName() {
+        return channel.getName();
     }
 
     @Override

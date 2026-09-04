@@ -85,6 +85,7 @@ public class LazyTree3Builder<T> extends BaseTree3Builder<T> implements Tree3Bui
             DefaultTreeNode3<T> root =
                     new DefaultTreeNode3<>(adapter.getKey(), adapter.getValue());
             root.setCode(adapter.getCode());
+            root.setName(adapter.getName());
             root.setOrder(adapter.getOrder());
             root.setOrderWithLevel(root.getOrder() == null ? 0 : root.getOrder());
             root.setChildrenLoader(childrenLoader);

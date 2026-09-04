@@ -10,15 +10,16 @@ import com.jeramtough.jtcomponent.tree3.core.TreeNode3;
 import com.jeramtough.jtcomponent.tree3.rebuilder.MaxRetainSubTree3Rebuilder;
 import com.jeramtough.jtcomponent.tree3.sort.TreeNode3SortMethod;
 import com.jeramtough.jtcomponent.tree3.util.TreeNode3Utils;
+import com.jeramtough.jtcomponent.utils.JtStrUtil;
+import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.common.MyKryoUtil;
-import test.tree2.channel.Channel;
+import test.tree3.channel.Channel;
 import test.tree3.channel.ChannelOneTreeNode3Adapter;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -256,6 +257,17 @@ public class ChannelTree3Test {
                     + "，name=" + root.getValue().getName()
                     + "，子节点数=" + root.getSubs().size());
         }
+    }
+
+
+    @Test
+    public void test2() {
+        Tree3<Channel> tree = buildFullTree();
+        tree.getAll()
+                .parallelStream()
+                .forEach(channelTreeNode3 -> {
+                    L.debug(JtStrUtil.appendByComma(channelTreeNode3.getPathNames()));
+                });
     }
 
     //////////////////////////////////////////

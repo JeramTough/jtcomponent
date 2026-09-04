@@ -93,6 +93,7 @@ public class EveryoneTree3Builder<T> extends BaseTree3Builder<T> implements Tree
             DefaultTreeNode3<T> node =
                     new DefaultTreeNode3<>(adapter.getKey(), adapter.getValue());
             node.setCode(adapter.getCode());
+            node.setName(adapter.getName());
             node.setOrder(adapter.getOrder());
             node.setParentKey(adapter.getParentKey());
             nodeMap.put(adapter.getKey(), node);
@@ -134,6 +135,9 @@ public class EveryoneTree3Builder<T> extends BaseTree3Builder<T> implements Tree
             List<String> rootPaths = new ArrayList<>();
             rootPaths.add(root.getKey());
             root.setPaths(rootPaths);
+            List<String> rootPathNames = new ArrayList<>();
+            rootPathNames.add(root.getName());
+            root.setPathNames(rootPathNames);
             root.setOrderWithLevel(root.getOrder() == null ? 0 : root.getOrder());
             queue.add(root);
         }
@@ -143,8 +147,11 @@ public class EveryoneTree3Builder<T> extends BaseTree3Builder<T> implements Tree
             for (TreeNode3<T> child : node.getSubs()) {
                 child.setLevel(node.getLevel() + 1);
                 List<String> childPaths = new ArrayList<>(node.getPaths());
+                List<String> childPathNames=new ArrayList<>(node.getPathNames());
                 childPaths.add(child.getKey());
+                childPathNames.add(child.getName());
                 child.setPaths(childPaths);
+                child.setPathNames(childPathNames);
                 child.setOrderWithLevel(
                         child.getLevel() * DefaultTreeNode3.ORDER_LEVEL_BASE
                                 + (child.getOrder() == null ? 0 : child.getOrder()));

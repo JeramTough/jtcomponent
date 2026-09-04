@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.jeramtough.jtcomponent.utils.JtStrUtil;
+import com.jeramtough.jtlog.facade.L;
 import org.junit.jupiter.api.Test;
 /**
  * <pre>
@@ -78,6 +80,18 @@ public class Tree3UsageTest {
         assertEquals(new HashSet<>(Arrays.asList("110", "111", "120")),
                 new HashSet<>(allDescKeys));
         System.out.println("【加载全部子节点】100 的后代 = " + allDescKeys);
+    }
+
+    @Test
+    public void testPathNames(){
+        List<Dept> depts = sampleDepts();
+        Tree3<Dept> tree = buildFullTree(depts);
+
+        for (TreeNode3<Dept> treeNode3 : tree.getAll()) {
+            System.out.println(JtStrUtil.appendByComma(treeNode3.getPathNames()));
+        }
+
+
     }
 
     @Test
@@ -314,6 +328,11 @@ public class Tree3UsageTest {
         @Override
         public String getCode() {
             return dept.code;
+        }
+
+        @Override
+        public String getName() {
+            return dept.name;
         }
 
         @Override

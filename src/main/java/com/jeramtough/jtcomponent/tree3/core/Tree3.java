@@ -23,6 +23,7 @@ import java.util.function.Predicate;
  */
 public interface Tree3<T> extends Serializable {
 
+
     /**
      * 设置 id-key 索引（反序列化或外部重建时使用）。
      *

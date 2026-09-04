@@ -6,13 +6,10 @@ import com.jeramtough.jtcomponent.tree3.filter.TreeNode3Filter;
 import com.jeramtough.jtcomponent.tree3.sort.TreeNode3Comparator;
 import com.jeramtough.jtcomponent.tree3.sort.TreeNode3SortMethod;
 import com.jeramtough.jtcomponent.tree3.util.TreeNode3Utils;
+import com.jeramtough.jtcomponent.utils.JtStrUtil;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -40,12 +37,14 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
     private String key;
     private T value;
     private String code;
+    private String name;
     private List<TreeNode3<T>> children = new ArrayList<>();
     private String parentKey;
     private int level = 0;
     private Integer order = 0;
     private Integer orderWithLevel = 0;
     private List<String> paths = new ArrayList<>();
+    private List<String> pathNames = new ArrayList<>();
 
     // 懒加载相关；tree 为回引用，不参与序列化，避免循环引用
     private transient ChildrenLoader3<T> childrenLoader;
@@ -65,7 +64,8 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
 
     //////////////////////////////////////////
     // 基础 getter / setter
-    //////////////////////////////////////////
+
+    /// ///////////////////////////////////////
 
     @Override
     public String getKey() {
@@ -84,6 +84,15 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -142,8 +151,18 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
     }
 
     @Override
+    public List<String> getPathNames() {
+        return this.pathNames;
+    }
+
+    @Override
     public void setPaths(List<String> paths) {
         this.paths = paths;
+    }
+
+    @Override
+    public void setPathNames(List<String> pathNames) {
+        this.pathNames = pathNames;
     }
 
     @Override
@@ -152,11 +171,14 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
         copy.setKey(this.key);
         copy.setValue(this.value);
         copy.setCode(this.code);
+        copy.setName(this.name);
         copy.setOrder(this.order == null ? 0 : this.order);
         copy.setLevel(this.level);
         copy.setOrderWithLevel(this.orderWithLevel);
         copy.setParentKey(this.parentKey);
         copy.setPaths(this.paths == null ? new ArrayList<>() : new ArrayList<>(this.paths));
+        copy.setPathNames(
+                this.pathNames == null ? new ArrayList<>() : new ArrayList<>(this.pathNames));
         copy.childrenLoader = this.childrenLoader;
         copy.childrenLoaded = this.childrenLoaded;
 
@@ -168,9 +190,56 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
         return copy;
     }
 
+    @Override
+    public TreeNode3<T> cloneNotSubs() {
+        DefaultTreeNode3<T> copy = new DefaultTreeNode3<>();
+        copy.setKey(this.key);
+        copy.setValue(this.value);
+        copy.setCode(this.code);
+        copy.setName(this.name);
+        copy.setOrder(this.order == null ? 0 : this.order);
+        copy.setLevel(this.level);
+        copy.setOrderWithLevel(this.orderWithLevel);
+        copy.setParentKey(this.parentKey);
+        copy.setPaths(this.paths == null ? new ArrayList<>() : new ArrayList<>(this.paths));
+        copy.setPathNames(
+                this.pathNames == null ? new ArrayList<>() : new ArrayList<>(this.pathNames));
+        copy.childrenLoader = this.childrenLoader;
+        copy.childrenLoaded = this.childrenLoaded;
+        copy.children = new ArrayList<>();
+
+        return copy;
+    }
+
+    @Override
+    public TreeNode3<T> cloneOnlyOne() {
+        DefaultTreeNode3<T> copy = new DefaultTreeNode3<>();
+        copy.setKey(this.key);
+        copy.setValue(this.value);
+        copy.setCode(this.code);
+        copy.setName(this.name);
+        copy.setOrder(this.order == null ? 0 : this.order);
+        copy.setLevel(this.level);
+        copy.setOrderWithLevel(this.orderWithLevel);
+        copy.setParentKey(this.parentKey);
+        copy.setPaths(this.paths == null ? new ArrayList<>() : new ArrayList<>(this.paths));
+        copy.setPathNames(
+                this.pathNames == null ? new ArrayList<>() : new ArrayList<>(this.pathNames));
+        copy.childrenLoader = this.childrenLoader;
+        copy.childrenLoaded = this.childrenLoaded;
+        List<TreeNode3<T>> copiedChildren = new ArrayList<>(this.children.size());
+
+        for (TreeNode3<T> child : this.children) {
+            copiedChildren.add(child.cloneOnlyOne());
+        }
+        copy.children = copiedChildren;
+        return copy;
+    }
+
     //////////////////////////////////////////
     // 子节点访问
-    //////////////////////////////////////////
+
+    /// ///////////////////////////////////////
 
     @Override
     public List<TreeNode3<T>> getSubs() {
@@ -231,7 +300,8 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
 
     //////////////////////////////////////////
     // 懒加载
-    //////////////////////////////////////////
+
+    /// ///////////////////////////////////////
 
     @Override
     public boolean isChildrenLoaded() {
@@ -267,6 +337,7 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
                 DefaultTreeNode3<T> child =
                         new DefaultTreeNode3<>(adapter.getKey(), adapter.getValue());
                 child.setCode(adapter.getCode());
+                child.setName(adapter.getName());
                 child.setOrder(adapter.getOrder());
                 // 子节点继承同一个加载器，保证整棵子树都能逐层懒加载
                 child.setChildrenLoader(this.childrenLoader);
@@ -280,7 +351,8 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
 
     //////////////////////////////////////////
     // 搜索
-    //////////////////////////////////////////
+
+    /// ///////////////////////////////////////
 
     @Override
     public List<TreeNode3<T>> searchDescendants(Predicate<TreeNode3<T>> predicate) {
@@ -295,7 +367,8 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
 
     //////////////////////////////////////////
     // 内部方法
-    //////////////////////////////////////////
+
+    /// ///////////////////////////////////////
 
     private void loadChildrenIfNeeded() {
         if (!childrenLoaded) {
@@ -333,9 +406,16 @@ public class DefaultTreeNode3<T> implements TreeNode3<T> {
         child.setParentKey(this.key);
         child.setLevel(this.level + 1);
 
-        List<String> childPaths = this.paths == null ? new ArrayList<>() : new ArrayList<>(this.paths);
+        List<String> childPaths = this.paths == null ? new ArrayList<>() : new ArrayList<>(
+                this.paths);
         childPaths.add(child.getKey());
         child.setPaths(childPaths);
+        List<String> childPathNames = this.pathNames == null ? new ArrayList<>() :
+                new ArrayList<>(this.pathNames);
+        if (!JtStrUtil.isEmpty(child.getName())) {
+            childPathNames.add(child.getName());
+        }
+        child.setPathNames(childPathNames);
 
         int orderWithLevel = child.getLevel() * ORDER_LEVEL_BASE
                 + (child.getOrder() == null ? 0 : child.getOrder());
