@@ -15,6 +15,17 @@ import java.util.Map;
  */
 public interface Tree3MapBuilder {
 
+    public static enum Type {
+        /**
+         * 转换为列表
+         */
+        LIST,
+        /**
+         * 转换为树
+         */
+        TREE
+    }
+
     /**
      * 设置要转换的树对象。
      *
